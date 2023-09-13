@@ -20,15 +20,15 @@ NestJS File Generator for VSCode editor.
 | Nest: Make Class | nest.file.class |  Generates a new Class |
 | Nest: Make Controller | nest.file.controller |  Generates a new Controller |
 | Nest: Make Decorator | nest.file.decorator |  Generates a new Decorator |
-| Nest: Make Update Dto | nest.file.dto |  Generates a new Nest: Dto |
+| Nest: Make Update Dto | nest.file.dto |  Generates a new Update Dto |
 | Nest: Make Exception | nest.file.exception |  Generates a new Exception |
-| Nest: Make Exception Filter | nest.file.exception-filter |  Generates a new Nest: Filter |
+| Nest: Make Exception Filter | nest.file.exception-filter |  Generates a new Exception Filter |
 | Nest: Make Filter | nest.file.filter |  Generates a new Filter |
 | Nest: Make Gateway | nest.file.gateway |  Generates a new Gateway |
 | Nest: Make Guard | nest.file.guard |  Generates a new Guard |
 | Nest: Make Interceptor | nest.file.interceptor |  Generates a new Interceptor |
-| Nest: Make Jwt Guard | nest.file.jwt-guard |  Generates a new Nest: Guard |
-| Nest: Make Jwt Strategy | nest.file.jwt-strategy |  Generates a new Nest: Strategy |
+| Nest: Make Jwt Guard | nest.file.jwt-guard |  Generates a new Jwt Guard |
+| Nest: Make Jwt Strategy | nest.file.jwt-strategy |  Generates a new Jwt Strategy |
 | Nest: Make Middleware | nest.file.middleware |  Generates a new Middleware |
 | Nest: Make Logger | nest.file.logger |  Generates a new Logger |
 | Nest: Make Module | nest.file.module |  Generates a new Module |
@@ -40,7 +40,8 @@ NestJS File Generator for VSCode editor.
 
 ## Other Repositories
 
-- [NestJS Snippets for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-snippets-extension)
+- [NestJS Snippets for VSCode Editor](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-snippets-extension)
+- [NestJS File Generator for VSCode](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
 
 ## Changelog
 

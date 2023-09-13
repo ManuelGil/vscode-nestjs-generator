@@ -1,8 +1,8 @@
 {
   "name": "vscode-nestjs-generator",
-  "displayName": "vscode-nestjs-generator",
-  "description": "NestJS File Generator",
-  "version": "1.0.0",
+  "displayName": "NestJS File Generator for VSCode",
+  "description": "NestJS File Generator for VSCode editor",
+  "version": "1.0.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",

@@ -1,0 +1,169 @@
+{
+  "name": "vscode-nestjs-generator",
+  "displayName": "vscode-nestjs-generator",
+  "description": "NestJS File Generator",
+  "version": "1.0.0",
+  "icon": "icon.png",
+  "license": "MIT",
+  "publisher": "imgildev",
+  "author": {
+    "name": "Manuel Gil",
+    "url": "https://github.com/ManuelGil"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/manuelgil"
+  },
+  "engines": {
+    "vscode": "^1.46.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "nestjs",
+    "commands",
+    "php",
+    "generator"
+  ],
+  "homepage": "https://github.com/ManuelGil/vscode-nestjs-generator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ManuelGil/vscode-nestjs-generator"
+  },
+  "bugs": {
+    "url": "https://github.com/ManuelGil/vscode-nestjs-generator/issues"
+  },
+  "activationEvents": [
+    "onCommand:nest.file.class",
+    "onCommand:nest.file.controller",
+    "onCommand:nest.file.decorator",
+    "onCommand:nest.file.dto",
+    "onCommand:nest.file.exception",
+    "onCommand:nest.file.exception-filter",
+    "onCommand:nest.file.filter",
+    "onCommand:nest.file.gateway",
+    "onCommand:nest.file.guard",
+    "onCommand:nest.file.interceptor",
+    "onCommand:nest.file.jwt-guard",
+    "onCommand:nest.file.jwt-strategy",
+    "onCommand:nest.file.logger",
+    "onCommand:nest.file.middleware",
+    "onCommand:nest.file.module",
+    "onCommand:nest.file.pipe",
+    "onCommand:nest.file.provider",
+    "onCommand:nest.file.resolver",
+    "onCommand:nest.file.service",
+    "onCommand:nest.file.spec"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "nest.file.class",
+        "title": "Nest: Make Class"
+      },
+      {
+        "command": "nest.file.controller",
+        "title": "Nest: Make Controller"
+      },
+      {
+        "command": "nest.file.decorator",
+        "title": "Nest: Make Decorator"
+      },
+      {
+        "command": "nest.file.dto",
+        "title": "Nest: Make Update Dto"
+      },
+      {
+        "command": "nest.file.exception",
+        "title": "Nest: Make Exception"
+      },
+      {
+        "command": "nest.file.exception-filter",
+        "title": "Nest: Make Exception Filter"
+      },
+      {
+        "command": "nest.file.filter",
+        "title": "Nest: Make Filter"
+      },
+      {
+        "command": "nest.file.gateway",
+        "title": "Nest: Make Gateway"
+      },
+      {
+        "command": "nest.file.guard",
+        "title": "Nest: Make Guard"
+      },
+      {
+        "command": "nest.file.interceptor",
+        "title": "Nest: Make Interceptor"
+      },
+      {
+        "command": "nest.file.jwt-guard",
+        "title": "Nest: Make Jwt Guard"
+      },
+      {
+        "command": "nest.file.jwt-strategy",
+        "title": "Nest: Make Jwt Strategy"
+      },
+      {
+        "command": "nest.file.middleware",
+        "title": "Nest: Make Middleware"
+      },
+      {
+        "command": "nest.file.logger",
+        "title": "Nest: Make Logger"
+      },
+      {
+        "command": "nest.file.module",
+        "title": "Nest: Make Module"
+      },
+      {
+        "command": "nest.file.pipe",
+        "title": "Nest: Make Pipe"
+      },
+      {
+        "command": "nest.file.provider",
+        "title": "Nest: Make Provider"
+      },
+      {
+        "command": "nest.file.resolver",
+        "title": "Nest: Make Resolver"
+      },
+      {
+        "command": "nest.file.service",
+        "title": "Nest: Make Service"
+      },
+      {
+        "command": "nest.file.spec",
+        "title": "Nest: Make Test"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
+    "@commitlint/config-conventional": "^17.7.0",
+    "@types/glob": "^7.1.3",
+    "@types/mocha": "^8.0.4",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.46.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.19.0",
+    "glob": "^7.1.6",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "mocha": "^8.4.0",
+    "typescript": "^4.1.3",
+    "vscode-test": "^1.5.0"
+  }
+}

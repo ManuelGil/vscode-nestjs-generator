@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "NestJS File Generator for VSCode editor",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -53,7 +53,11 @@
     "onCommand:nest.file.provider",
     "onCommand:nest.file.resolver",
     "onCommand:nest.file.service",
-    "onCommand:nest.file.spec"
+    "onCommand:nest.file.spec",
+    "onCommand:nest.terminal.start",
+    "onCommand:nest.terminal.start.dev",
+    "onCommand:nest.terminal.start.debug",
+    "onCommand:nest.terminal.start.prod"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -137,6 +141,22 @@
       {
         "command": "nest.file.spec",
         "title": "Nest: Make Test"
+      },
+      {
+        "command": "nest.terminal.start",
+        "title": "Nest: Start Server"
+      },
+      {
+        "command": "nest.terminal.start.dev",
+        "title": "Nest: Start Server (Dev mode)"
+      },
+      {
+        "command": "nest.terminal.start.debug",
+        "title": "Nest: Start Server (Debug mode)"
+      },
+      {
+        "command": "nest.terminal.start.prod",
+        "title": "Nest: Start Server (Production mode)"
       }
     ]
   },

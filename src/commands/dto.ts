@@ -47,7 +47,11 @@ const dto = async (vscode: any, fs: any, path: any) => {
 
   body = content.replace(/\{className\}/g, name);
 
-  name = name.toLowerCase();
+  name = name
+    .replace(/[A-Z]/g, (letter) => `-${letter}`)
+    .slice(1)
+    .toLowerCase();
+
   body = body.replace(/\{entityName\}/g, name);
 
   folder = folder.endsWith('/') ? folder : folder + '/';

@@ -23,10 +23,10 @@ const decorator = async (vscode: any, fs: any, path: any) => {
   });
 
   name = await vscode.window.showInputBox({
-    prompt: 'Decorator class name',
+    prompt: 'Decorator name',
     placeHolder: 'E.g. user, role, auth...',
     validateInput: (text: string) => {
-      if (!/^[A-Za-z]{3,}$/.test(text)) {
+      if (!/^[A-Za-z-]{3,}$/.test(text)) {
         return 'Invalid format!';
       }
     },
@@ -41,7 +41,11 @@ const decorator = async (vscode: any, fs: any, path: any) => {
     return;
   }
 
-  name = name.toLowerCase();
+  name = name
+    .replace(/[A-Z]/g, (letter) => `-${letter}`)
+    .slice(1)
+    .toLowerCase();
+
   body = content.replace(/\{entityName\}/g, name);
 
   folder = folder.endsWith('/') ? folder : folder + '/';

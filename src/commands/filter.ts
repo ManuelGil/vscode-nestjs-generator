@@ -47,7 +47,10 @@ const filter = async (vscode: any, fs: any, path: any) => {
 
   body = content.replace(/\{className\}/g, name);
 
-  name = name.toLowerCase();
+  name = name
+    .replace(/[A-Z]/g, (letter) => `-${letter}`)
+    .slice(1)
+    .toLowerCase();
 
   folder = folder.endsWith('/') ? folder : folder + '/';
   filename = '/' + folder + name + '.filter.ts';

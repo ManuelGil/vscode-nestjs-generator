@@ -46,7 +46,7 @@ const service = async (vscode: any, fs: any, path: any) => {
 
   name = await vscode.window.showInputBox({
     prompt: 'Service class name',
-    placeHolder: 'E.g. User, Role, Auth...',
+    placeHolder: 'Plural. E.g. Users, Roles...',
     validateInput: (text: string) => {
       if (!/^[A-Z][A-Za-z]{2,}$/.test(text)) {
         return 'Invalid format! Class names MUST be declared in PascalCase.';
@@ -67,7 +67,11 @@ const service = async (vscode: any, fs: any, path: any) => {
 
   body = content.replace(/\{className\}/g, name);
 
-  name = name.toLowerCase();
+  name = name
+    .replace(/[A-Z]/g, (letter) => `-${letter}`)
+    .slice(1)
+    .toLowerCase();
+
   body = body.replace(/\{entityName\}/g, name);
 
   folder = folder.endsWith('/') ? folder : folder + '/';

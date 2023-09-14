@@ -20,6 +20,7 @@ import moduleType from './commands/module';
 import pipe from './commands/pipe';
 import provider from './commands/provider';
 import resolver from './commands/resolver';
+import { debug, dev, prod, start } from './commands/serve';
 import service from './commands/service';
 import spec from './commands/spec';
 
@@ -84,6 +85,18 @@ export function activate(context: vscode.ExtensionContext) {
   const generateFileTest = vscode.commands.registerCommand('nest.file.spec', () => {
     spec(vscode, fs, path);
   });
+  const nestTerminalStart = vscode.commands.registerCommand('nest.terminal.start', () => {
+    start(vscode);
+  });
+  const nestTerminalStartDev = vscode.commands.registerCommand('nest.terminal.start.dev', () => {
+    dev(vscode);
+  });
+  const nestTerminalStartDebug = vscode.commands.registerCommand('nest.terminal.start.debug', () => {
+    debug(vscode);
+  });
+  const nestTerminalStartProd = vscode.commands.registerCommand('nest.terminal.start.prod', () => {
+    prod(vscode);
+  });
 
   context.subscriptions.push(generateFileClass);
   context.subscriptions.push(generateFileController);
@@ -105,6 +118,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(generateFileResolver);
   context.subscriptions.push(generateFileService);
   context.subscriptions.push(generateFileTest);
+  context.subscriptions.push(nestTerminalStart);
+  context.subscriptions.push(nestTerminalStartDev);
+  context.subscriptions.push(nestTerminalStartDebug);
+  context.subscriptions.push(nestTerminalStartProd);
 }
 
 export function deactivate() {}

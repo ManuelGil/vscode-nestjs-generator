@@ -1,4 +1,5 @@
-node_modules
-build
-coverage
-.vscode
+/node_modules
+/out
+/coverage
+/docs
+/.vscode

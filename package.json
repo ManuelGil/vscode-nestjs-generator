@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "NestJS File Generator for VSCode editor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -20,10 +20,11 @@
     "Other"
   ],
   "keywords": [
-    "nestjs",
     "commands",
-    "php",
-    "generator"
+    "generator",
+    "nest",
+    "nestjs",
+    "typescript"
   ],
   "homepage": "https://github.com/ManuelGil/vscode-nestjs-generator",
   "repository": {
@@ -173,17 +174,22 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@types/glob": "^7.1.3",
-    "@types/mocha": "^8.0.4",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^12.11.7",
     "@types/vscode": "^1.46.0",
-    "@typescript-eslint/eslint-plugin": "^4.14.1",
-    "@typescript-eslint/parser": "^4.14.1",
-    "eslint": "^7.19.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "eslint-config-standard-with-typescript": "^39.0.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "glob": "^7.1.6",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "mocha": "^8.4.0",
-    "typescript": "^4.1.3",
+    "mocha": "^10.2.0",
+    "prettier": "3.0.3",
+    "typescript": "^4.9.5",
     "vscode-test": "^1.5.0"
   }
 }

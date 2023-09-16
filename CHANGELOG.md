@@ -7,14 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-09-15
+
 ### Added
 
+- Add Context menus
 - Add lint-staged to pre-commit hook
 
 ### Changed
 
 - Refactor code
 - Update dependencies
+
+### Fixed
+
+- Fix Class generation
 
 ## [1.1.0] - 2023-09-14
 
@@ -33,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.1.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/ManuelGil/vscode-nestjs-generator/releases/tag/v1.0.0

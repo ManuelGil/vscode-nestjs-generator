@@ -1,4 +1,4 @@
-import { getFolder, save } from '../../utils/functions';
+import { getFolder, parsePath, save } from '../../utils/functions';
 
 const content = `import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -21,11 +21,23 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 }
 `;
 
-const newJwtStrategy = async (vscode: any, fs: any, path: any) => {
+const newJwtStrategy = async (
+  vscode: any,
+  fs: any,
+  path: any,
+  args: any = null,
+) => {
+  let relativePath = '';
+
+  if (args) {
+    relativePath = parsePath(vscode, path, args);
+  }
+
   const folder = await getFolder(
     vscode,
     'Folder name',
     'Folder name. E.g. src, app...',
+    relativePath,
   );
 
   const filename = '/' + folder + 'jwt.strategy.ts';

@@ -1,4 +1,4 @@
-import { getFolder, save, toKebabCase } from '../../utils/functions';
+import { getFolder, parsePath, save, toKebabCase } from '../../utils/functions';
 
 const content = `import { SetMetadata } from '@nestjs/common';
 
@@ -6,11 +6,23 @@ export const {entityName} = (...args: string[]) =>
   SetMetadata('{entityName}-decorator', args);
 `;
 
-const newDecorator = async (vscode: any, fs: any, path: any) => {
+const newDecorator = async (
+  vscode: any,
+  fs: any,
+  path: any,
+  args: any = null,
+) => {
+  let relativePath = '';
+
+  if (args) {
+    relativePath = parsePath(vscode, path, args);
+  }
+
   const folder = await getFolder(
     vscode,
     'Folder name',
     'Folder name. E.g. src, app...',
+    relativePath,
   );
 
   const entityName = await vscode.window.showInputBox({

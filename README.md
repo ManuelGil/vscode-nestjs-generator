@@ -11,6 +11,8 @@ Are you tired of manually creating files for your NestJS projects in Visual Stud
 
 With this powerful extension, you can streamline your NestJS development workflow by generating files with just a few clicks. Whether you need a new class, controller, decorator, or any other NestJS component, our extension has you covered.
 
+![menus](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/menus.gif)
+
 ![terminal](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/terminal.gif)
 
 ## Requirements

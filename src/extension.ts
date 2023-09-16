@@ -32,122 +32,122 @@ import {
 export function activate(context: vscode.ExtensionContext) {
   const generateFileClass = vscode.commands.registerCommand(
     'nest.file.class',
-    () => {
-      newClass(vscode, fs, path);
+    (args) => {
+      newClass(vscode, fs, path, args);
     },
   );
   const generateFileController = vscode.commands.registerCommand(
     'nest.file.controller',
-    () => {
-      newController(vscode, fs, path);
+    (args) => {
+      newController(vscode, fs, path, args);
     },
   );
   const generateFileDecorator = vscode.commands.registerCommand(
     'nest.file.decorator',
-    () => {
-      newDecorator(vscode, fs, path);
+    (args) => {
+      newDecorator(vscode, fs, path, args);
     },
   );
   const generateFileDto = vscode.commands.registerCommand(
     'nest.file.dto',
-    () => {
-      newDto(vscode, fs, path);
+    (args) => {
+      newDto(vscode, fs, path, args);
     },
   );
   const generateFileException = vscode.commands.registerCommand(
     'nest.file.exception',
-    () => {
-      newException(vscode, fs, path);
+    (args) => {
+      newException(vscode, fs, path, args);
     },
   );
   const generateFileExceptionFilter = vscode.commands.registerCommand(
     'nest.file.exception-filter',
-    () => {
-      newExceptionFilter(vscode, fs, path);
+    (args) => {
+      newExceptionFilter(vscode, fs, path, args);
     },
   );
   const generateFileFilter = vscode.commands.registerCommand(
     'nest.file.filter',
-    () => {
-      newFilter(vscode, fs, path);
+    (args) => {
+      newFilter(vscode, fs, path, args);
     },
   );
   const generateFileGateway = vscode.commands.registerCommand(
     'nest.file.gateway',
-    () => {
-      newGateway(vscode, fs, path);
+    (args) => {
+      newGateway(vscode, fs, path, args);
     },
   );
   const generateFileGuard = vscode.commands.registerCommand(
     'nest.file.guard',
-    () => {
-      newGuard(vscode, fs, path);
+    (args) => {
+      newGuard(vscode, fs, path, args);
     },
   );
   const generateFileInterceptor = vscode.commands.registerCommand(
     'nest.file.interceptor',
-    () => {
-      newInterceptor(vscode, fs, path);
+    (args) => {
+      newInterceptor(vscode, fs, path, args);
     },
   );
   const generateFileJwtGuard = vscode.commands.registerCommand(
     'nest.file.jwt-guard',
-    () => {
-      newJwtGuard(vscode, fs, path);
+    (args) => {
+      newJwtGuard(vscode, fs, path, args);
     },
   );
   const generateFileJwtStrategy = vscode.commands.registerCommand(
     'nest.file.jwt-strategy',
-    () => {
-      newJwtStrategy(vscode, fs, path);
+    (args) => {
+      newJwtStrategy(vscode, fs, path, args);
     },
   );
   const generateFileMiddleware = vscode.commands.registerCommand(
     'nest.file.middleware',
-    () => {
-      newMiddleware(vscode, fs, path);
+    (args) => {
+      newMiddleware(vscode, fs, path, args);
     },
   );
   const generateFileLogger = vscode.commands.registerCommand(
     'nest.file.logger',
-    () => {
-      newLogger(vscode, fs, path);
+    (args) => {
+      newLogger(vscode, fs, path, args);
     },
   );
   const generateFileModule = vscode.commands.registerCommand(
     'nest.file.module',
-    () => {
-      newModule(vscode, fs, path);
+    (args) => {
+      newModule(vscode, fs, path, args);
     },
   );
   const generateFilePipe = vscode.commands.registerCommand(
     'nest.file.pipe',
-    () => {
-      newPipe(vscode, fs, path);
+    (args) => {
+      newPipe(vscode, fs, path, args);
     },
   );
   const generateFileProvider = vscode.commands.registerCommand(
     'nest.file.provider',
-    () => {
-      newProvider(vscode, fs, path);
+    (args) => {
+      newProvider(vscode, fs, path, args);
     },
   );
   const generateFileResolver = vscode.commands.registerCommand(
     'nest.file.resolver',
-    () => {
-      newResolver(vscode, fs, path);
+    (args) => {
+      newResolver(vscode, fs, path, args);
     },
   );
   const generateFileService = vscode.commands.registerCommand(
     'nest.file.service',
-    () => {
-      newService(vscode, fs, path);
+    (args) => {
+      newService(vscode, fs, path, args);
     },
   );
   const generateFileTest = vscode.commands.registerCommand(
     'nest.file.spec',
-    () => {
-      newTest(vscode, fs, path);
+    (args) => {
+      newTest(vscode, fs, path, args);
     },
   );
   const nestTerminalStart = vscode.commands.registerCommand(

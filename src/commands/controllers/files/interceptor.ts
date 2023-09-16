@@ -1,4 +1,10 @@
-import { getClass, getFolder, save, toKebabCase } from '../../utils/functions';
+import {
+  getClass,
+  getFolder,
+  parsePath,
+  save,
+  toKebabCase,
+} from '../../utils/functions';
 
 const content = `import {
   CallHandler,
@@ -16,11 +22,23 @@ export class {className}Interceptor implements NestInterceptor {
 }
 `;
 
-const newInterceptor = async (vscode: any, fs: any, path: any) => {
+const newInterceptor = async (
+  vscode: any,
+  fs: any,
+  path: any,
+  args: any = null,
+) => {
+  let relativePath = '';
+
+  if (args) {
+    relativePath = parsePath(vscode, path, args);
+  }
+
   const folder = await getFolder(
     vscode,
     'Folder name',
     'Folder name. E.g. src, app...',
+    relativePath,
   );
 
   let className = await getClass(

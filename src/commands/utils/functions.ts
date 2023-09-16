@@ -16,7 +16,12 @@ const getClass = async (vscode: any, prompt: string, placeHolder: string) => {
   return name;
 };
 
-const getFolder = async (vscode: any, prompt: string, placeHolder: string) => {
+const getFolder = async (
+  vscode: any,
+  prompt: string,
+  placeHolder: string,
+  value: string,
+) => {
   const folder = await vscode.window.showInputBox({
     prompt,
     placeHolder,
@@ -25,23 +30,22 @@ const getFolder = async (vscode: any, prompt: string, placeHolder: string) => {
         return 'Invalid format!';
       }
     },
+    value,
   });
 
   return folder.endsWith('/') ? folder : folder + '/';
 };
 
 const getType = async (vscode: any, prompt: string, placeHolder: string) => {
-  const type = await vscode.window.showInputBox({
+  return await vscode.window.showInputBox({
     prompt,
     placeHolder,
     validateInput: (text: string) => {
-      if (!/[A-Za-z]+/.test(text)) {
+      if (!/[a-z]+/.test(text)) {
         return 'Invalid format!';
       }
     },
   });
-
-  return type.length !== 0 ? '.' + type.toLowerCase() : '';
 };
 
 const save = (
@@ -111,6 +115,26 @@ const execute = (
   }
 };
 
+const parsePath = (vscode: any, path: any, args: any) => {
+  let folder = '';
+
+  if (vscode.workspace.workspaceFolders) {
+    folder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+  }
+
+  if (process.platform === 'win32') {
+    folder = folder.replace(/\\/g, '/');
+  }
+
+  folder = folder.startsWith('/') ? folder : '/' + folder;
+
+  return path.posix.relative(folder, args.path);
+};
+
+const toCapitalize = (text: string) => {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
 const toKebabCase = (text: string) => {
   return text
     .replace(/[A-Z]/g, (letter: string) => `-${letter}`)
@@ -118,4 +142,13 @@ const toKebabCase = (text: string) => {
     .toLowerCase();
 };
 
-export { getClass, getFolder, getType, save, execute, toKebabCase };
+export {
+  execute,
+  getClass,
+  getFolder,
+  getType,
+  parsePath,
+  save,
+  toCapitalize,
+  toKebabCase,
+};

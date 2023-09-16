@@ -159,7 +159,84 @@
         "command": "nest.terminal.start.prod",
         "title": "Nest: Start Server (Production mode)"
       }
-    ]
+    ],
+    "submenus": [
+      {
+        "id": "nestjs.submenu",
+        "label": "NestJS File Generator"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "nestjs.submenu",
+          "group": "1_modification",
+          "when": "explorerViewletFocus && explorerResourceIsFolder"
+        }
+      ],
+      "nestjs.submenu": [
+        {
+          "command": "nest.file.class"
+        },
+        {
+          "command": "nest.file.controller"
+        },
+        {
+          "command": "nest.file.decorator"
+        },
+        {
+          "command": "nest.file.dto"
+        },
+        {
+          "command": "nest.file.exception"
+        },
+        {
+          "command": "nest.file.exception-filter"
+        },
+        {
+          "command": "nest.file.filter"
+        },
+        {
+          "command": "nest.file.gateway"
+        },
+        {
+          "command": "nest.file.guard"
+        },
+        {
+          "command": "nest.file.interceptor"
+        },
+        {
+          "command": "nest.file.jwt-guard"
+        },
+        {
+          "command": "nest.file.jwt-strategy"
+        },
+        {
+          "command": "nest.file.middleware"
+        },
+        {
+          "command": "nest.file.logger"
+        },
+        {
+          "command": "nest.file.module"
+        },
+        {
+          "command": "nest.file.pipe"
+        },
+        {
+          "command": "nest.file.provider"
+        },
+        {
+          "command": "nest.file.resolver"
+        },
+        {
+          "command": "nest.file.service"
+        },
+        {
+          "command": "nest.file.spec"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

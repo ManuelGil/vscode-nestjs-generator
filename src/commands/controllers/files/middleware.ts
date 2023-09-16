@@ -1,4 +1,10 @@
-import { getClass, getFolder, save, toKebabCase } from '../../utils/functions';
+import {
+  getClass,
+  getFolder,
+  parsePath,
+  save,
+  toKebabCase,
+} from '../../utils/functions';
 
 const content = `import { Injectable, NestMiddleware } from '@nestjs/common';
 
@@ -10,11 +16,23 @@ export class {className}Middleware implements NestMiddleware {
 }
 `;
 
-const newMiddleware = async (vscode: any, fs: any, path: any) => {
+const newMiddleware = async (
+  vscode: any,
+  fs: any,
+  path: any,
+  args: any = null,
+) => {
+  let relativePath = '';
+
+  if (args) {
+    relativePath = parsePath(vscode, path, args);
+  }
+
   const folder = await getFolder(
     vscode,
     'Folder name',
     'Folder name. E.g. src, app...',
+    relativePath,
   );
 
   let className = await getClass(

@@ -1,4 +1,10 @@
-import { getClass, getFolder, save, toKebabCase } from '../../utils/functions';
+import {
+  getClass,
+  getFolder,
+  parsePath,
+  save,
+  toKebabCase,
+} from '../../utils/functions';
 
 const content = `import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 
@@ -11,11 +17,23 @@ export class {className}Gateway {
 }
 `;
 
-const newGateway = async (vscode: any, fs: any, path: any) => {
+const newGateway = async (
+  vscode: any,
+  fs: any,
+  path: any,
+  args: any = null,
+) => {
+  let relativePath = '';
+
+  if (args) {
+    relativePath = parsePath(vscode, path, args);
+  }
+
   const folder = await getFolder(
     vscode,
     'Folder name',
     'Folder name. E.g. src, app...',
+    relativePath,
   );
 
   let className = await getClass(

@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -68,99 +68,123 @@
     "commands": [
       {
         "command": "nest.file.class",
-        "title": "Nest: Make Class"
+        "title": "Make Class",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.controller",
-        "title": "Nest: Make Controller"
+        "title": "Make Controller",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.decorator",
-        "title": "Nest: Make Decorator"
+        "title": "Make Decorator",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.dto",
-        "title": "Nest: Make Update Dto"
+        "title": "Make Update Dto",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.exception",
-        "title": "Nest: Make Exception"
+        "title": "Make Exception",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.exception-filter",
-        "title": "Nest: Make Exception Filter"
+        "title": "Make Exception Filter",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.filter",
-        "title": "Nest: Make Filter"
+        "title": "Make Filter",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.gateway",
-        "title": "Nest: Make Gateway"
+        "title": "Make Gateway",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.guard",
-        "title": "Nest: Make Guard"
+        "title": "Make Guard",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.interceptor",
-        "title": "Nest: Make Interceptor"
+        "title": "Make Interceptor",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.jwt-guard",
-        "title": "Nest: Make Jwt Guard"
+        "title": "Make Jwt Guard",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.jwt-strategy",
-        "title": "Nest: Make Jwt Strategy"
+        "title": "Make Jwt Strategy",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.middleware",
-        "title": "Nest: Make Middleware"
+        "title": "Make Middleware",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.logger",
-        "title": "Nest: Make Logger"
+        "title": "Make Logger",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.module",
-        "title": "Nest: Make Module"
+        "title": "Make Module",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.pipe",
-        "title": "Nest: Make Pipe"
+        "title": "Make Pipe",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.provider",
-        "title": "Nest: Make Provider"
+        "title": "Make Provider",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.resolver",
-        "title": "Nest: Make Resolver"
+        "title": "Make Resolver",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.service",
-        "title": "Nest: Make Service"
+        "title": "Make Service",
+        "group": "NestJS"
       },
       {
         "command": "nest.file.spec",
-        "title": "Nest: Make Test"
+        "title": "Make Test",
+        "group": "NestJS"
       },
       {
         "command": "nest.terminal.start",
-        "title": "Nest: Start Server"
+        "title": "Start Server",
+        "group": "NestJS"
       },
       {
         "command": "nest.terminal.start.dev",
-        "title": "Nest: Start Server (Dev mode)"
+        "title": "Start Server (Dev mode)",
+        "group": "NestJS"
       },
       {
         "command": "nest.terminal.start.debug",
-        "title": "Nest: Start Server (Debug mode)"
+        "title": "Start Server (Debug mode)",
+        "group": "NestJS"
       },
       {
         "command": "nest.terminal.start.prod",
-        "title": "Nest: Start Server (Production mode)"
+        "title": "Start Server (Production mode)",
+        "group": "NestJS"
       }
     ],
     "submenus": [
@@ -173,70 +197,90 @@
       "explorer/context": [
         {
           "submenu": "nestjs.submenu",
-          "group": "1_modification",
-          "when": "explorerViewletFocus && explorerResourceIsFolder"
+          "group": "2_workspace",
+          "when": "explorerViewletFocus && explorerResourceIsFolder && !explorerResourceIsRoot"
         }
       ],
       "nestjs.submenu": [
         {
-          "command": "nest.file.class"
+          "command": "nest.file.class",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.controller"
+          "command": "nest.file.controller",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.decorator"
+          "command": "nest.file.decorator",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.dto"
+          "command": "nest.file.dto",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.exception"
+          "command": "nest.file.exception",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.exception-filter"
+          "command": "nest.file.exception-filter",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.filter"
+          "command": "nest.file.filter",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.gateway"
+          "command": "nest.file.gateway",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.guard"
+          "command": "nest.file.guard",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.interceptor"
+          "command": "nest.file.interceptor",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.jwt-guard"
+          "command": "nest.file.jwt-guard",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.jwt-strategy"
+          "command": "nest.file.jwt-strategy",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.middleware"
+          "command": "nest.file.middleware",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.logger"
+          "command": "nest.file.logger",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.module"
+          "command": "nest.file.module",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.pipe"
+          "command": "nest.file.pipe",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.provider"
+          "command": "nest.file.provider",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.resolver"
+          "command": "nest.file.resolver",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.service"
+          "command": "nest.file.service",
+          "group": "1_file"
         },
         {
-          "command": "nest.file.spec"
+          "command": "nest.file.spec",
+          "group": "1_file"
         }
       ]
     }

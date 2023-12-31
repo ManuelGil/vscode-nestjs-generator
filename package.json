@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -20,11 +20,25 @@
     "Other"
   ],
   "keywords": [
+    "autocomplete-functionality",
+    "autocomplete",
+    "boilerplate",
     "commands",
+    "express",
+    "extension",
     "generator",
+    "grammars-utility",
+    "grammars",
+    "javascript",
+    "js",
     "nest",
     "nestjs",
-    "typescript"
+    "node",
+    "nodejs",
+    "ts",
+    "typescript",
+    "vscode-extension",
+    "vscode"
   ],
   "homepage": "https://github.com/ManuelGil/vscode-nestjs-generator",
   "repository": {

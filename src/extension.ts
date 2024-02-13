@@ -1,204 +1,337 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import * as vscode from 'vscode';
 
+import { EXTENSION_ID } from './app/configs';
+import { Config } from './app/configs/config';
 import {
-  newClass,
-  newController,
-  newDecorator,
-  newDto,
-  newException,
-  newExceptionFilter,
-  newFilter,
-  newGateway,
-  newGuard,
-  newInterceptor,
-  newJwtGuard,
-  newJwtStrategy,
-  newLogger,
-  newMiddleware,
-  newModule,
-  newPipe,
-  newProvider,
-  newResolver,
-  newService,
-  newTest,
-  start,
-  startDebug,
-  startDev,
-  startProd,
-} from './commands';
+  FeedbackController,
+  FileController,
+  TerminalController,
+} from './app/controllers';
+import { ListFilesController } from './app/controllers/list-files.controller';
+import {
+  FeedbackProvider,
+  ListFilesProvider,
+  ListMethodsProvider,
+} from './app/providers';
 
 export function activate(context: vscode.ExtensionContext) {
-  const generateFileClass = vscode.commands.registerCommand(
-    'nest.file.class',
-    (args) => {
-      newClass(vscode, fs, path, args);
-    },
+  // The code you place here will be executed every time your command is executed
+  let resource: vscode.Uri | null = null;
+
+  // Get the resource for the workspace
+  if (vscode.workspace.workspaceFolders) {
+    resource = vscode.workspace.workspaceFolders[0].uri;
+  }
+
+  // -----------------------------------------------------------------
+  // Initialize the extension
+  // -----------------------------------------------------------------
+
+  // Get the configuration for the extension
+  const config = new Config(
+    vscode.workspace.getConfiguration(EXTENSION_ID, resource ?? null),
   );
-  const generateFileController = vscode.commands.registerCommand(
-    'nest.file.controller',
-    (args) => {
-      newController(vscode, fs, path, args);
-    },
+
+  // -----------------------------------------------------------------
+  // Register FileController and commands
+  // -----------------------------------------------------------------
+
+  // Create a new FileController
+  const fileController = new FileController();
+
+  const nestjsGenerateFileClass = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.class`,
+    (args) => fileController.generateClass(args),
   );
-  const generateFileDecorator = vscode.commands.registerCommand(
-    'nest.file.decorator',
-    (args) => {
-      newDecorator(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileController = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.controller`,
+    (args) => fileController.generateController(args),
   );
-  const generateFileDto = vscode.commands.registerCommand(
-    'nest.file.dto',
-    (args) => {
-      newDto(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileDecorator = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.decorator`,
+    (args) => fileController.generateDecorator(args),
   );
-  const generateFileException = vscode.commands.registerCommand(
-    'nest.file.exception',
-    (args) => {
-      newException(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileDto = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.dto`,
+    (args) => fileController.generateDto(args),
   );
-  const generateFileExceptionFilter = vscode.commands.registerCommand(
-    'nest.file.exception-filter',
-    (args) => {
-      newExceptionFilter(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileException = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.exception`,
+    (args) => fileController.generateException(args),
   );
-  const generateFileFilter = vscode.commands.registerCommand(
-    'nest.file.filter',
-    (args) => {
-      newFilter(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileExceptionFilter = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.exceptionFilter`,
+    (args) => fileController.generateExceptionFilter(args),
   );
-  const generateFileGateway = vscode.commands.registerCommand(
-    'nest.file.gateway',
-    (args) => {
-      newGateway(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileFilter = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.filter`,
+    (args) => fileController.generateFilter(args),
   );
-  const generateFileGuard = vscode.commands.registerCommand(
-    'nest.file.guard',
-    (args) => {
-      newGuard(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileGateway = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.gateway`,
+    (args) => fileController.generateGateway(args),
   );
-  const generateFileInterceptor = vscode.commands.registerCommand(
-    'nest.file.interceptor',
-    (args) => {
-      newInterceptor(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileGuard = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.guard`,
+    (args) => fileController.generateGuard(args),
   );
-  const generateFileJwtGuard = vscode.commands.registerCommand(
-    'nest.file.jwt-guard',
-    (args) => {
-      newJwtGuard(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileInterceptor = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.interceptor`,
+    (args) => fileController.generateInterceptor(args),
   );
-  const generateFileJwtStrategy = vscode.commands.registerCommand(
-    'nest.file.jwt-strategy',
-    (args) => {
-      newJwtStrategy(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileInterface = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.interface`,
+    (args) => fileController.generateInterface(args),
   );
-  const generateFileMiddleware = vscode.commands.registerCommand(
-    'nest.file.middleware',
-    (args) => {
-      newMiddleware(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileJwtGuard = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.jwtGuard`,
+    (args) => fileController.generateJwtGuard(args),
   );
-  const generateFileLogger = vscode.commands.registerCommand(
-    'nest.file.logger',
-    (args) => {
-      newLogger(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileJwtStrategy = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.jwtStrategy`,
+    (args) => fileController.generateJwtStrategy(args),
   );
-  const generateFileModule = vscode.commands.registerCommand(
-    'nest.file.module',
-    (args) => {
-      newModule(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileMiddleware = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.middleware`,
+    (args) => fileController.generateMiddleware(args),
   );
-  const generateFilePipe = vscode.commands.registerCommand(
-    'nest.file.pipe',
-    (args) => {
-      newPipe(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileLogger = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.logger`,
+    (args) => fileController.generateLogger(args),
   );
-  const generateFileProvider = vscode.commands.registerCommand(
-    'nest.file.provider',
-    (args) => {
-      newProvider(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileModule = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.module`,
+    (args) => fileController.generateModule(args),
   );
-  const generateFileResolver = vscode.commands.registerCommand(
-    'nest.file.resolver',
-    (args) => {
-      newResolver(vscode, fs, path, args);
-    },
+  const nestjsGenerateFilePipe = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.pipe`,
+    (args) => fileController.generatePipe(args),
   );
-  const generateFileService = vscode.commands.registerCommand(
-    'nest.file.service',
-    (args) => {
-      newService(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileProvider = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.provider`,
+    (args) => fileController.generateProvider(args),
   );
-  const generateFileTest = vscode.commands.registerCommand(
-    'nest.file.spec',
-    (args) => {
-      newTest(vscode, fs, path, args);
-    },
+  const nestjsGenerateFileResolver = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.resolver`,
+    (args) => fileController.generateResolver(args),
   );
-  const nestTerminalStart = vscode.commands.registerCommand(
-    'nest.terminal.start',
-    () => {
-      start(vscode);
-    },
+  const nestjsGenerateFileService = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.service`,
+    (args) => fileController.generateService(args),
   );
-  const nestTerminalStartDev = vscode.commands.registerCommand(
-    'nest.terminal.start.dev',
-    () => {
-      startDev(vscode);
-    },
+  const nestjsGenerateFileTest = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.test`,
+    (args) => fileController.generateTest(args),
   );
-  const nestTerminalStartDebug = vscode.commands.registerCommand(
-    'nest.terminal.start.debug',
-    () => {
-      startDebug(vscode);
-    },
+
+  // -----------------------------------------------------------------
+  // Register TerminalController and commands
+  // -----------------------------------------------------------------
+
+  // Create a new TerminalController
+  const terminalController = new TerminalController();
+
+  const nestjsTerminalController = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.controller`,
+    (args) => terminalController.generateController(args),
   );
-  const nestTerminalStartProd = vscode.commands.registerCommand(
-    'nest.terminal.start.prod',
-    () => {
-      startProd(vscode);
+  const nestjsTerminalGateway = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.gateway`,
+    (args) => terminalController.generateGateway(args),
+  );
+  const nestjsTerminalLibrary = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.library`,
+    () => terminalController.generateLibrary(),
+  );
+  const nestjsTerminalModule = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.module`,
+    (args) => terminalController.generateModule(args),
+  );
+  const nestjsTerminalProvider = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.provider`,
+    (args) => terminalController.generateProvider(args),
+  );
+  const nestjsTerminalResolver = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.resolver`,
+    (args) => terminalController.generateResolver(args),
+  );
+  const nestjsTerminalResource = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.resource`,
+    (args) => terminalController.generateResource(args),
+  );
+  const nestjsTerminalService = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.service`,
+    (args) => terminalController.generateService(args),
+  );
+  const nestjsTerminalSubApp = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.subApp`,
+    () => terminalController.generateSubApp(),
+  );
+  const nestjsTerminalStart = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.start`,
+    () => terminalController.start(),
+  );
+  const nestjsTerminalStartDev = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.startDev`,
+    () => terminalController.startDev(),
+  );
+  const nestjsTerminalStartDebug = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.startDebug`,
+    () => terminalController.startDebug(),
+  );
+  const nestjsTerminalStartProd = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.startProd`,
+    () => terminalController.startProd(),
+  );
+
+  // -----------------------------------------------------------------
+  // Register ListFilesController
+  // -----------------------------------------------------------------
+
+  // Create a new ListFilesController
+  const listFilesController = new ListFilesController(config);
+
+  // -----------------------------------------------------------------
+  // Register ListFilesProvider and list commands
+  // -----------------------------------------------------------------
+
+  // Create a new ListFilesProvider
+  const listFilesProvider = new ListFilesProvider(listFilesController);
+
+  // Register the list provider
+  const nestjsListFilesTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.listFilesView`,
+    {
+      treeDataProvider: listFilesProvider,
     },
   );
 
-  context.subscriptions.push(generateFileClass);
-  context.subscriptions.push(generateFileController);
-  context.subscriptions.push(generateFileDecorator);
-  context.subscriptions.push(generateFileDto);
-  context.subscriptions.push(generateFileException);
-  context.subscriptions.push(generateFileExceptionFilter);
-  context.subscriptions.push(generateFileFilter);
-  context.subscriptions.push(generateFileGateway);
-  context.subscriptions.push(generateFileGuard);
-  context.subscriptions.push(generateFileInterceptor);
-  context.subscriptions.push(generateFileJwtGuard);
-  context.subscriptions.push(generateFileJwtStrategy);
-  context.subscriptions.push(generateFileLogger);
-  context.subscriptions.push(generateFileMiddleware);
-  context.subscriptions.push(generateFileModule);
-  context.subscriptions.push(generateFilePipe);
-  context.subscriptions.push(generateFileProvider);
-  context.subscriptions.push(generateFileResolver);
-  context.subscriptions.push(generateFileService);
-  context.subscriptions.push(generateFileTest);
-  context.subscriptions.push(nestTerminalStart);
-  context.subscriptions.push(nestTerminalStartDev);
-  context.subscriptions.push(nestTerminalStartDebug);
-  context.subscriptions.push(nestTerminalStartProd);
+  const nestjsListOpenFile = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.list.openFile`,
+    (uri) => listFilesProvider.controller.openFile(uri),
+  );
+
+  // -----------------------------------------------------------------
+  // Register ListMethodsProvider and list commands
+  // -----------------------------------------------------------------
+
+  // Create a new ListMethodsProvider
+  const listMethodsProvider = new ListMethodsProvider(listFilesController);
+
+  // Register the list provider
+  const nestjsListMethodsTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.listMethodsView`,
+    {
+      treeDataProvider: listMethodsProvider,
+    },
+  );
+
+  const nestjsListGotoLine = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.list.gotoLine`,
+    (uri, line) => listMethodsProvider.controller.gotoLine(uri, line),
+  );
+
+  // -----------------------------------------------------------------
+  // Register ListFilesProvider and ListMethodsProvider events
+  // -----------------------------------------------------------------
+
+  vscode.workspace.onDidChangeTextDocument(() => {
+    listFilesProvider.refresh();
+    listMethodsProvider.refresh();
+  });
+  vscode.workspace.onDidCreateFiles(() => {
+    listFilesProvider.refresh();
+    listMethodsProvider.refresh();
+  });
+  vscode.workspace.onDidDeleteFiles(() => {
+    listFilesProvider.refresh();
+    listMethodsProvider.refresh();
+  });
+  vscode.workspace.onDidRenameFiles(() => {
+    listFilesProvider.refresh();
+    listMethodsProvider.refresh();
+  });
+  vscode.workspace.onDidSaveTextDocument(() => {
+    listFilesProvider.refresh();
+    listMethodsProvider.refresh();
+  });
+
+  // -----------------------------------------------------------------
+  // Register FeedbackProvider and Feedback commands
+  // -----------------------------------------------------------------
+
+  // Create a new FeedbackProvider
+  const feedbackProvider = new FeedbackProvider(new FeedbackController());
+
+  // Register the feedback provider
+  const nestjsFeedbackTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.feedbackView`,
+    {
+      treeDataProvider: feedbackProvider,
+    },
+  );
+
+  // Register the commands
+  const nestjsFeedbackAboutUs = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.feedback.aboutUs`,
+    () => feedbackProvider.controller.aboutUs(),
+  );
+  const nestjsFeedbackReportIssues = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.feedback.reportIssues`,
+    () => feedbackProvider.controller.reportIssues(),
+  );
+  const nestjsFeedbackRateUs = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.feedback.rateUs`,
+    () => feedbackProvider.controller.rateUs(),
+  );
+  const nestjsFeedbackSupportUs = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.feedback.supportUs`,
+    () => feedbackProvider.controller.supportUs(),
+  );
+
+  context.subscriptions.push(nestjsGenerateFileClass);
+  context.subscriptions.push(nestjsGenerateFileController);
+  context.subscriptions.push(nestjsGenerateFileDecorator);
+  context.subscriptions.push(nestjsGenerateFileDto);
+  context.subscriptions.push(nestjsGenerateFileException);
+  context.subscriptions.push(nestjsGenerateFileExceptionFilter);
+  context.subscriptions.push(nestjsGenerateFileFilter);
+  context.subscriptions.push(nestjsGenerateFileGateway);
+  context.subscriptions.push(nestjsGenerateFileGuard);
+  context.subscriptions.push(nestjsGenerateFileInterceptor);
+  context.subscriptions.push(nestjsGenerateFileInterface);
+  context.subscriptions.push(nestjsGenerateFileJwtGuard);
+  context.subscriptions.push(nestjsGenerateFileJwtStrategy);
+  context.subscriptions.push(nestjsGenerateFileLogger);
+  context.subscriptions.push(nestjsGenerateFileMiddleware);
+  context.subscriptions.push(nestjsGenerateFileModule);
+  context.subscriptions.push(nestjsGenerateFilePipe);
+  context.subscriptions.push(nestjsGenerateFileProvider);
+  context.subscriptions.push(nestjsGenerateFileResolver);
+  context.subscriptions.push(nestjsGenerateFileService);
+  context.subscriptions.push(nestjsGenerateFileTest);
+  context.subscriptions.push(nestjsTerminalController);
+  context.subscriptions.push(nestjsTerminalGateway);
+  context.subscriptions.push(nestjsTerminalLibrary);
+  context.subscriptions.push(nestjsTerminalModule);
+  context.subscriptions.push(nestjsTerminalProvider);
+  context.subscriptions.push(nestjsTerminalResolver);
+  context.subscriptions.push(nestjsTerminalResource);
+  context.subscriptions.push(nestjsTerminalService);
+  context.subscriptions.push(nestjsTerminalSubApp);
+  context.subscriptions.push(nestjsTerminalStart);
+  context.subscriptions.push(nestjsTerminalStartDev);
+  context.subscriptions.push(nestjsTerminalStartDebug);
+  context.subscriptions.push(nestjsTerminalStartProd);
+  context.subscriptions.push(nestjsListFilesTreeView);
+  context.subscriptions.push(nestjsListOpenFile);
+  context.subscriptions.push(nestjsListMethodsTreeView);
+  context.subscriptions.push(nestjsListGotoLine);
+  context.subscriptions.push(nestjsFeedbackTreeView);
+  context.subscriptions.push(nestjsFeedbackAboutUs);
+  context.subscriptions.push(nestjsFeedbackReportIssues);
+  context.subscriptions.push(nestjsFeedbackRateUs);
+  context.subscriptions.push(nestjsFeedbackSupportUs);
 }
 
 export function deactivate() {}

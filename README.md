@@ -3,12 +3,9 @@
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/imgildev.vscode-nestjs-generator?style=for-the-badge&label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/imgildev.vscode-nestjs-generator?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
 [![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/imgildev.vscode-nestjs-generator?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
+[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/imgildev.vscode-nestjs-generator?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator&ssr=false#review-details)
 [![GitHub Repo stars](https://img.shields.io/github/stars/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator)
 [![GitHub license](https://img.shields.io/github/license/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/LICENSE)
-
-<p align="center">
-<a href="https://www.producthunt.com/posts/nestjs-file-generator?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-nestjs&#0045;file&#0045;generator" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=432124&theme=light" alt="NestJS&#0032;File&#0032;Generator - Streamline&#0032;NestJS&#0058;&#0032;Click&#0044;&#0032;Generate&#0044;&#0032;Elevate | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-</p>
 
 Are you tired of manually creating files for your NestJS projects in Visual Studio Code? We have the solution for you! Introducing the **NestJS File Generator** extension for VSCode.
 
@@ -16,15 +13,14 @@ Are you tired of manually creating files for your NestJS projects in Visual Stud
 
 With this powerful extension, you can streamline your NestJS development workflow by generating files with just a few clicks. Whether you need a new class, controller, decorator, or any other NestJS component, our extension has you covered.
 
-![menus](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/menus.gif)
-
-![terminal](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/terminal.gif)
+![activitybar](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/activitybar.png)
 
 ## Table of Contents
 
 - [NestJS File Generator for VSCode](#nestjs-file-generator-for-vscode)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
+  - [Project Settings](#project-settings)
   - [Features](#features)
   - [Connect with me](#connect-with-me)
   - [Other Extensions](#other-extensions)
@@ -34,36 +30,82 @@ With this powerful extension, you can streamline your NestJS development workflo
 
 ## Requirements
 
-- VSCode 1.46.0 or later
+- VSCode 1.76.0 or later
+
+## Project Settings
+
+Configure your project by creating or updating a settings.json file at the project's root. If you already have a `.vscode/settings.json` file, skip the first two steps.
+
+1. Open the command palette in VSCode:
+   - `CTRL + SHIFT + P` (Windows)
+   - `CMD + SHIFT + P` (Mac OS)
+
+2. Type `Preferences: Open Workspace Settings (JSON)`.
+
+3. In the `.vscode/settings.json` file, copy and paste the following settings:
+
+    ```jsonc
+    {
+      "nestjs.files.include": [
+        "ts"
+      ],
+      "nestjs.files.exclude": [
+        "**/node_modules/**",
+        "**/dist/**",
+        "**/out/**",
+        "**/build/**",
+        "**/.*/**"
+      ],
+      "nestjs.files.watch": [
+        "controllers",
+        "dtos",
+        "services"
+      ]
+    }
+    ```
+
+4. **Restart VS Code**
+
+Your project is now set up to automatically format code upon saving.
 
 ## Features
 
-| Title                                | Command                    | Purpose                              |
-| ------------------------------------ | -------------------------- | ------------------------------------ |
-| Nest: Make Class                     | nest.file.class            | Generates a new Class                |
-| Nest: Make Controller                | nest.file.controller       | Generates a new Controller           |
-| Nest: Make Decorator                 | nest.file.decorator        | Generates a new Decorator            |
-| Nest: Make Update Dto                | nest.file.dto              | Generates a new Update Dto           |
-| Nest: Make Exception                 | nest.file.exception        | Generates a new Exception            |
-| Nest: Make Exception Filter          | nest.file.exception-filter | Generates a new Exception Filter     |
-| Nest: Make Filter                    | nest.file.filter           | Generates a new Filter               |
-| Nest: Make Gateway                   | nest.file.gateway          | Generates a new Gateway              |
-| Nest: Make Guard                     | nest.file.guard            | Generates a new Guard                |
-| Nest: Make Interceptor               | nest.file.interceptor      | Generates a new Interceptor          |
-| Nest: Make Jwt Guard                 | nest.file.jwt-guard        | Generates a new Jwt Guard            |
-| Nest: Make Jwt Strategy              | nest.file.jwt-strategy     | Generates a new Jwt Strategy         |
-| Nest: Make Middleware                | nest.file.middleware       | Generates a new Middleware           |
-| Nest: Make Logger                    | nest.file.logger           | Generates a new Logger               |
-| Nest: Make Module                    | nest.file.module           | Generates a new Module               |
-| Nest: Make Pipe                      | nest.file.pipe             | Generates a new Pipe                 |
-| Nest: Make Provider                  | nest.file.provider         | Generates a new Provider             |
-| Nest: Make Resolver                  | nest.file.resolver         | Generates a new Resolver             |
-| Nest: Make Service                   | nest.file.service          | Generates a new Service              |
-| Nest: Make Test                      | nest.file.spec             | Generates a new Test                 |
-| Nest: Start Server                   | nest.terminal.start        | Launches the Nest Server             |
-| Nest: Start Server (Dev mode)        | nest.terminal.start.dev    | Launches the Nest Development Server |
-| Nest: Start Server (Debug mode)      | nest.terminal.start.debug  | Launches the Nest Debug Server       |
-| Nest: Start Server (Production mode) | nest.terminal.start.prod   | Launches the Nest Production Server  |
+| Title                                     | Purpose                                  |
+| ----------------------------------------- | ---------------------------------------- |
+| NestJS: Generate Class                    | Generates a new Class                    |
+| NestJS: Generate Controller               | Generates a new Controller               |
+| NestJS: Generate Decorator                | Generates a new Decorator                |
+| NestJS: Generate Update Dto               | Generates a new Update Dto               |
+| NestJS: Generate Exception                | Generates a new Exception                |
+| NestJS: Generate Exception Filter         | Generates a new Exception Filter         |
+| NestJS: Generate Filter                   | Generates a new Filter                   |
+| NestJS: Generate Gateway                  | Generates a new Gateway                  |
+| NestJS: Generate Guard                    | Generates a new Guard                    |
+| NestJS: Generate Interceptor              | Generates a new Interceptor              |
+| NestJS: Generate Interface                | Generates a new Interface                |
+| NestJS: Generate Jwt Guard                | Generates a new Jwt Guard                |
+| NestJS: Generate Jwt Strategy             | Generates a new Jwt Strategy             |
+| NestJS: Generate Middleware               | Generates a new Middleware               |
+| NestJS: Generate Logger                   | Generates a new Logger                   |
+| NestJS: Generate Module                   | Generates a new Module                   |
+| NestJS: Generate Pipe                     | Generates a new Pipe                     |
+| NestJS: Generate Provider                 | Generates a new Provider                 |
+| NestJS: Generate Resolver                 | Generates a new Resolver                 |
+| NestJS: Generate Service                  | Generates a new Service                  |
+| NestJS: Generate Test                     | Generates a new Test                     |
+| NestJS: Generate Controller with CLI      | Generates a new Controller with CLI      |
+| NestJS: Generate Gateway with CLI         | Generates a new Gateway with CLI         |
+| NestJS: Generate Library with CLI         | Generates a new Library with CLI         |
+| NestJS: Generate Module with CLI          | Generates a new Module with CLI          |
+| NestJS: Generate Provider with CLI        | Generates a new Provider with CLI        |
+| NestJS: Generate Resolver with CLI        | Generates a new Resolver with CLI        |
+| NestJS: Generate Resource with CLI        | Generates a new Resource with CLI        |
+| NestJS: Generate Service with CLI         | Generates a new Service with CLI         |
+| NestJS: Generate Sub Application with CLI | Generates a new Sub Application with CLI |
+| NestJS: Start Server                      | Launches the Nest Server                 |
+| NestJS: Start Server (Dev mode)           | Launches the Nest Development Server     |
+| NestJS: Start Server (Debug mode)         | Launches the Nest Debug Server           |
+| NestJS: Start Server (Production mode)    | Launches the Nest Production Server      |
 
 ## Connect with me
 

@@ -1,0 +1,1513 @@
+import { Uri } from 'vscode';
+
+// Import the helper functions
+import {
+  dasherize,
+  getName,
+  getPath,
+  getRelativePath,
+  saveFile,
+  titleize,
+} from '../helpers';
+
+/**
+ * The FileController class.
+ *
+ * @class
+ * @classdesc The class that represents the example controller.
+ * @export
+ * @public
+ * @example
+ * const controller = new FileController(config);
+ */
+export class FileController {
+  // -----------------------------------------------------------------
+  // Constructor
+  // -----------------------------------------------------------------
+
+  /**
+   * Constructor for the FileController class.
+   *
+   * @constructor
+   * @public
+   * @memberof FileController
+   */
+  constructor() {}
+
+  // -----------------------------------------------------------------
+  // Methods
+  // -----------------------------------------------------------------
+
+  // Public methods
+  /**
+   * Generate a new class file.
+   *
+   * @function generateClass
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateClass(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateClass(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    // Get the type
+    let type = await getName(
+      'Type class name',
+      'E.g. class, dto, entity, model...',
+      (type: string) => {
+        if (!/[a-z]+/.test(type)) {
+          return 'Invalid format!';
+        }
+      },
+    );
+
+    if (type === undefined) {
+      return;
+    }
+
+    const content = `export class ${className}${titleize(type)} {}
+`;
+
+    type = type.length !== 0 ? `.${type}` : '';
+
+    const filename = `${dasherize(className)}${type}.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new controller file.
+   *
+   * @function generateController
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateController(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateController(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Controller class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { Create${className}Dto } from './dto/create-${dasherize(className)}.dto';
+import { Update${className}Dto } from './dto/update-${dasherize(className)}.dto';
+import { ${className}Service } from './${dasherize(className)}.service';
+
+@Controller('${dasherize(className)}s')
+export class ${className}Controller {
+  constructor(private readonly ${dasherize(className)}Service: ${className}Service) {}
+
+  @Post()
+  create(@Body() create${className}Dto: Create${className}Dto) {
+    return this.${dasherize(className)}Service.create(create${className}Dto);
+  }
+
+  @Get()
+  findAll() {
+    return this.${dasherize(className)}Service.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.${dasherize(className)}Service.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() update${className}Dto: Update${className}Dto) {
+    return this.${dasherize(className)}Service.update(+id, update${className}Dto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.${dasherize(className)}Service.remove(+id);
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.controller.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new decorator file.
+   *
+   * @function generateDecorator
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateDecorator(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateDecorator(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    const entityName = await getName(
+      'Decorator name',
+      'E.g. user, role, auth...',
+      (name: string) => {
+        if (!/^[A-Za-z-]{3,}$/.test(name)) {
+          return 'Invalid format!';
+        }
+      },
+    );
+
+    if (entityName === undefined) {
+      return;
+    }
+
+    const content = `import { SetMetadata } from '@nestjs/common';
+
+export const ${entityName} = (...args: string[]) =>
+  SetMetadata('${entityName}-decorator', args);
+`;
+
+    const filename = `${dasherize(entityName)}.decorator.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new dto file.
+   *
+   * @function generateDto
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateDto(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateDto(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Dto class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { PartialType } from '@nestjs/mapped-types';
+import { Create${className}Dto } from './create-${dasherize(className)}.dto';
+
+export class Update${className}Dto extends PartialType(Create${className}Dto) {
+  name: string;
+  age: number;
+}
+`;
+
+    const filename = `${dasherize(className)}.dto.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new exception filter file.
+   *
+   * @function generateExceptionFilter
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateExceptionFilter(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateExceptionFilter(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Exception Filter class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
+
+@Catch(HttpException)
+export class ${className}ExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+    const status = exception.getStatus();
+
+    response.status(status).json();
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.filter.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new exception file.
+   *
+   * @function generateException
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateException(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateException(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Exception class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { HttpException } from '@nestjs/common';
+
+export class ${className}Exception extends HttpException {
+  constructor() {
+    super('${className}Exception', );
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.exception.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new filter file.
+   *
+   * @function generateFilter
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateFilter(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateFilter(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Filter class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+
+@Catch()
+export class ${className}Filter<T> implements ExceptionFilter {
+  catch(exception: T, host: ArgumentsHost) {}
+}
+`;
+
+    const filename = `${dasherize(className)}.filter.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new gateway file.
+   *
+   * @function generateGateway
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateGateway(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateGateway(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Gateway class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+
+@WebSocketGateway()
+export class ${className}Gateway {
+  @SubscribeMessage('message')
+  handleMessage(client: any, payload: any): string {
+    return 'Hello world!';
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.gateway.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new guard file.
+   *
+   * @function generateGuard
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateGuard(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateGuard(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Guard class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class ${className}Guard implements CanActivate {
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    return true;
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.guard.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new interceptor file.
+   *
+   * @function generateInterceptor
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateInterceptor(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateInterceptor(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Interceptor class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import {
+  CallHandler,
+  ExecutionContext,
+  Injectable,
+  NestInterceptor,
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class ${className}Interceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next.handle();
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.interceptor.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new interface file.
+   *
+   * @function generateInterface
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateInterface(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateInterface(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Interface class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    // Get the type
+    let type = await getName(
+      'Type interface name',
+      'E.g. interface, dto, entity, model...',
+      (type: string) => {
+        if (!/[a-z]+/.test(type)) {
+          return 'Invalid format!';
+        }
+      },
+    );
+
+    if (type === undefined) {
+      return;
+    }
+
+    const content = `export interface ${className}${titleize(type)} {}
+`;
+
+    type = type.length !== 0 ? `.${type}` : '';
+
+    const filename = `${dasherize(className)}${type}.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new jwt guard file.
+   *
+   * @function generateJwtGuard
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateJwtGuard(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateJwtGuard(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Guard class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+@Injectable()
+export class ${className}Guard extends AuthGuard('jwt') {
+  canActivate(context: ExecutionContext) {
+    return super.canActivate(context);
+  }
+
+  handleRequest(err, user, info) {
+    if (err || !user) {
+      throw err || new UnauthorizedException();
+    }
+    return user;
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.guard.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new jwt strategy file.
+   *
+   * @function generateJwtStrategy
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateJwtStrategy(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateJwtStrategy(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    const content = `import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  constructor(private configService: ConfigService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: configService.get('secret'),
+    });
+  }
+
+  async validate(payload: any) {
+    return { userId: payload.sub, username: payload.username };
+  }
+}
+`;
+
+    const filename = `jwt.strategy.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new logger file.
+   *
+   * @function generateLogger
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateLogger(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateLogger(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Logger class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { LoggerService } from '@nestjs/common';
+
+export class ${className}Logger implements LoggerService {
+  /**
+   * Write a 'log' level log.
+   */
+  log(message: any, ...optionalParams: any[]) {}
+
+  /**
+   * Write an 'error' level log.
+   */
+  error(message: any, ...optionalParams: any[]) {}
+
+  /**
+   * Write a 'warn' level log.
+   */
+  warn(message: any, ...optionalParams: any[]) {}
+
+  /**
+   * Write a 'debug' level log.
+   */
+  debug?(message: any, ...optionalParams: any[]) {}
+
+  /**
+   * Write a 'verbose' level log.
+   */
+  verbose?(message: any, ...optionalParams: any[]) {}
+}
+`;
+
+    const filename = `${dasherize(className)}.logger.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new middleware file.
+   *
+   * @function generateMiddleware
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateMiddleware(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateMiddleware(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Middleware class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Injectable, NestMiddleware } from '@nestjs/common';
+
+@Injectable()
+export class ${className}Middleware implements NestMiddleware {
+  use(req: any, res: any, next: () => void) {
+    next();
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.middleware.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new module file.
+   *
+   * @function generateModule
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateModule(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateModule(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Module class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+  exports: []
+})
+export class ${className}Module {}
+`;
+
+    const filename = `${dasherize(className)}.module.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new pipe file.
+   *
+   * @function generatePipe
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generatePipe(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generatePipe(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Pipe class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+
+@Injectable()
+export class ${className}Pipe implements PipeTransform {
+  transform(value: any, metadata: ArgumentMetadata) {
+    return value;
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.pipe.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new provider file.
+   *
+   * @function generateProvider
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateProvider(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateProvider(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Provider class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class ${className} {}
+`;
+
+    const filename = `${dasherize(className)}.provider.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new resolver file.
+   *
+   * @function generateResolver
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateResolver(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateResolver(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Resolver class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Resolver } from '@nestjs/graphql';
+
+@Resolver()
+export class ${className}Resolver {}
+`;
+
+    const filename = `${dasherize(className)}.resolver.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new service file.
+   *
+   * @function generateService
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateService(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateService(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Service class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Injectable } from '@nestjs/common';
+import { Create${className}Dto } from './dto/create-${dasherize(
+      className,
+    )}.dto';
+import { Update${className}Dto } from './dto/update-${dasherize(
+      className,
+    )}.dto';
+
+@Injectable()
+export class ${className}Service {
+  create(create${className}Dto: Create${className}Dto) {
+    return 'This action adds a new ${dasherize(className)}';
+  }
+
+  findAll() {
+    return \`This action returns all ${dasherize(className)}s\`;
+  }
+
+  findOne(id: number) {
+    return \`This action returns a #id ${dasherize(className)}\`;
+  }
+
+  update(id: number, update${className}Dto: Update${className}Dto) {
+    return \`This action updates a #id ${dasherize(className)}\`;
+  }
+
+  remove(id: number) {
+    return \`This action removes a #id ${dasherize(className)}\`;
+  }
+}
+`;
+
+    const filename = `${dasherize(className)}.service.ts`;
+
+    saveFile(folder, filename, content);
+  }
+
+  /**
+   * Generate a new test file.
+   *
+   * @function generateTest
+   * @param {Uri} [path] - The path to the folder.
+   * @memberof FileController
+   * @public
+   * @async
+   * @example
+   * await generateTest(path);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  async generateTest(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    const folder = await getPath(
+      'Folder name',
+      'Folder name. E.g. src, app...',
+      folderPath,
+      (path: string) => {
+        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    // Get the class name
+    const className = await getName(
+      'Test class name',
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in camelCase.';
+        }
+      },
+    );
+
+    if (className === undefined) {
+      return;
+    }
+
+    const content = `import { Test } from '@nestjs/testing';
+import { ${className}Controller } from './.controller';
+import { ${className}Service } from './.service';
+
+describe('${className}Controller', () => {
+  let ${className}Controller: ${className}Controller;
+  let ${className}Service: ${className}Service;
+
+  beforeEach(async () => {
+    const moduleRef = await Test.createTestingModule({
+        controllers: [${className}Controller],
+        providers: [${className}Service],
+      }).compile();
+
+    ${className}Service = moduleRef.get<${className}Service>(${className}Service);
+    ${className}Controller = moduleRef.get<${className}Controller>(${className}Controller);
+  });
+
+  describe('findAll', () => {
+    it('should return an array of ${className}', async () => {
+      const result = ['test'];
+      jest.spyOn(${className}Service, 'findAll').mockImplementation(() => result);
+
+      expect(await ${className}Controller.findAll()).toBe(result);
+    });
+  });
+});
+`;
+
+    const filename = `${dasherize(className)}.spec.ts`;
+
+    saveFile(folder, filename, content);
+  }
+}

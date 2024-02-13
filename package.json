@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "1.4.2",
+  "version": "2.0.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -14,7 +14,7 @@
     "url": "https://github.com/sponsors/manuelgil"
   },
   "engines": {
-    "vscode": "^1.46.0"
+    "vscode": "^1.76.0"
   },
   "categories": [
     "Other"
@@ -52,153 +52,225 @@
     "imgildev.vscode-nestjs-snippets-extension"
   ],
   "activationEvents": [
-    "onCommand:nest.file.class",
-    "onCommand:nest.file.controller",
-    "onCommand:nest.file.decorator",
-    "onCommand:nest.file.dto",
-    "onCommand:nest.file.exception",
-    "onCommand:nest.file.exception-filter",
-    "onCommand:nest.file.filter",
-    "onCommand:nest.file.gateway",
-    "onCommand:nest.file.guard",
-    "onCommand:nest.file.interceptor",
-    "onCommand:nest.file.jwt-guard",
-    "onCommand:nest.file.jwt-strategy",
-    "onCommand:nest.file.logger",
-    "onCommand:nest.file.middleware",
-    "onCommand:nest.file.module",
-    "onCommand:nest.file.pipe",
-    "onCommand:nest.file.provider",
-    "onCommand:nest.file.resolver",
-    "onCommand:nest.file.service",
-    "onCommand:nest.file.spec",
-    "onCommand:nest.terminal.start",
-    "onCommand:nest.terminal.start.dev",
-    "onCommand:nest.terminal.start.debug",
-    "onCommand:nest.terminal.start.prod"
+    "workspaceContains:**/nest-cli.json"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "NestJS File Generator",
+      "properties": {
+        "nestjs.files.include": {
+          "type": "array",
+          "default": [
+            "ts"
+          ],
+          "scope": "resource",
+          "description": "Glob patterns to include in the package. The default is ts, html, css, scss, less."
+        },
+        "nestjs.files.exclude": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/out/**",
+            "**/build/**",
+            "**/.*/**"
+          ],
+          "scope": "resource",
+          "description": "Glob patterns to exclude from the package. The default is node_modules, dist, out, build, and any hidden files."
+        },
+        "nestjs.files.watch": {
+          "type": "array",
+          "default": [
+            "controllers",
+            "dtos",
+            "services"
+          ],
+          "scope": "resource",
+          "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
+        }
+      }
+    },
     "commands": [
       {
-        "command": "nest.file.class",
-        "title": "Nest: Make Class",
-        "group": "NestJS"
+        "command": "nestjs.file.class",
+        "title": "Generate Class",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.controller",
-        "title": "Nest: Make Controller",
-        "group": "NestJS"
+        "command": "nestjs.file.controller",
+        "title": "Generate Controller",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.decorator",
-        "title": "Nest: Make Decorator",
-        "group": "NestJS"
+        "command": "nestjs.file.decorator",
+        "title": "Generate Decorator",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.dto",
-        "title": "Nest: Make Update Dto",
-        "group": "NestJS"
+        "command": "nestjs.file.dto",
+        "title": "Generate Update Dto",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.exception",
-        "title": "Nest: Make Exception",
-        "group": "NestJS"
+        "command": "nestjs.file.exception",
+        "title": "Generate Exception",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.exception-filter",
-        "title": "Nest: Make Exception Filter",
-        "group": "NestJS"
+        "command": "nestjs.file.exceptionFilter",
+        "title": "Generate Exception Filter",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.filter",
-        "title": "Nest: Make Filter",
-        "group": "NestJS"
+        "command": "nestjs.file.filter",
+        "title": "Generate Filter",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.gateway",
-        "title": "Nest: Make Gateway",
-        "group": "NestJS"
+        "command": "nestjs.file.gateway",
+        "title": "Generate Gateway",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.guard",
-        "title": "Nest: Make Guard",
-        "group": "NestJS"
+        "command": "nestjs.file.guard",
+        "title": "Generate Guard",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.interceptor",
-        "title": "Nest: Make Interceptor",
-        "group": "NestJS"
+        "command": "nestjs.file.interceptor",
+        "title": "Generate Interceptor",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.jwt-guard",
-        "title": "Nest: Make Jwt Guard",
-        "group": "NestJS"
+        "command": "nestjs.file.interface",
+        "title": "Generate Interface",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.jwt-strategy",
-        "title": "Nest: Make Jwt Strategy",
-        "group": "NestJS"
+        "command": "nestjs.file.jwtGuard",
+        "title": "Generate Jwt Guard",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.middleware",
-        "title": "Nest: Make Middleware",
-        "group": "NestJS"
+        "command": "nestjs.file.jwtStrategy",
+        "title": "Generate Jwt Strategy",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.logger",
-        "title": "Nest: Make Logger",
-        "group": "NestJS"
+        "command": "nestjs.file.middleware",
+        "title": "Generate Middleware",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.module",
-        "title": "Nest: Make Module",
-        "group": "NestJS"
+        "command": "nestjs.file.logger",
+        "title": "Generate Logger",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.pipe",
-        "title": "Nest: Make Pipe",
-        "group": "NestJS"
+        "command": "nestjs.file.module",
+        "title": "Generate Module",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.provider",
-        "title": "Nest: Make Provider",
-        "group": "NestJS"
+        "command": "nestjs.file.pipe",
+        "title": "Generate Pipe",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.resolver",
-        "title": "Nest: Make Resolver",
-        "group": "NestJS"
+        "command": "nestjs.file.provider",
+        "title": "Generate Provider",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.service",
-        "title": "Nest: Make Service",
-        "group": "NestJS"
+        "command": "nestjs.file.resolver",
+        "title": "Generate Resolver",
+        "category": "NestJS"
       },
       {
-        "command": "nest.file.spec",
-        "title": "Nest: Make Test",
-        "group": "NestJS"
+        "command": "nestjs.file.service",
+        "title": "Generate Service",
+        "category": "NestJS"
       },
       {
-        "command": "nest.terminal.start",
-        "title": "Nest: Start Server",
-        "group": "NestJS"
+        "command": "nestjs.file.test",
+        "title": "Generate Test",
+        "category": "NestJS"
       },
       {
-        "command": "nest.terminal.start.dev",
-        "title": "Nest: Start Server (Dev mode)",
-        "group": "NestJS"
+        "command": "nestjs.terminal.controller",
+        "title": "Generate Controller with CLI",
+        "category": "NestJS"
       },
       {
-        "command": "nest.terminal.start.debug",
-        "title": "Nest: Start Server (Debug mode)",
-        "group": "NestJS"
+        "command": "nestjs.terminal.gateway",
+        "title": "Generate Gateway with CLI",
+        "category": "NestJS"
       },
       {
-        "command": "nest.terminal.start.prod",
-        "title": "Nest: Start Server (Production mode)",
-        "group": "NestJS"
+        "command": "nestjs.terminal.library",
+        "title": "Generate Library with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.module",
+        "title": "Generate Module with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.provider",
+        "title": "Generate Provider with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.resolver",
+        "title": "Generate Resolver with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.resource",
+        "title": "Generate Resource with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.service",
+        "title": "Generate Service with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.subApp",
+        "title": "Generate Sub Application with CLI",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.start",
+        "title": "Start Server",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.startDev",
+        "title": "Start Server (Dev mode)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.startDebug",
+        "title": "Start Server (Debug mode)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.terminal.startProd",
+        "title": "Start Server (Production mode)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.list.openFile",
+        "title": "Open File",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.list.gotoLine",
+        "title": "Go to Line",
+        "category": "NestJS"
       }
     ],
     "submenus": [
@@ -207,6 +279,34 @@
         "label": "NestJS File Generator"
       }
     ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "nestjs-explorer",
+          "title": "NestJS File Generator",
+          "icon": "src/assets/logo.svg"
+        }
+      ]
+    },
+    "views": {
+      "nestjs-explorer": [
+        {
+          "id": "nestjs.listMethodsView",
+          "name": "List of HTTP Methods",
+          "visibility": "visible"
+        },
+        {
+          "id": "nestjs.listFilesView",
+          "name": "List of Files",
+          "visibility": "visible"
+        },
+        {
+          "id": "nestjs.feedbackView",
+          "name": "Help and Feedback",
+          "visibility": "visible"
+        }
+      ]
+    },
     "menus": {
       "explorer/context": [
         {
@@ -217,104 +317,144 @@
       ],
       "nestjs.submenu": [
         {
-          "command": "nest.file.class",
-          "alt": "Make Class",
+          "command": "nestjs.file.class",
+          "alt": "Generate Class",
           "group": "1_file"
         },
         {
-          "command": "nest.file.controller",
-          "alt": "Make Controller",
+          "command": "nestjs.file.controller",
+          "alt": "Generate Controller",
           "group": "1_file"
         },
         {
-          "command": "nest.file.decorator",
-          "alt": "Make Decorator",
+          "command": "nestjs.file.decorator",
+          "alt": "Generate Decorator",
           "group": "1_file"
         },
         {
-          "command": "nest.file.dto",
-          "alt": "Make Update Dto",
+          "command": "nestjs.file.dto",
+          "alt": "Generate Update Dto",
           "group": "1_file"
         },
         {
-          "command": "nest.file.exception",
-          "alt": "Make Exception",
+          "command": "nestjs.file.exception",
+          "alt": "Generate Exception",
           "group": "1_file"
         },
         {
-          "command": "nest.file.exception-filter",
-          "alt": "Make Exception Filter",
+          "command": "nestjs.file.exceptionFilter",
+          "alt": "Generate Exception Filter",
           "group": "1_file"
         },
         {
-          "command": "nest.file.filter",
-          "alt": "Make Filter",
+          "command": "nestjs.file.filter",
+          "alt": "Generate Filter",
           "group": "1_file"
         },
         {
-          "command": "nest.file.gateway",
-          "alt": "Make Gateway",
+          "command": "nestjs.file.gateway",
+          "alt": "Generate Gateway",
           "group": "1_file"
         },
         {
-          "command": "nest.file.guard",
-          "alt": "Make Guard",
+          "command": "nestjs.file.guard",
+          "alt": "Generate Guard",
           "group": "1_file"
         },
         {
-          "command": "nest.file.interceptor",
-          "alt": "Make Interceptor",
+          "command": "nestjs.file.interceptor",
+          "alt": "Generate Interceptor",
           "group": "1_file"
         },
         {
-          "command": "nest.file.jwt-guard",
-          "alt": "Make Jwt Guard",
+          "command": "nestjs.file.interface",
+          "alt": "Generate Interface",
           "group": "1_file"
         },
         {
-          "command": "nest.file.jwt-strategy",
-          "alt": "Make Jwt Strategy",
+          "command": "nestjs.file.jwtGuard",
+          "alt": "Generate Jwt Guard",
           "group": "1_file"
         },
         {
-          "command": "nest.file.middleware",
-          "alt": "Make Middleware",
+          "command": "nestjs.file.jwtStrategy",
+          "alt": "Generate Jwt Strategy",
           "group": "1_file"
         },
         {
-          "command": "nest.file.logger",
-          "alt": "Make Logger",
+          "command": "nestjs.file.middleware",
+          "alt": "Generate Middleware",
           "group": "1_file"
         },
         {
-          "command": "nest.file.module",
-          "alt": "Make Module",
+          "command": "nestjs.file.logger",
+          "alt": "Generate Logger",
           "group": "1_file"
         },
         {
-          "command": "nest.file.pipe",
-          "alt": "Make Pipe",
+          "command": "nestjs.file.module",
+          "alt": "Generate Module",
           "group": "1_file"
         },
         {
-          "command": "nest.file.provider",
-          "alt": "Make Provider",
+          "command": "nestjs.file.pipe",
+          "alt": "Generate Pipe",
           "group": "1_file"
         },
         {
-          "command": "nest.file.resolver",
-          "alt": "Make Resolver",
+          "command": "nestjs.file.provider",
+          "alt": "Generate Provider",
           "group": "1_file"
         },
         {
-          "command": "nest.file.service",
-          "alt": "Make Service",
+          "command": "nestjs.file.resolver",
+          "alt": "Generate Resolver",
           "group": "1_file"
         },
         {
-          "command": "nest.file.spec",
-          "alt": "Make Test",
+          "command": "nestjs.file.service",
+          "alt": "Generate Service",
           "group": "1_file"
+        },
+        {
+          "command": "nestjs.file.test",
+          "alt": "Generate Test",
+          "group": "1_file"
+        },
+        {
+          "command": "nestjs.terminal.controller",
+          "alt": "Generate Controller with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.gateway",
+          "alt": "Generate Gateway with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.module",
+          "alt": "Generate Module with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.provider",
+          "alt": "Generate Provider with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.resolver",
+          "alt": "Generate Resolver with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.resource",
+          "alt": "Generate Resource with CLI",
+          "group": "2_cli"
+        },
+        {
+          "command": "nestjs.terminal.service",
+          "alt": "Generate Service with CLI",
+          "group": "2_cli"
         }
       ]
     }
@@ -324,30 +464,35 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
+    "format": "prettier --write 'src/**/*.ts'",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
     "test": "node ./out/test/runTest.js",
-    "prepare": "husky install"
+    "compodoc": "npx compodoc -p tsconfig.doc.json -d compodoc --theme readthedocs -s",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@types/glob": "^7.1.3",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "^12.11.7",
-    "@types/vscode": "^1.46.0",
-    "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
-    "eslint": "^8.49.0",
-    "eslint-config-standard-with-typescript": "^39.0.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-n": "^16.1.0",
+    "@commitlint/cli": "^18.6.0",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@compodoc/compodoc": "^1.1.23",
+    "@types/glob": "^8.1.0",
+    "@types/minimatch": "^3.0.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.17",
+    "@types/vscode": "^1.76.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
-    "glob": "^7.1.6",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
-    "mocha": "^10.2.0",
-    "prettier": "3.0.3",
-    "typescript": "^4.9.5",
+    "glob": "^10.3.10",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.2",
+    "mocha": "^10.3.0",
+    "prettier": "3.2.5",
+    "typescript": "^5.3.3",
     "vscode-test": "^1.5.0"
   }
 }

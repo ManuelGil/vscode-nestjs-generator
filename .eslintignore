@@ -1,0 +1,6 @@
+.vscode/
+compodoc/
+coverage/
+docs/
+node_modules/
+out/

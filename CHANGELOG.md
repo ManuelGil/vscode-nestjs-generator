@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2024-02-12
+
+### Added
+
+- Add Generate Interface command
+- Add Generates a new Controller with CLI command
+- Add Generates a new Gateway with CLI command
+- Add Generates a new Library with CLI command
+- Add Generates a new Module with CLI command
+- Add Generates a new Provider with CLI command
+- Add Generates a new Resolver with CLI command
+- Add Generates a new Resource with CLI command
+- Add Generates a new Service with CLI command
+- Add Generates a new Sub Application with CLI command
+- Add List of HTTP Methods View
+- Add List of Files View
+- Add Feedback View
+- Add file includes section to the settings
+- Add file excludes section to the settings
+- Add file to watch section to the settings
+- Add compodoc dependencies for the documentation generation
+
+### Changed
+
+- Refactor the folder structure of the extension to improve the codebase
+- Improve the generation of the files to use the new folder structure
+- Upgrade dependencies to the latest versions available
+- Update settings to use the new folder structure
+- Improve the documentation of the extension
+
+### Fixed
+
+- Fix issues related to the new folder structure
+
 ## [1.4.2] - 2023-12-30
 
 ### Fixed
@@ -64,7 +98,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.2...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.2...v2.0.0
 [1.4.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.3.0...v1.4.0

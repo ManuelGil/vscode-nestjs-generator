@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2024-02-12
+
+### Fixed
+
+- Fix the link to the logo in the Activity Bar
+
 ## [2.0.0] - 2024-02-12
 
 ### Added
@@ -98,7 +104,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.2...v2.0.0
 [1.4.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.0...v1.4.1

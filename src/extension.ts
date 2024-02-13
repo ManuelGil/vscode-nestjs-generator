@@ -12,6 +12,7 @@ import {
   FeedbackProvider,
   ListFilesProvider,
   ListMethodsProvider,
+  ListModulesProvider,
 } from './app/providers';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -207,8 +208,28 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   const nestjsListOpenFile = vscode.commands.registerCommand(
-    `${EXTENSION_ID}.list.openFile`,
+    `${EXTENSION_ID}.listFiles.openFile`,
     (uri) => listFilesProvider.controller.openFile(uri),
+  );
+
+  // -----------------------------------------------------------------
+  // Register ListModulesProvider and list commands
+  // -----------------------------------------------------------------
+
+  // Create a new ListModulesProvider
+  const listModulesProvider = new ListModulesProvider(listFilesController);
+
+  // Register the list provider
+  const nestjsListModulesTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.listModulesView`,
+    {
+      treeDataProvider: listModulesProvider,
+    },
+  );
+
+  const nestjsListModulesGotoLine = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listModules.gotoLine`,
+    (uri, line) => listModulesProvider.controller.gotoLine(uri, line),
   );
 
   // -----------------------------------------------------------------
@@ -226,8 +247,8 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  const nestjsListGotoLine = vscode.commands.registerCommand(
-    `${EXTENSION_ID}.list.gotoLine`,
+  const nestjsListMethodsGotoLine = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listMethods.gotoLine`,
     (uri, line) => listMethodsProvider.controller.gotoLine(uri, line),
   );
 
@@ -325,8 +346,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(nestjsTerminalStartProd);
   context.subscriptions.push(nestjsListFilesTreeView);
   context.subscriptions.push(nestjsListOpenFile);
+  context.subscriptions.push(nestjsListModulesTreeView);
+  context.subscriptions.push(nestjsListModulesGotoLine);
   context.subscriptions.push(nestjsListMethodsTreeView);
-  context.subscriptions.push(nestjsListGotoLine);
+  context.subscriptions.push(nestjsListMethodsGotoLine);
   context.subscriptions.push(nestjsFeedbackTreeView);
   context.subscriptions.push(nestjsFeedbackAboutUs);
   context.subscriptions.push(nestjsFeedbackReportIssues);

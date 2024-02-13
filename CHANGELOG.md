@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2024-02-13
+
+### Added
+
+- Add List of Modules View
+- Add Counter to the List of Files View
+
+### Changed
+
+- Update commands to use the List of Modules View
+
 ## [2.0.1] - 2024-02-12
 
 ### Fixed
@@ -104,7 +115,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.1...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.1.0...HEAD
+[2.1.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.2...v2.0.0
 [1.4.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.1...v1.4.2

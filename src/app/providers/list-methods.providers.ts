@@ -183,7 +183,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
             )
           ) {
             node = new NodeModel(line.text, new ThemeIcon('symbol-method'), {
-              command: `${EXTENSION_ID}.list.gotoLine`,
+              command: `${EXTENSION_ID}.listMethods.gotoLine`,
               title: line.text,
               arguments: [file.resourceUri, index],
             });

@@ -5,14 +5,15 @@ import {
   ThemeIcon,
   TreeDataProvider,
   TreeItem,
+  workspace,
 } from 'vscode';
 
+import { EXTENSION_ID } from '../configs';
 import { ListFilesController } from '../controllers/list-files.controller';
-import { singularize } from '../helpers';
 import { NodeModel } from '../models';
 
 /**
- * The ListFilesProvider class
+ * The ListModulesProvider class
  *
  * @class
  * @classdesc The class that represents the list of files provider.
@@ -23,11 +24,11 @@ import { NodeModel } from '../models';
  * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
  * @property {ListFilesController} controller - The list of files controller
  * @example
- * const provider = new ListFilesProvider();
+ * const provider = new ListModulesProvider();
  *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
-export class ListFilesProvider implements TreeDataProvider<NodeModel> {
+export class ListModulesProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
   // Properties
   // -----------------------------------------------------------------
@@ -37,7 +38,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
    * The onDidChangeTreeData event emitter.
    * @type {EventEmitter<NodeModel | undefined | null | void>}
    * @private
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    * @example
    * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
    * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -53,7 +54,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
    * The onDidChangeTreeData event.
    * @type {Event<NodeModel | undefined | null | void>}
    * @public
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    * @example
    * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
    * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -67,11 +68,11 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the ListFilesProvider class
+   * Constructor for the ListModulesProvider class
    *
    * @constructor
    * @public
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    */
   constructor(readonly controller: ListFilesController) {
     this._onDidChangeTreeData = new EventEmitter<
@@ -91,7 +92,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
    * @function getTreeItem
    * @param {NodeModel} element - The element
    * @public
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    * @example
    * const treeItem = provider.getTreeItem(element);
    *
@@ -109,7 +110,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
    * @function getChildren
    * @param {NodeModel} [element] - The element
    * @public
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    * @example
    * const children = provider.getChildren(element);
    *
@@ -122,7 +123,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
       return element.children;
     }
 
-    return this.getListFiles();
+    return this.getListModules();
   }
 
   /**
@@ -142,41 +143,55 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
 
   // Private methods
   /**
-   * Gets the list of files.
+   * Returns the list of files.
    *
-   * @function getListFiles
+   * @function getListModules
    * @private
-   * @memberof ListFilesProvider
+   * @memberof ListModulesProvider
    * @example
-   * const files = provider.getListFiles();
+   * const files = provider.getListModules();
    *
    * @returns {Promise<NodeModel[]>} - The list of files
    */
-  private async getListFiles(): Promise<NodeModel[]> {
+  private async getListModules(): Promise<NodeModel[]> {
     const files = await this.controller.getFiles();
 
     if (!files) {
       return [];
     }
 
-    const nodes: NodeModel[] = [];
+    // List of Modules
+    const nodes = files.filter((file) =>
+      file.label.toString().includes('module.ts'),
+    );
 
-    const fileTypes = this.controller.config.watch;
+    for (const file of nodes) {
+      const document = await workspace.openTextDocument(
+        file.resourceUri?.path ?? '',
+      );
 
-    for (const fileType of fileTypes) {
-      const typeName = fileType.charAt(0).toUpperCase() + fileType.slice(1);
-      const children = files.filter((file) =>
-        file.label.toString().includes(`${singularize(fileType)}.ts`),
+      const children = Array.from(
+        { length: document.lineCount },
+        (_, index) => {
+          const line = document.lineAt(index);
+
+          let node: NodeModel | undefined;
+
+          if (line.text.match(/(providers|controllers|imports|exports): \[/g)) {
+            node = new NodeModel(line.text, new ThemeIcon('symbol-module'), {
+              command: `${EXTENSION_ID}.listModules.gotoLine`,
+              title: line.text,
+              arguments: [file.resourceUri, index],
+            });
+          }
+
+          return node;
+        },
       );
-      const node = new NodeModel(
-        `${typeName}: ${children.length}`,
-        new ThemeIcon('folder-opened'),
-        undefined,
-        undefined,
-        fileType,
-        children,
+
+      file.setChildren(
+        children.filter((child) => child !== undefined) as NodeModel[],
       );
-      nodes.push(node);
     }
 
     return nodes;

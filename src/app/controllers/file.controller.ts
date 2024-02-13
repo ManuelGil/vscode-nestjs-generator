@@ -81,6 +81,7 @@ export class FileController {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -96,6 +97,7 @@ export class FileController {
         if (!/[a-z]+/.test(type)) {
           return 'Invalid format!';
         }
+        return;
       },
     );
 
@@ -155,6 +157,7 @@ export class FileController {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -252,6 +255,7 @@ export class ${className}Controller {
         if (!/^[A-Za-z-]{3,}$/.test(name)) {
           return 'Invalid format!';
         }
+        return;
       },
     );
 
@@ -312,6 +316,7 @@ export const ${entityName} = (...args: string[]) =>
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -375,6 +380,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -450,6 +456,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -457,11 +464,11 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       return;
     }
 
-    const content = `import { HttpException } from '@nestjs/common';
+    const content = `import { HttpException, HttpStatus } from '@nestjs/common';
 
 export class ${className}Exception extends HttpException {
   constructor() {
-    super('${className}Exception', );
+    super('${className}Exception', HttpStatus.FORBIDDEN);
   }
 }
 `;
@@ -513,6 +520,7 @@ export class ${className}Exception extends HttpException {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -575,6 +583,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -640,6 +649,7 @@ export class ${className}Gateway {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -707,6 +717,7 @@ export class ${className}Guard implements CanActivate {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -777,6 +788,7 @@ export class ${className}Interceptor implements NestInterceptor {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -792,6 +804,7 @@ export class ${className}Interceptor implements NestInterceptor {
         if (!/[a-z]+/.test(type)) {
           return 'Invalid format!';
         }
+        return;
       },
     );
 
@@ -851,6 +864,7 @@ export class ${className}Interceptor implements NestInterceptor {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -987,6 +1001,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1071,6 +1086,7 @@ export class ${className}Logger implements LoggerService {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1135,6 +1151,7 @@ export class ${className}Middleware implements NestMiddleware {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1200,6 +1217,7 @@ export class ${className}Module {}
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1264,6 +1282,7 @@ export class ${className}Pipe implements PipeTransform {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1324,6 +1343,7 @@ export class ${className} {}
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1384,6 +1404,7 @@ export class ${className}Resolver {}
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 
@@ -1470,6 +1491,7 @@ export class ${className}Service {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
           return 'Invalid format! Entity names MUST be declared in camelCase.';
         }
+        return;
       },
     );
 

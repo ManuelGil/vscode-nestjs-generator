@@ -71,7 +71,7 @@ export class ListFilesController {
             document.fileName.replace(/\\/g, '/').split('/').pop() ?? 'unknown',
             new ThemeIcon('file'),
             {
-              command: `${EXTENSION_ID}.list.openFile`,
+              command: `${EXTENSION_ID}.listFiles.openFile`,
               title: 'Open File',
               arguments: [document.uri],
             },

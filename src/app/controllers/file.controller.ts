@@ -333,7 +333,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
 }
 `;
 
-    const filename = `${dasherize(className)}.dto.ts`;
+    const filename = `update-${dasherize(className)}.dto.ts`;
 
     saveFile(folder, filename, content);
   }

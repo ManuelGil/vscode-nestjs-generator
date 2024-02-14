@@ -7,13 +7,13 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator)
 [![GitHub license](https://img.shields.io/github/license/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/LICENSE)
 
+![banner](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/banner.png)
+
 Are you tired of manually creating files for your NestJS projects in Visual Studio Code? We have the solution for you! Introducing the **NestJS File Generator** extension for VSCode.
 
 ![demo](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/demo.gif)
 
 With this powerful extension, you can streamline your NestJS development workflow by generating files with just a few clicks. Whether you need a new class, controller, decorator, or any other NestJS component, our extension has you covered.
-
-![activitybar](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/activitybar.png)
 
 ## Table of Contents
 

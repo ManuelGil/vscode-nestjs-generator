@@ -1,5 +1,5 @@
 import { WorkspaceConfiguration } from 'vscode';
-import { EXCLUDE, INCLUDE, WATCH } from './constants';
+import { AUTO_IMPORT, EXCLUDE, INCLUDE, WATCH } from './constants';
 
 /**
  * The Config class.
@@ -17,6 +17,8 @@ import { EXCLUDE, INCLUDE, WATCH } from './constants';
  * const config = new Config(workspace.getConfiguration());
  * console.log(config.include);
  * console.log(config.exclude);
+ * console.log(config.watch);
+ * console.log(config.autoImport);
  */
 export class Config {
   // -----------------------------------------------------------------
@@ -54,6 +56,16 @@ export class Config {
    * console.log(config.watch);
    */
   watch: string[];
+  /**
+   * The auto import setting.
+   * @type {boolean}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.autoImport);
+   */
+  autoImport: boolean;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -71,5 +83,6 @@ export class Config {
     this.include = config.get<string[]>('files.include') ?? INCLUDE;
     this.exclude = config.get<string[]>('files.exclude') ?? EXCLUDE;
     this.watch = config.get<string[]>('files.watch') ?? WATCH;
+    this.autoImport = config.get<boolean>('autoImport') ?? AUTO_IMPORT;
   }
 }

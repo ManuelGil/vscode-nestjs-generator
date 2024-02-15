@@ -1,8 +1,10 @@
-import { Uri } from 'vscode';
+import { Position, Uri, WorkspaceEdit, workspace } from 'vscode';
 
 // Import the helper functions
+import { Config } from '../configs';
 import {
   dasherize,
+  directoryMap,
   getName,
   getPath,
   getRelativePath,
@@ -32,7 +34,7 @@ export class FileController {
    * @public
    * @memberof FileController
    */
-  constructor() {}
+  constructor(private readonly config: Config) {}
 
   // -----------------------------------------------------------------
   // Methods
@@ -69,7 +71,7 @@ export class FileController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -85,7 +87,7 @@ export class FileController {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -101,7 +103,7 @@ export class FileController {
       },
     );
 
-    if (type === undefined) {
+    if (!type) {
       return;
     }
 
@@ -112,7 +114,7 @@ export class FileController {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -145,7 +147,7 @@ export class FileController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -161,7 +163,7 @@ export class FileController {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -211,7 +213,14 @@ export class ${className}Controller {
 
     const filename = `${dasherize(className)}.controller.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'controllers',
+      `${className}Controller`,
+      `${dasherize(className)}.controller`,
+    );
   }
 
   /**
@@ -244,7 +253,7 @@ export class ${className}Controller {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -259,7 +268,7 @@ export class ${className}Controller {
       },
     );
 
-    if (entityName === undefined) {
+    if (!entityName) {
       return;
     }
 
@@ -271,7 +280,7 @@ export const ${entityName} = (...args: string[]) =>
 
     const filename = `${dasherize(entityName)}.decorator.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -304,7 +313,7 @@ export const ${entityName} = (...args: string[]) =>
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -320,7 +329,7 @@ export const ${entityName} = (...args: string[]) =>
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -335,7 +344,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
 
     const filename = `update-${dasherize(className)}.dto.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -368,7 +377,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -384,7 +393,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -411,7 +420,14 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
 
     const filename = `${dasherize(className)}.filter.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'providers',
+      `${className}ExceptionFilter`,
+      `${dasherize(className)}.filter`,
+    );
   }
 
   /**
@@ -444,7 +460,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -460,7 +476,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -475,7 +491,7 @@ export class ${className}Exception extends HttpException {
 
     const filename = `${dasherize(className)}.exception.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -508,7 +524,7 @@ export class ${className}Exception extends HttpException {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -524,7 +540,7 @@ export class ${className}Exception extends HttpException {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -538,7 +554,14 @@ export class ${className}Filter<T> implements ExceptionFilter {
 
     const filename = `${dasherize(className)}.filter.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'providers',
+      `${className}Filter`,
+      `${dasherize(className)}.filter`,
+    );
   }
 
   /**
@@ -571,7 +594,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -587,7 +610,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -604,7 +627,14 @@ export class ${className}Gateway {
 
     const filename = `${dasherize(className)}.gateway.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'providers',
+      `${className}Gateway`,
+      `${dasherize(className)}.gateway`,
+    );
   }
 
   /**
@@ -637,7 +667,7 @@ export class ${className}Gateway {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -653,7 +683,7 @@ export class ${className}Gateway {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -672,7 +702,7 @@ export class ${className}Guard implements CanActivate {
 
     const filename = `${dasherize(className)}.guard.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -705,7 +735,7 @@ export class ${className}Guard implements CanActivate {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -721,7 +751,7 @@ export class ${className}Guard implements CanActivate {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -743,7 +773,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     const filename = `${dasherize(className)}.interceptor.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -776,7 +806,7 @@ export class ${className}Interceptor implements NestInterceptor {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -792,7 +822,7 @@ export class ${className}Interceptor implements NestInterceptor {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -808,7 +838,7 @@ export class ${className}Interceptor implements NestInterceptor {
       },
     );
 
-    if (type === undefined) {
+    if (!type) {
       return;
     }
 
@@ -819,7 +849,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -852,7 +882,7 @@ export class ${className}Interceptor implements NestInterceptor {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -868,7 +898,7 @@ export class ${className}Interceptor implements NestInterceptor {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -896,7 +926,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
 
     const filename = `${dasherize(className)}.guard.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -929,7 +959,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -954,9 +984,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 }
 `;
 
-    const filename = `jwt.strategy.ts`;
+    const filename = 'jwt.strategy.ts';
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(folder, 'providers', 'JwtStrategy', 'jwt.strategy');
   }
 
   /**
@@ -989,7 +1021,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1005,7 +1037,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1041,7 +1073,7 @@ export class ${className}Logger implements LoggerService {
 
     const filename = `${dasherize(className)}.logger.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -1074,7 +1106,7 @@ export class ${className}Logger implements LoggerService {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1090,7 +1122,7 @@ export class ${className}Logger implements LoggerService {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1106,7 +1138,7 @@ export class ${className}Middleware implements NestMiddleware {
 
     const filename = `${dasherize(className)}.middleware.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -1139,7 +1171,7 @@ export class ${className}Middleware implements NestMiddleware {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1155,7 +1187,7 @@ export class ${className}Middleware implements NestMiddleware {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1172,7 +1204,14 @@ export class ${className}Module {}
 
     const filename = `${dasherize(className)}.module.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'imports',
+      `${className}Module`,
+      `${dasherize(className)}.module`,
+    );
   }
 
   /**
@@ -1205,7 +1244,7 @@ export class ${className}Module {}
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1221,7 +1260,7 @@ export class ${className}Module {}
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1237,7 +1276,7 @@ export class ${className}Pipe implements PipeTransform {
 
     const filename = `${dasherize(className)}.pipe.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -1270,7 +1309,7 @@ export class ${className}Pipe implements PipeTransform {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1286,7 +1325,7 @@ export class ${className}Pipe implements PipeTransform {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1298,7 +1337,7 @@ export class ${className} {}
 
     const filename = `${dasherize(className)}.provider.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -1331,7 +1370,7 @@ export class ${className} {}
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1347,7 +1386,7 @@ export class ${className} {}
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1359,7 +1398,7 @@ export class ${className}Resolver {}
 
     const filename = `${dasherize(className)}.resolver.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   /**
@@ -1392,7 +1431,7 @@ export class ${className}Resolver {}
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1408,7 +1447,7 @@ export class ${className}Resolver {}
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1446,7 +1485,14 @@ export class ${className}Service {
 
     const filename = `${dasherize(className)}.service.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+
+    await this.autoImport(
+      folder,
+      'providers',
+      `${className}Service`,
+      `${dasherize(className)}.service`,
+    );
   }
 
   /**
@@ -1479,7 +1525,7 @@ export class ${className}Service {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -1495,7 +1541,7 @@ export class ${className}Service {
       },
     );
 
-    if (className === undefined) {
+    if (!className) {
       return;
     }
 
@@ -1530,6 +1576,92 @@ describe('${className}Controller', () => {
 
     const filename = `${dasherize(className)}.spec.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
+  }
+
+  // Private methods
+  /**
+   * The auto import function.
+   *
+   * @function autoImport
+   * @param {string} path - The path to the folder.
+   * @param {string} type - The type of the file.
+   * @param {string} name - The name of the file.
+   * @memberof FileController
+   * @private
+   * @async
+   * @example
+   * await autoImport(path, type, name);
+   *
+   * @returns {Promise<void>} The result of the operation.
+   */
+  private async autoImport(
+    directoryPath: string,
+    type: string,
+    className: string,
+    filename: string,
+  ): Promise<void> {
+    try {
+      if (!this.config.autoImport) {
+        return; // Auto import is disabled, nothing to do
+      }
+
+      let files;
+
+      const moduleExtension = 'module.ts';
+      const { exclude } = this.config;
+
+      if (filename.includes('module')) {
+        files = await directoryMap(
+          directoryPath.substring(0, directoryPath.lastIndexOf('/')),
+          {
+            extensions: [moduleExtension],
+            ignore: exclude,
+            maxResults: 1,
+          },
+        );
+
+        filename = `${directoryPath.substring(directoryPath.lastIndexOf('/') + 1)}/${filename}`;
+      } else {
+        files = await directoryMap(directoryPath, {
+          extensions: [moduleExtension],
+          ignore: exclude,
+          maxResults: 1,
+        });
+      }
+
+      if (files.length === 0) {
+        return; // No files found, nothing to do
+      }
+
+      const importRegex = new RegExp(`${type}: \\[`, 'g');
+      const targetFile = files[0];
+
+      const document = await workspace.openTextDocument(targetFile.path);
+      const text = document.getText();
+
+      for (let i = 0; i < document.lineCount; i++) {
+        const line = document.lineAt(i).text;
+
+        if (importRegex.test(line)) {
+          const position = document.positionAt(
+            text.indexOf(line) + importRegex.lastIndex,
+          );
+          const edit = new WorkspaceEdit();
+
+          edit.insert(targetFile, position, `${className}, `);
+          edit.insert(
+            targetFile,
+            new Position(0, 0),
+            `import { ${className} } from './${filename}';\n`,
+          );
+
+          await workspace.applyEdit(edit); // Applying edit asynchronously
+          return; // Import added, exiting function
+        }
+      }
+    } catch (error) {
+      console.error('Error occurred while auto-importing:', error);
+    }
   }
 }

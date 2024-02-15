@@ -31,6 +31,12 @@
       ],
       "scope": "resource",
       "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
+    },
+    "nestjs.files.autoImport": {
+      "type": "boolean",
+      "default": true,
+      "scope": "resource",
+      "description": "Automatically import the generated file in the module. The default is true."
     }
   }
 }

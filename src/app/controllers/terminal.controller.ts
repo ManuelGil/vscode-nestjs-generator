@@ -62,7 +62,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -131,7 +131,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -193,7 +193,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -261,7 +261,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -329,7 +329,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -397,7 +397,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -465,7 +465,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -593,7 +593,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 
@@ -654,7 +654,7 @@ export class TerminalController {
       },
     );
 
-    if (folder === undefined) {
+    if (!folder) {
       return;
     }
 

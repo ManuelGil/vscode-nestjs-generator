@@ -139,3 +139,15 @@ export const EXCLUDE = [
  * @returns {string[]} - The files to watch
  */
 export const WATCH = ['controllers', 'dtos', 'services'];
+
+/**
+ * AUTO_IMPORT: The auto import setting.
+ * @type {boolean}
+ * @public
+ * @memberof Constants
+ * @example
+ * console.log(AUTO_IMPORT);
+ *
+ * @returns {boolean} - The auto import setting
+ */
+export const AUTO_IMPORT = true;

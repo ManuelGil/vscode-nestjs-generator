@@ -60,7 +60,8 @@ Configure your project by creating or updating a settings.json file at the proje
         "controllers",
         "dtos",
         "services"
-      ]
+      ],
+      "nestjs.files.autoImport": true,
     }
     ```
 

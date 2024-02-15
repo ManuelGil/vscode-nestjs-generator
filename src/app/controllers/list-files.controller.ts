@@ -44,6 +44,7 @@ export class ListFilesController {
    * The getFiles method.
    *
    * @function getFiles
+   * @param {number} maxResults - The maximum number of results
    * @public
    * @async
    * @memberof ListFilesController
@@ -52,12 +53,14 @@ export class ListFilesController {
    *
    * @returns {Promise<NodeModel[] | void>} - The list of files
    */
-  async getFiles(): Promise<NodeModel[] | void> {
+  async getFiles(
+    maxResults: number = Number.MAX_SAFE_INTEGER,
+  ): Promise<NodeModel[] | void> {
     // Get the files in the folder
     const files = await directoryMap('/', {
       extensions: this.config.include,
       ignore: this.config.exclude,
-      maxResults: 512,
+      maxResults,
     });
 
     if (files.length > 0) {
@@ -121,12 +124,12 @@ export class ListFilesController {
   gotoLine(uri: string, line: number) {
     workspace.openTextDocument(uri).then((document) => {
       window.showTextDocument(document).then((editor) => {
-        const pos = new Position(line, 0);
+        const position = new Position(line, 0);
         editor.revealRange(
-          new Range(pos, pos),
+          new Range(position, position),
           TextEditorRevealType.InCenterIfOutsideViewport,
         );
-        editor.selection = new Selection(pos, pos);
+        editor.selection = new Selection(position, position);
       });
     });
   }

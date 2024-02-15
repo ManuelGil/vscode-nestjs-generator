@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2024-02-15
+
+### Added
+
+- Add `autoImport` setting to automatically import the generated files
+
+### Changed
+
+- Update the `FileController` class to use the `autoImport` method
+- Update the `extension.ts` file to use the `showCollapseAll` option in the `TreeView` constructor
+
 ## [2.1.0] - 2024-02-13
 
 ### Added
@@ -115,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.1.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v1.4.2...v2.0.0

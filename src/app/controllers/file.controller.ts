@@ -1,14 +1,22 @@
-import { Position, Uri, WorkspaceEdit, workspace } from 'vscode';
+import {
+  Position,
+  Uri,
+  WorkspaceEdit,
+  commands,
+  window,
+  workspace,
+} from 'vscode';
 
 // Import the helper functions
 import { Config } from '../configs';
 import {
   dasherize,
-  directoryMap,
   getName,
   getPath,
   getRelativePath,
   saveFile,
+  showError,
+  showMessage,
   titleize,
 } from '../helpers';
 
@@ -1581,17 +1589,18 @@ describe('${className}Controller', () => {
 
   // Private methods
   /**
-   * The auto import function.
+   * Auto import functionality for files.
    *
    * @function autoImport
-   * @param {string} path - The path to the folder.
+   * @param {string} directoryPath - The path to the folder.
    * @param {string} type - The type of the file.
-   * @param {string} name - The name of the file.
+   * @param {string} className - The class name.
+   * @param {string} filename - The file name.
    * @memberof FileController
    * @private
    * @async
    * @example
-   * await autoImport(path, type, name);
+   * await autoImport(directoryPath, type, className, filename);
    *
    * @returns {Promise<void>} The result of the operation.
    */
@@ -1607,36 +1616,34 @@ describe('${className}Controller', () => {
       }
 
       let files;
-
-      const moduleExtension = 'module.ts';
-      const { exclude } = this.config;
+      const excludePatterns = `{${this.config.exclude.join(',')}}`;
 
       if (filename.includes('module')) {
-        files = await directoryMap(
-          directoryPath.substring(0, directoryPath.lastIndexOf('/')),
-          {
-            extensions: [moduleExtension],
-            ignore: exclude,
-            maxResults: 1,
-          },
+        const tempPath = directoryPath.substring(
+          0,
+          directoryPath.lastIndexOf('/'),
         );
-
+        files = await workspace.findFiles(
+          `${tempPath}/*.module.ts`,
+          excludePatterns,
+          1,
+        );
         filename = `${directoryPath.substring(directoryPath.lastIndexOf('/') + 1)}/${filename}`;
       } else {
-        files = await directoryMap(directoryPath, {
-          extensions: [moduleExtension],
-          ignore: exclude,
-          maxResults: 1,
-        });
+        files = await workspace.findFiles(
+          `${directoryPath}/*.module.ts`,
+          excludePatterns,
+          1,
+        );
       }
 
       if (files.length === 0) {
+        showError('No module file found, skipping auto-import');
         return; // No files found, nothing to do
       }
 
       const importRegex = new RegExp(`${type}: \\[`, 'g');
       const targetFile = files[0];
-
       const document = await workspace.openTextDocument(targetFile.path);
       const text = document.getText();
 
@@ -1657,11 +1664,22 @@ describe('${className}Controller', () => {
           );
 
           await workspace.applyEdit(edit); // Applying edit asynchronously
+
+          await window.showTextDocument(document);
+          await commands.executeCommand('editor.action.formatDocument'); // Formatting the document
+          await commands.executeCommand('editor.action.organizeImports'); // Organizing the imports
+          await commands.executeCommand('workbench.action.files.save'); // Saving the document
+
+          const folder = await getRelativePath(targetFile.path);
+          showMessage(
+            `Auto-imported ${className} into '${folder}' successfully!`,
+          );
+
           return; // Import added, exiting function
         }
       }
     } catch (error) {
-      console.error('Error occurred while auto-importing:', error);
+      showError(`Error occurred while auto-importing: ${error}`);
     }
   }
 }

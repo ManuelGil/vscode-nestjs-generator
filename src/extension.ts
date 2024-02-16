@@ -261,22 +261,27 @@ export function activate(context: vscode.ExtensionContext) {
 
   vscode.workspace.onDidChangeTextDocument(() => {
     listFilesProvider.refresh();
+    listModulesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidCreateFiles(() => {
     listFilesProvider.refresh();
+    listModulesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidDeleteFiles(() => {
     listFilesProvider.refresh();
+    listModulesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidRenameFiles(() => {
     listFilesProvider.refresh();
+    listModulesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidSaveTextDocument(() => {
     listFilesProvider.refresh();
+    listModulesProvider.refresh();
     listMethodsProvider.refresh();
   });
 

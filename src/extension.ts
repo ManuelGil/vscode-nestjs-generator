@@ -1,13 +1,12 @@
 import * as vscode from 'vscode';
 
-import { EXTENSION_ID } from './app/configs';
-import { Config } from './app/configs/config';
+import { Config, EXTENSION_ID } from './app/configs';
 import {
   FeedbackController,
   FileController,
+  ListFilesController,
   TerminalController,
 } from './app/controllers';
-import { ListFilesController } from './app/controllers/list-files.controller';
 import {
   FeedbackProvider,
   ListFilesProvider,

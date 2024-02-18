@@ -7,8 +7,8 @@ import {
   TreeItem,
 } from 'vscode';
 
-import { ListFilesController } from '../controllers/list-files.controller';
-import { singularize } from '../helpers';
+import { ListFilesController } from '../controllers';
+import { singularize, titleize } from '../helpers';
 import { NodeModel } from '../models';
 
 /**
@@ -164,12 +164,11 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
     const fileTypes = this.controller.config.watch;
 
     for (const fileType of fileTypes) {
-      const typeName = fileType.charAt(0).toUpperCase() + fileType.slice(1);
       const children = files.filter((file) =>
         file.label.toString().includes(`${singularize(fileType)}.ts`),
       );
       const node = new NodeModel(
-        `${typeName}: ${children.length}`,
+        `${titleize(fileType)}: ${children.length}`,
         new ThemeIcon('folder-opened'),
         undefined,
         undefined,

@@ -66,6 +66,8 @@ export class ListFilesController {
     if (files.length > 0) {
       let nodes: NodeModel[] = [];
 
+      files.sort((a, b) => a.path.localeCompare(b.path));
+
       for (const file of files) {
         const document = await workspace.openTextDocument(file);
 

@@ -1668,7 +1668,7 @@ describe('${className}Controller', () => {
           await window.showTextDocument(document);
           await commands.executeCommand('editor.action.formatDocument'); // Formatting the document
           await commands.executeCommand('editor.action.organizeImports'); // Organizing the imports
-          await commands.executeCommand('workbench.action.files.save'); // Saving the document
+          await commands.executeCommand('workbench.action.files.saveAll'); // Saving the files
 
           const folder = await getRelativePath(targetFile.path);
           showMessage(

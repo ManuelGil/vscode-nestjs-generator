@@ -284,10 +284,18 @@
         "category": "NestJS"
       }
     ],
-    "submenus": [
+    "viewsWelcome": [
       {
-        "id": "nestjs.submenu",
-        "label": "NestJS File Generator"
+        "view": "nestjs.listMethodsView",
+        "contents": "Your project currently lacks controllers. You can begin by adding a new controller to initiate your work.\n[Generate Controller](command:nestjs.file.controller)\nTo learn more about how to use the Starter Kit [read our docs](https://github.com/ManuelGil/extension-starter-kit)."
+      },
+      {
+        "view": "nestjs.listModulesView",
+        "contents": "Your project currently lacks modules. You can begin by adding a new module to initiate your work.\n[Generate Module](command:nestjs.file.module)\nTo learn more about how to use the Starter Kit [read our docs](https://github.com/ManuelGil/extension-starter-kit)."
+      },
+      {
+        "view": "nestjs.listFilesView",
+        "contents": "To effectively capture files, ensure you include the plural form of the file type within the workspace settings.\n[Open Workspace Setting](command:workbench.action.openWorkspaceSettingsFile)\nTo learn more about how to use the Starter Kit [read our docs](https://github.com/ManuelGil/extension-starter-kit)."
       }
     ],
     "viewsContainers": {
@@ -323,15 +331,30 @@
         }
       ]
     },
+    "submenus": [
+      {
+        "id": "nestjs.folder.submenu",
+        "label": "NestJS File Generator"
+      },
+      {
+        "id": "nestjs.root.submenu",
+        "label": "NestJS File Generator"
+      }
+    ],
     "menus": {
       "explorer/context": [
         {
-          "submenu": "nestjs.submenu",
+          "submenu": "nestjs.folder.submenu",
           "group": "2_workspace",
           "when": "explorerViewletFocus && explorerResourceIsFolder && !explorerResourceIsRoot"
+        },
+        {
+          "submenu": "nestjs.root.submenu",
+          "group": "2_workspace",
+          "when": "explorerViewletFocus && explorerResourceIsRoot && explorerResourceIsFolder"
         }
       ],
-      "nestjs.submenu": [
+      "nestjs.folder.submenu": [
         {
           "command": "nestjs.file.class",
           "alt": "Generate Class",
@@ -471,6 +494,20 @@
           "command": "nestjs.terminal.service",
           "alt": "Generate Service with CLI",
           "group": "2_cli"
+        }
+      ],
+      "nestjs.root.submenu": [
+        {
+          "command": "nestjs.terminal.start",
+          "group": "1_cli"
+        },
+        {
+          "command": "nestjs.terminal.startDev",
+          "group": "1_cli"
+        },
+        {
+          "command": "nestjs.terminal.startDebug",
+          "group": "1_cli"
         }
       ]
     }

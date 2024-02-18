@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2024-02-17
+
+### Fixed
+
+- Fix sorting of files in the list of files view to show alphabetically the files
+- Fix action to save the file in the `autoImport` method in the `FileController` class
+- Fix empty list of HTTP methods view when there are no HTTP methods to show a welcome message
+- Fix empty list of modules view when there are no modules to show a welcome message
+- Fix empty list of files view when there are no files to show a welcome message
+
 ## [2.2.1] - 2024-02-16
 
 ### Fixed
@@ -132,7 +142,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.1...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.2...HEAD
+[2.2.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.0.1...v2.1.0

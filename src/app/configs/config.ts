@@ -1,4 +1,5 @@
 import { WorkspaceConfiguration } from 'vscode';
+
 import { AUTO_IMPORT, EXCLUDE, INCLUDE, WATCH } from './constants';
 
 /**

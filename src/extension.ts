@@ -16,11 +16,15 @@ import {
 
 export function activate(context: vscode.ExtensionContext) {
   // The code you place here will be executed every time your command is executed
-  let resource: vscode.Uri | null = null;
+  let resource:
+    | vscode.Uri
+    | vscode.TextDocument
+    | vscode.WorkspaceFolder
+    | undefined;
 
   // Get the resource for the workspace
   if (vscode.workspace.workspaceFolders) {
-    resource = vscode.workspace.workspaceFolders[0].uri;
+    resource = vscode.workspace.workspaceFolders[0];
   }
 
   // -----------------------------------------------------------------
@@ -29,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Get the configuration for the extension
   const config = new Config(
-    vscode.workspace.getConfiguration(EXTENSION_ID, resource ?? null),
+    vscode.workspace.getConfiguration(EXTENSION_ID, resource),
   );
 
   // -----------------------------------------------------------------

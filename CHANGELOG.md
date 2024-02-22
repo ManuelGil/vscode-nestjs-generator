@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.3] - 2024-02-22
+
+### Fixed
+
+- Fix the regex pattern to match the folder name to generate the file
+- Fix empty list of files view when there are no files to show a welcome message
+- Fix the documentation of the extension
+
 ## [2.2.2] - 2024-02-17
 
 ### Fixed
@@ -142,7 +150,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.2...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.3...HEAD
+[2.2.3]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.2...v2.2.3
 [2.2.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.1.0...v2.2.0

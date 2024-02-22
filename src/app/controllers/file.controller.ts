@@ -72,7 +72,7 @@ export class FileController {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -148,7 +148,7 @@ export class FileController {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -254,7 +254,7 @@ export class ${className}Controller {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -314,7 +314,7 @@ export const ${entityName} = (...args: string[]) =>
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -378,7 +378,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -461,7 +461,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -525,7 +525,7 @@ export class ${className}Exception extends HttpException {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -595,7 +595,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -668,7 +668,7 @@ export class ${className}Gateway {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -736,7 +736,7 @@ export class ${className}Guard implements CanActivate {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -807,7 +807,7 @@ export class ${className}Interceptor implements NestInterceptor {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -883,7 +883,7 @@ export class ${className}Interceptor implements NestInterceptor {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -960,7 +960,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1022,7 +1022,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1107,7 +1107,7 @@ export class ${className}Logger implements LoggerService {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1172,7 +1172,7 @@ export class ${className}Middleware implements NestMiddleware {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1245,7 +1245,7 @@ export class ${className}Module {}
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1310,7 +1310,7 @@ export class ${className}Pipe implements PipeTransform {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1371,7 +1371,7 @@ export class ${className} {}
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1432,7 +1432,7 @@ export class ${className}Resolver {}
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -1526,7 +1526,7 @@ export class ${className}Service {
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;

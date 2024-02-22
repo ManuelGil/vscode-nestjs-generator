@@ -55,7 +55,7 @@ export class TerminalController {
       'Controller name. E.g. modules/cats, modules/users, modules/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -124,7 +124,7 @@ export class TerminalController {
       'Gateway name. E.g. modules/cats, modules/users, modules/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -186,7 +186,7 @@ export class TerminalController {
       'Library name',
       'Library name. E.g. cats, users, projects...',
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -254,7 +254,7 @@ export class TerminalController {
       'Module name. E.g. modules/cats, modules/users, modules/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -322,7 +322,7 @@ export class TerminalController {
       'Provider name. E.g. providers/cats, providers/users, providers/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -390,7 +390,7 @@ export class TerminalController {
       'Resolver name. E.g. resolvers/cats, resolvers/users, resolvers/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -458,7 +458,7 @@ export class TerminalController {
       'Resource name. E.g. modules/cats, modules/users, modules/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -586,7 +586,7 @@ export class TerminalController {
       'Service name. E.g. services/cats, services/users, services/projects...',
       folderPath,
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;
@@ -647,7 +647,7 @@ export class TerminalController {
       'Sub-app name',
       'Sub-app name. E.g. cats, users, projects...',
       (path: string) => {
-        if (!/^[A-Za-z][\w\s\/-]+$/.test(path)) {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
         }
         return;

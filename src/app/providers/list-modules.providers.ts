@@ -151,13 +151,13 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
    * @example
    * const files = provider.getListModules();
    *
-   * @returns {Promise<NodeModel[]>} - The list of files
+   * @returns {Promise<NodeModel[] | undefined>} - The list of files
    */
-  private async getListModules(): Promise<NodeModel[]> {
+  private async getListModules(): Promise<NodeModel[] | undefined> {
     const files = await this.controller.getFiles();
 
     if (!files) {
-      return [];
+      return;
     }
 
     // List of Modules
@@ -178,11 +178,15 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
           let node: NodeModel | undefined;
 
           if (line.text.match(/(providers|controllers|imports|exports): \[/g)) {
-            node = new NodeModel(line.text, new ThemeIcon('symbol-module'), {
-              command: `${EXTENSION_ID}.listModules.gotoLine`,
-              title: line.text,
-              arguments: [file.resourceUri, index],
-            });
+            node = new NodeModel(
+              line.text.trim(),
+              new ThemeIcon('symbol-module'),
+              {
+                command: `${EXTENSION_ID}.list.gotoLine`,
+                title: line.text,
+                arguments: [file.resourceUri, index],
+              },
+            );
           }
 
           return node;
@@ -194,6 +198,6 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
       );
     }
 
-    return nodes;
+    return nodes.filter((file) => file.children && file.children.length !== 0);
   }
 }

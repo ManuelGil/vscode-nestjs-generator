@@ -9,6 +9,7 @@ import {
 } from './app/controllers';
 import {
   FeedbackProvider,
+  ListEntitiesProvider,
   ListFilesProvider,
   ListMethodsProvider,
   ListModulesProvider,
@@ -195,6 +196,16 @@ export function activate(context: vscode.ExtensionContext) {
   // Create a new ListFilesController
   const listFilesController = new ListFilesController(config);
 
+  const disposableListOpenFile = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.list.openFile`,
+    (uri) => listFilesController.openFile(uri),
+  );
+
+  const disposableListGotoLine = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.list.gotoLine`,
+    (uri, line) => listFilesController.gotoLine(uri, line),
+  );
+
   // -----------------------------------------------------------------
   // Register ListFilesProvider and list commands
   // -----------------------------------------------------------------
@@ -209,11 +220,6 @@ export function activate(context: vscode.ExtensionContext) {
       treeDataProvider: listFilesProvider,
       showCollapseAll: true,
     },
-  );
-
-  const disposableListOpenFile = vscode.commands.registerCommand(
-    `${EXTENSION_ID}.listFiles.openFile`,
-    (uri) => listFilesProvider.controller.openFile(uri),
   );
 
   // -----------------------------------------------------------------
@@ -232,9 +238,20 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  const disposableListModulesGotoLine = vscode.commands.registerCommand(
-    `${EXTENSION_ID}.listModules.gotoLine`,
-    (uri, line) => listModulesProvider.controller.gotoLine(uri, line),
+  // -----------------------------------------------------------------
+  // Register ListEntitiesProvider and list commands
+  // -----------------------------------------------------------------
+
+  // Create a new ListEntitiesProvider
+  const listEntitiesProvider = new ListEntitiesProvider(listFilesController);
+
+  // Register the list provider
+  const disposableListEntitiesTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.listEntitiesView`,
+    {
+      treeDataProvider: listEntitiesProvider,
+      showCollapseAll: true,
+    },
   );
 
   // -----------------------------------------------------------------
@@ -253,11 +270,6 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
-  const disposableListMethodsGotoLine = vscode.commands.registerCommand(
-    `${EXTENSION_ID}.listMethods.gotoLine`,
-    (uri, line) => listMethodsProvider.controller.gotoLine(uri, line),
-  );
-
   // -----------------------------------------------------------------
   // Register ListFilesProvider and ListMethodsProvider events
   // -----------------------------------------------------------------
@@ -265,26 +277,31 @@ export function activate(context: vscode.ExtensionContext) {
   vscode.workspace.onDidChangeTextDocument(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
+    listEntitiesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidCreateFiles(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
+    listEntitiesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidDeleteFiles(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
+    listEntitiesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidRenameFiles(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
+    listEntitiesProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidSaveTextDocument(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
+    listEntitiesProvider.refresh();
     listMethodsProvider.refresh();
   });
 
@@ -356,12 +373,12 @@ export function activate(context: vscode.ExtensionContext) {
     disposableTerminalStartDev,
     disposableTerminalStartDebug,
     disposableTerminalStartProd,
-    disposableListFilesTreeView,
     disposableListOpenFile,
+    disposableListGotoLine,
+    disposableListFilesTreeView,
     disposableListModulesTreeView,
-    disposableListModulesGotoLine,
+    disposableListEntitiesTreeView,
     disposableListMethodsTreeView,
-    disposableListMethodsGotoLine,
     disposableFeedbackTreeView,
     disposableFeedbackAboutUs,
     disposableFeedbackReportIssues,

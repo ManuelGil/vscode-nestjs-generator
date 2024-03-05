@@ -61,7 +61,9 @@ Configure your project by creating or updating a settings.json file at the proje
         "dtos",
         "services"
       ],
+      "nestjs.files.showPath": true,
       "nestjs.files.autoImport": true,
+      "nestjs.files.orm": "typeorm",
     }
     ```
 

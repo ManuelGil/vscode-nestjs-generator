@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -89,11 +89,29 @@
           "scope": "resource",
           "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
         },
+        "nestjs.files.showPath": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Show the path of the file in the name of the list of generated files"
+        },
         "nestjs.files.autoImport": {
           "type": "boolean",
           "default": true,
           "scope": "resource",
           "description": "Automatically import the generated file in the module. The default is true."
+        },
+        "nestjs.files.orm": {
+          "type": "string",
+          "default": "typeorm",
+          "enum": [
+            "mikroorm",
+            "mongoose",
+            "sequelize",
+            "typeorm"
+          ],
+          "scope": "resource",
+          "description": "The ORM to use. The default is typeorm."
         }
       }
     },
@@ -275,6 +293,10 @@
         "contents": "Your project currently lacks controllers. You can begin by adding a new controller to initiate your work.\n[Generate Controller](command:nestjs.file.controller)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
       },
       {
+        "view": "nestjs.listEntitiesView",
+        "contents": "Your project currently lacks entities. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+      },
+      {
         "view": "nestjs.listModulesView",
         "contents": "Your project currently lacks modules. You can begin by adding a new module to initiate your work.\n[Generate Module](command:nestjs.file.module)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
       },
@@ -297,6 +319,11 @@
         {
           "id": "nestjs.listMethodsView",
           "name": "List of HTTP Methods",
+          "visibility": "visible"
+        },
+        {
+          "id": "nestjs.listEntitiesView",
+          "name": "List of Entities",
           "visibility": "visible"
         },
         {

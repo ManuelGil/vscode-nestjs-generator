@@ -1,6 +1,13 @@
 import { WorkspaceConfiguration } from 'vscode';
 
-import { AUTO_IMPORT, EXCLUDE, INCLUDE, WATCH } from './constants';
+import {
+  AUTO_IMPORT,
+  EXCLUDE,
+  INCLUDE,
+  ORM,
+  SHOW_PATH,
+  WATCH,
+} from './constants';
 
 /**
  * The Config class.
@@ -13,7 +20,9 @@ import { AUTO_IMPORT, EXCLUDE, INCLUDE, WATCH } from './constants';
  * @property {string[]} include - The files to include
  * @property {string[]} exclude - The files to exclude
  * @property {string[]} watch - The files to watch
- * @property {{ apiKey: string; model: string; }} openai - The OpenAI API key
+ * @property {boolean} showPath - Whether to show the path or not
+ * @property {boolean} autoImport - The auto import setting
+ * @property {string} orm - The orm
  * @example
  * const config = new Config(workspace.getConfiguration());
  * console.log(config.include);
@@ -58,6 +67,16 @@ export class Config {
    */
   watch: string[];
   /**
+   * Whether to show the path or not.
+   * @type {boolean}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.showPath);
+   */
+  showPath: boolean;
+  /**
    * The auto import setting.
    * @type {boolean}
    * @public
@@ -67,6 +86,16 @@ export class Config {
    * console.log(config.autoImport);
    */
   autoImport: boolean;
+  /**
+   * The orm.
+   * @type {string}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.orm);
+   */
+  orm: string;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -84,6 +113,8 @@ export class Config {
     this.include = config.get<string[]>('files.include') ?? INCLUDE;
     this.exclude = config.get<string[]>('files.exclude') ?? EXCLUDE;
     this.watch = config.get<string[]>('files.watch') ?? WATCH;
-    this.autoImport = config.get<boolean>('autoImport') ?? AUTO_IMPORT;
+    this.showPath = config.get<boolean>('files.showPath') ?? SHOW_PATH;
+    this.autoImport = config.get<boolean>('files.autoImport') ?? AUTO_IMPORT;
+    this.orm = config.get<string>('files.orm') ?? ORM;
   }
 }

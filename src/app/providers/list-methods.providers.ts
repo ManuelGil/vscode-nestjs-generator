@@ -151,13 +151,13 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * @example
    * const files = provider.getListMethods();
    *
-   * @returns {Promise<NodeModel[]>} - The list of files
+   * @returns {Promise<NodeModel[] | undefined>} - The list of files
    */
-  private async getListMethods(): Promise<NodeModel[]> {
+  private async getListMethods(): Promise<NodeModel[] | undefined> {
     const files = await this.controller.getFiles();
 
     if (!files) {
-      return [];
+      return;
     }
 
     // List of Controllers
@@ -182,11 +182,15 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
               /@Get|@Post|@Put|@Delete|@Patch|@Options|@Head|@All/g,
             )
           ) {
-            node = new NodeModel(line.text, new ThemeIcon('symbol-method'), {
-              command: `${EXTENSION_ID}.listMethods.gotoLine`,
-              title: line.text,
-              arguments: [file.resourceUri, index],
-            });
+            node = new NodeModel(
+              line.text.trim(),
+              new ThemeIcon('symbol-method'),
+              {
+                command: `${EXTENSION_ID}.list.gotoLine`,
+                title: line.text,
+                arguments: [file.resourceUri, index],
+              },
+            );
           }
 
           return node;
@@ -198,6 +202,6 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
       );
     }
 
-    return nodes;
+    return nodes.filter((file) => file.children?.length !== 0);
   }
 }

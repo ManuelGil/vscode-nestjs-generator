@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2024-03-05
+
+### Added
+
+- Add List of Entities View
+- Add Show Path In File Name setting to show the path in the file name
+
+### Changed
+
+- Update the `ListFileController` class to use the `showPath` setting
+
 ## [2.2.3] - 2024-02-22
 
 ### Fixed
@@ -150,7 +161,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.3...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.3...v2.3.0
 [2.2.3]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.2...v2.2.3
 [2.2.2]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.0...v2.2.1

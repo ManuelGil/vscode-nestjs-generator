@@ -32,11 +32,29 @@
       "scope": "resource",
       "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
     },
+    "nestjs.files.showPath": {
+      "type": "boolean",
+      "default": true,
+      "scope": "resource",
+      "description": "Show the path of the file in the name of the list of generated files"
+    },
     "nestjs.files.autoImport": {
       "type": "boolean",
       "default": true,
       "scope": "resource",
       "description": "Automatically import the generated file in the module. The default is true."
+    },
+    "nestjs.files.orm": {
+      "type": "string",
+      "default": "typeorm",
+      "enum": [
+        "mikroorm",
+        "mongoose",
+        "sequelize",
+        "typeorm"
+      ],
+      "scope": "resource",
+      "description": "The ORM to use. The default is typeorm."
     }
   }
 }

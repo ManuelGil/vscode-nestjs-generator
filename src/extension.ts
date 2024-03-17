@@ -222,6 +222,11 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const disposableRefreshListFiles = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listFiles.refresh`,
+    () => listFilesProvider.refresh(),
+  );
+
   // -----------------------------------------------------------------
   // Register ListModulesProvider and list commands
   // -----------------------------------------------------------------
@@ -236,6 +241,11 @@ export function activate(context: vscode.ExtensionContext) {
       treeDataProvider: listModulesProvider,
       showCollapseAll: true,
     },
+  );
+
+  const disposableRefreshListModules = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listModules.refresh`,
+    () => listModulesProvider.refresh(),
   );
 
   // -----------------------------------------------------------------
@@ -254,6 +264,11 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const disposableRefreshListEntities = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listEntities.refresh`,
+    () => listEntitiesProvider.refresh(),
+  );
+
   // -----------------------------------------------------------------
   // Register ListMethodsProvider and list commands
   // -----------------------------------------------------------------
@@ -270,29 +285,16 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const disposableRefreshListMethods = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listMethods.refresh`,
+    () => listMethodsProvider.refresh(),
+  );
+
   // -----------------------------------------------------------------
   // Register ListFilesProvider and ListMethodsProvider events
   // -----------------------------------------------------------------
 
-  vscode.workspace.onDidChangeTextDocument(() => {
-    listFilesProvider.refresh();
-    listModulesProvider.refresh();
-    listEntitiesProvider.refresh();
-    listMethodsProvider.refresh();
-  });
   vscode.workspace.onDidCreateFiles(() => {
-    listFilesProvider.refresh();
-    listModulesProvider.refresh();
-    listEntitiesProvider.refresh();
-    listMethodsProvider.refresh();
-  });
-  vscode.workspace.onDidDeleteFiles(() => {
-    listFilesProvider.refresh();
-    listModulesProvider.refresh();
-    listEntitiesProvider.refresh();
-    listMethodsProvider.refresh();
-  });
-  vscode.workspace.onDidRenameFiles(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
     listEntitiesProvider.refresh();
@@ -376,9 +378,13 @@ export function activate(context: vscode.ExtensionContext) {
     disposableListOpenFile,
     disposableListGotoLine,
     disposableListFilesTreeView,
+    disposableRefreshListFiles,
     disposableListModulesTreeView,
+    disposableRefreshListModules,
     disposableListEntitiesTreeView,
+    disposableRefreshListEntities,
     disposableListMethodsTreeView,
+    disposableRefreshListMethods,
     disposableFeedbackTreeView,
     disposableFeedbackAboutUs,
     disposableFeedbackReportIssues,

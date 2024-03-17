@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -285,6 +285,38 @@
         "command": "nestjs.terminal.startProd",
         "title": "Start Server (Production mode)",
         "category": "NestJS"
+      },
+      {
+        "command": "nestjs.listMethods.refresh",
+        "title": "Refresh List of Methods",
+        "icon": "$(refresh)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.listEntities.refresh",
+        "title": "Refresh List of Entities",
+        "icon": "$(refresh)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.listModules.refresh",
+        "title": "Refresh List of Modules",
+        "icon": "$(refresh)",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.listFiles.refresh",
+        "title": "Refresh List of Files",
+        "icon": "$(refresh)",
+        "category": "NestJS"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "workbench.view.extension.nestjs-explorer",
+        "key": "shift+alt+n",
+        "mac": "shift+alt+n",
+        "when": "editorLangId == typescript"
       }
     ],
     "viewsWelcome": [
@@ -354,6 +386,28 @@
       }
     ],
     "menus": {
+      "view/title": [
+        {
+          "command": "nestjs.listMethods.refresh",
+          "when": "view == nestjs.listMethodsView",
+          "group": "navigation"
+        },
+        {
+          "command": "nestjs.listEntities.refresh",
+          "when": "view == nestjs.listEntitiesView",
+          "group": "navigation"
+        },
+        {
+          "command": "nestjs.listModules.refresh",
+          "when": "view == nestjs.listModulesView",
+          "group": "navigation"
+        },
+        {
+          "command": "nestjs.listFiles.refresh",
+          "when": "view == nestjs.listFilesView",
+          "group": "navigation"
+        }
+      ],
       "explorer/context": [
         {
           "submenu": "nestjs.folder.submenu",

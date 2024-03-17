@@ -178,9 +178,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
           let node: NodeModel | undefined;
 
           if (
-            line.text.match(
-              /@Get|@Post|@Put|@Delete|@Patch|@Options|@Head|@All/g,
-            )
+            line.text.match(/@(Get|Post|Put|Delete|Patch|Options|Head|All)/g)
           ) {
             node = new NodeModel(
               line.text.trim(),

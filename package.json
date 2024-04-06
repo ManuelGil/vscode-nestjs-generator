@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -299,6 +299,12 @@
         "category": "NestJS"
       },
       {
+        "command": "nestjs.listDTOs.refresh",
+        "title": "Refresh List of DTOs",
+        "icon": "$(refresh)",
+        "category": "NestJS"
+      },
+      {
         "command": "nestjs.listModules.refresh",
         "title": "Refresh List of Modules",
         "icon": "$(refresh)",
@@ -329,6 +335,10 @@
         "contents": "Your project currently lacks entities. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
       },
       {
+        "view": "nestjs.listDTOsView",
+        "contents": "Your project currently lacks DTOs. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+      },
+      {
         "view": "nestjs.listModulesView",
         "contents": "Your project currently lacks modules. You can begin by adding a new module to initiate your work.\n[Generate Module](command:nestjs.file.module)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
       },
@@ -356,6 +366,11 @@
         {
           "id": "nestjs.listEntitiesView",
           "name": "List of Entities",
+          "visibility": "visible"
+        },
+        {
+          "id": "nestjs.listDTOsView",
+          "name": "List of DTOs",
           "visibility": "visible"
         },
         {
@@ -395,6 +410,11 @@
         {
           "command": "nestjs.listEntities.refresh",
           "when": "view == nestjs.listEntitiesView",
+          "group": "navigation"
+        },
+        {
+          "command": "nestjs.listDTOs.refresh",
+          "when": "view == nestjs.listDTOsView",
           "group": "navigation"
         },
         {
@@ -591,29 +611,29 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.6.1",
-    "@commitlint/config-conventional": "^18.6.1",
+    "@commitlint/cli": "^19.2.1",
+    "@commitlint/config-conventional": "^19.1.0",
     "@compodoc/compodoc": "^1.1.23",
     "@types/glob": "^8.1.0",
     "@types/minimatch": "^3.0.5",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.12.4",
     "@types/vscode": "^1.76.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "eslint-config-standard-with-typescript": "^43.0.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.1.1",
-    "glob": "^10.3.10",
-    "husky": "^9.0.10",
+    "glob": "^10.3.12",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
-    "mocha": "^10.3.0",
+    "mocha": "^10.4.0",
     "prettier": "3.2.5",
     "rimraf": "^5.0.5",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.4",
     "vscode-test": "^1.5.0"
   }
 }

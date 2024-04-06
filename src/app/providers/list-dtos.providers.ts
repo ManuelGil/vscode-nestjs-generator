@@ -9,11 +9,11 @@ import {
 } from 'vscode';
 
 import { EXTENSION_ID } from '../configs';
-import { ListFilesController } from '../controllers';
+import { DTOController, ListFilesController } from '../controllers';
 import { NodeModel } from '../models';
 
 /**
- * The ListModulesProvider class
+ * The ListDTOsProvider class
  *
  * @class
  * @classdesc The class that represents the list of files provider.
@@ -24,21 +24,35 @@ import { NodeModel } from '../models';
  * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
  * @property {ListFilesController} controller - The list of files controller
  * @example
- * const provider = new ListModulesProvider();
+ * const provider = new ListDTOsProvider();
  *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
-export class ListModulesProvider implements TreeDataProvider<NodeModel> {
+export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
   // Properties
   // -----------------------------------------------------------------
+
+  // Public properties
+  /**
+   * The onDidChangeTreeData event.
+   * @type {Event<NodeModel | undefined | null | void>}
+   * @public
+   * @memberof ListDTOsProvider
+   * @example
+   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
+   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+   *
+   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   */
+  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
 
   // Private properties
   /**
    * The onDidChangeTreeData event emitter.
    * @type {EventEmitter<NodeModel | undefined | null | void>}
    * @private
-   * @memberof ListModulesProvider
+   * @memberof ListDTOsProvider
    * @example
    * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
    * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -49,32 +63,18 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
-  // Public properties
-  /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
-   * @memberof ListModulesProvider
-   * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
-   * @see https://code.visualstudio.com/api/references/vscode-api#Event
-   */
-  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
-
   // -----------------------------------------------------------------
   // Constructor
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the ListModulesProvider class
+   * Constructor for the ListDTOsProvider class
    *
    * @constructor
    * @public
-   * @memberof ListModulesProvider
+   * @memberof ListDTOsProvider
    */
-  constructor() {
+  constructor(readonly controller: DTOController) {
     this._onDidChangeTreeData = new EventEmitter<
       NodeModel | undefined | null | void
     >();
@@ -92,7 +92,7 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
    * @function getTreeItem
    * @param {NodeModel} element - The element
    * @public
-   * @memberof ListModulesProvider
+   * @memberof ListDTOsProvider
    * @example
    * const treeItem = provider.getTreeItem(element);
    *
@@ -110,7 +110,7 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
    * @function getChildren
    * @param {NodeModel} [element] - The element
    * @public
-   * @memberof ListModulesProvider
+   * @memberof ListDTOsProvider
    * @example
    * const children = provider.getChildren(element);
    *
@@ -123,7 +123,7 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
       return element.children;
     }
 
-    return this.getListModules();
+    return this.getListDtos();
   }
 
   /**
@@ -145,25 +145,31 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
   /**
    * Returns the list of files.
    *
-   * @function getListModules
+   * @function getListDtos
    * @private
-   * @memberof ListModulesProvider
+   * @memberof ListDTOsProvider
    * @example
-   * const files = provider.getListModules();
+   * const files = provider.getListDtos();
    *
    * @returns {Promise<NodeModel[] | undefined>} - The list of files
    */
-  private async getListModules(): Promise<NodeModel[] | undefined> {
+  private async getListDtos(): Promise<NodeModel[] | undefined> {
     const files = await ListFilesController.getFiles();
 
     if (!files) {
       return;
     }
 
-    // List of Modules
+    // List of DTOs
     const nodes = files.filter((file) =>
-      file.label.toString().includes('module.ts'),
+      file.label.toString().includes('dto.ts'),
     );
+
+    const importRegex = this.controller.getAnnotationsRegex();
+
+    if (!importRegex) {
+      return;
+    }
 
     for (const file of nodes) {
       const document = await workspace.openTextDocument(
@@ -177,10 +183,10 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
 
           let node: NodeModel | undefined;
 
-          if (line.text.match(/(providers|controllers|imports|exports): \[/g)) {
+          if (importRegex.test(line.text)) {
             node = new NodeModel(
               line.text.trim(),
-              new ThemeIcon('symbol-module'),
+              new ThemeIcon('symbol-method'),
               {
                 command: `${EXTENSION_ID}.list.gotoLine`,
                 title: line.text,
@@ -198,6 +204,6 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
       );
     }
 
-    return nodes.filter((file) => file.children && file.children.length !== 0);
+    return files.filter((file) => file.children && file.children.length !== 0);
   }
 }

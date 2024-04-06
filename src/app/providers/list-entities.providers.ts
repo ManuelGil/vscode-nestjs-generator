@@ -9,20 +9,8 @@ import {
 } from 'vscode';
 
 import { EXTENSION_ID } from '../configs';
-import { ListFilesController } from '../controllers';
-import { showError } from '../helpers';
+import { ListFilesController, ORMController } from '../controllers';
 import { NodeModel } from '../models';
-
-enum ORM {
-  mikroorm = 'mikroorm',
-  mongoose = 'mongoose',
-  sequelize = 'sequelize',
-  typeorm = 'typeorm',
-}
-
-type ORMAnnotations = {
-  [key in ORM]: string[];
-};
 
 /**
  * The ListEntitiesProvider class
@@ -75,29 +63,6 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
-  /**
-   * The ORM annotations.
-   * @type {ORMAnnotations}
-   * @private
-   * @memberof ListEntitiesProvider
-   * @example
-   * this.orms = {
-   *  [ORM.mikroorm]: [
-   *    // ...
-   *  ],
-   *  [ORM.mongoose]: [
-   *    // ...
-   *  ],
-   *  [ORM.sequelize]: [
-   *    // ...
-   *  ],
-   *  [ORM.typeorm]: [
-   *    // ...
-   *  ],
-   * };
-   */
-  private orms: ORMAnnotations;
-
   // -----------------------------------------------------------------
   // Constructor
   // -----------------------------------------------------------------
@@ -109,139 +74,11 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
    * @public
    * @memberof ListEntitiesProvider
    */
-  constructor(readonly controller: ListFilesController) {
+  constructor(readonly controller: ORMController) {
     this._onDidChangeTreeData = new EventEmitter<
       NodeModel | undefined | null | void
     >();
     this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-
-    // Define ORM annotations
-    this.orms = {
-      [ORM.mikroorm]: [
-        'Entity',
-        'PrimaryKey',
-        'Property',
-        'ManyToOne',
-        'OneToMany',
-        'ManyToMany',
-        'OneToOne',
-        'Check',
-        'Embeddable',
-        'Embedded',
-        'EnsureRequestContext',
-        'Enum',
-        'Filter',
-        'Formula',
-        'BeforeCreate',
-        'AfterCreate',
-        'BeforeUpdate',
-        'AfterUpdate',
-        'BeforeUpsert',
-        'AfterUpsert',
-        'OnInit',
-        'OnLoad',
-        'BeforeDelete',
-        'AfterDelete',
-        'Index',
-        'Unique',
-        'SerializedPrimaryKey',
-        'Subscriber',
-      ],
-      [ORM.mongoose]: [
-        'Schema',
-        'Prop',
-        'PropString',
-        'PropNumber',
-        'PropBoolean',
-        'PropDate',
-        'PropObjectId',
-        'PropArray',
-        'PropMap',
-        'PropNested',
-        'PropRef',
-        'PropEnum',
-        'PropRequired',
-        'PropUnique',
-        'PropIndex',
-      ],
-      [ORM.sequelize]: [
-        'CreatedAt',
-        'UpdatedAt',
-        'DeletedAt',
-        'Table',
-        'AutoIncrement',
-        'PrimaryKey',
-        'Index',
-        'Column',
-        'AllowNull',
-        'Unique',
-        'Default',
-        'Comment',
-        'BeforeBulkCreate',
-        'BeforeBulkDestroy',
-        'BeforeBulkUpdate',
-        'BeforeCreate',
-        'BeforeDestroy',
-        'BeforeSave',
-        'BeforeUpdate',
-        'BeforeUpsert',
-        'BeforeValidate',
-        'AfterBulkCreate',
-        'AfterBulkDestroy',
-        'AfterBulkUpdate',
-        'AfterCreate',
-        'AfterDestroy',
-        'AfterSave',
-        'AfterUpdate',
-        'AfterUpsert',
-        'AfterValidate',
-        'HasMany',
-        'HasOne',
-        'ForeignKey',
-        'BelongsTo',
-        'BelongsToMany',
-      ],
-      [ORM.typeorm]: [
-        'Column',
-        'CreateDateColumn',
-        'UpdateDateColumn',
-        'DeleteDateColumn',
-        'ObjectIdColumn',
-        'PrimaryColumn',
-        'PrimaryGeneratedColumn',
-        'VersionColumn',
-        'ViewColumn',
-        'VirtualColumn',
-        'ViewEntity',
-        'ChildEntity',
-        'Entity',
-        'TableInheritance',
-        'AfterInsert',
-        'AfterLoad',
-        'AfterRecover',
-        'AfterRemove',
-        'AfterSoftRemove',
-        'AfterUpdate',
-        'BeforeInsert',
-        'BeforeRecover',
-        'BeforeRemove',
-        'BeforeSoftRemove',
-        'BeforeUpdate',
-        'EventSubscriber',
-        'JoinColumn',
-        'JoinTable',
-        'ManyToMany',
-        'ManyToOne',
-        'OneToMany',
-        'OneToOne',
-        'RelationCount',
-        'RelationId',
-        'Tree',
-        'TreeChildren',
-        'TreeLevelColumn',
-        'TreeParent',
-      ],
-    };
   }
 
   // -----------------------------------------------------------------
@@ -317,13 +154,13 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
    * @returns {Promise<NodeModel[] | undefined>} - The list of files
    */
   private async getListEntities(): Promise<NodeModel[] | undefined> {
-    const files = await this.controller.getFiles();
+    const files = await ListFilesController.getFiles();
 
     if (!files) {
       return;
     }
 
-    const importRegex = this.getImportRegex();
+    const importRegex = this.controller.getAnnotationsRegex();
 
     if (!importRegex) {
       return;
@@ -363,39 +200,5 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
     }
 
     return files.filter((file) => file.children && file.children.length !== 0);
-  }
-
-  /**
-   * Returns the import regex.
-   *
-   * @function getImportRegex
-   * @private
-   * @memberof ListEntitiesProvider
-   * @example
-   * const importRegex = provider.getImportRegex();
-   *
-   * @returns {RegExp | undefined} - The import regex
-   */
-  private getImportRegex(): RegExp | undefined {
-    // Get the ORM annotations based on the controller's ORM configuration
-    const selectedORM = this.orms[this.controller.config.orm as ORM];
-
-    if (!selectedORM) {
-      showError('Invalid ORM configuration');
-      return;
-    }
-
-    // Escape special characters in annotations for regex
-    const escapedAnnotations = selectedORM.map((annotation) =>
-      annotation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-    );
-
-    // Construct regular expression pattern
-    const importPattern = `@(${escapedAnnotations.join('|')})`;
-
-    // Construct regular expression
-    const importRegex = new RegExp(importPattern, 'g');
-
-    return importRegex;
   }
 }

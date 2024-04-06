@@ -2,13 +2,16 @@ import * as vscode from 'vscode';
 
 import { Config, EXTENSION_ID } from './app/configs';
 import {
+  DTOController,
   FeedbackController,
   FileController,
   ListFilesController,
+  ORMController,
   TerminalController,
 } from './app/controllers';
 import {
   FeedbackProvider,
+  ListDTOsProvider,
   ListEntitiesProvider,
   ListFilesProvider,
   ListMethodsProvider,
@@ -211,7 +214,7 @@ export function activate(context: vscode.ExtensionContext) {
   // -----------------------------------------------------------------
 
   // Create a new ListFilesProvider
-  const listFilesProvider = new ListFilesProvider(listFilesController);
+  const listFilesProvider = new ListFilesProvider();
 
   // Register the list provider
   const disposableListFilesTreeView = vscode.window.createTreeView(
@@ -232,7 +235,7 @@ export function activate(context: vscode.ExtensionContext) {
   // -----------------------------------------------------------------
 
   // Create a new ListModulesProvider
-  const listModulesProvider = new ListModulesProvider(listFilesController);
+  const listModulesProvider = new ListModulesProvider();
 
   // Register the list provider
   const disposableListModulesTreeView = vscode.window.createTreeView(
@@ -249,11 +252,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // -----------------------------------------------------------------
+  // Register ORMController
+  // -----------------------------------------------------------------
+
+  // Create a new ORMController
+  const ormController = new ORMController(config);
+
+  // -----------------------------------------------------------------
   // Register ListEntitiesProvider and list commands
   // -----------------------------------------------------------------
 
   // Create a new ListEntitiesProvider
-  const listEntitiesProvider = new ListEntitiesProvider(listFilesController);
+  const listEntitiesProvider = new ListEntitiesProvider(ormController);
 
   // Register the list provider
   const disposableListEntitiesTreeView = vscode.window.createTreeView(
@@ -270,11 +280,39 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // -----------------------------------------------------------------
+  // Register DTOController
+  // -----------------------------------------------------------------
+
+  // Create a new DTOController
+  const dtoController = new DTOController();
+
+  // -----------------------------------------------------------------
+  // Register ListDTOsProvider and list commands
+  // -----------------------------------------------------------------
+
+  // Create a new ListDTOsProvider
+  const listDTOsProvider = new ListDTOsProvider(dtoController);
+
+  // Register the list provider
+  const disposableListDTOsTreeView = vscode.window.createTreeView(
+    `${EXTENSION_ID}.listDTOsView`,
+    {
+      treeDataProvider: listDTOsProvider,
+      showCollapseAll: true,
+    },
+  );
+
+  const disposableRefreshListDTOs = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.listDTOs.refresh`,
+    () => listDTOsProvider.refresh(),
+  );
+
+  // -----------------------------------------------------------------
   // Register ListMethodsProvider and list commands
   // -----------------------------------------------------------------
 
   // Create a new ListMethodsProvider
-  const listMethodsProvider = new ListMethodsProvider(listFilesController);
+  const listMethodsProvider = new ListMethodsProvider();
 
   // Register the list provider
   const disposableListMethodsTreeView = vscode.window.createTreeView(
@@ -298,12 +336,14 @@ export function activate(context: vscode.ExtensionContext) {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
     listEntitiesProvider.refresh();
+    listDTOsProvider.refresh();
     listMethodsProvider.refresh();
   });
   vscode.workspace.onDidSaveTextDocument(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
     listEntitiesProvider.refresh();
+    listDTOsProvider.refresh();
     listMethodsProvider.refresh();
   });
 
@@ -383,6 +423,8 @@ export function activate(context: vscode.ExtensionContext) {
     disposableRefreshListModules,
     disposableListEntitiesTreeView,
     disposableRefreshListEntities,
+    disposableListDTOsTreeView,
+    disposableRefreshListDTOs,
     disposableListMethodsTreeView,
     disposableRefreshListMethods,
     disposableFeedbackTreeView,

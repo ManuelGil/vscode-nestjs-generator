@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.0] - 2024-04-05
+
+### Added
+
+- Add List of DTOs View to show the list of DTOs in the project
+- Add `DTOController` to list the annotations of the DTOs in the project
+- Add `ORMController` to list the entities in the project
+
+### Changed
+
+- Update the `getFiles` method in the `ListFilesController` so that it can be used without instantiating the class
+- Update the `ListFilesProvider` and `ListRoutesProvider` to use the new `getFiles` method
+- Update the `ListEntityProvider` to use the new `ORMController` class
+- Upgrade dependencies to the latest versions available
+
 ## [2.3.1] - 2024-03-17
 
 ### Fixed
@@ -169,7 +184,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.1...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.4.0...HEAD
+[2.4.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.3...v2.3.0
 [2.2.3]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.2...v2.2.3

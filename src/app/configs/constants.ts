@@ -154,6 +154,131 @@ export const WATCH: string[] = ['controllers', 'dtos', 'services'];
 export const SHOW_PATH: boolean = true;
 
 /**
+ * CUSTOM_COMMANDS: The custom commands.
+ * @type {object[]}
+ * @public
+ * @memberof Constants
+ * @example
+ * console.log(CUSTOM_COMMANDS);
+ *
+ * @returns {object[]} - The custom commands
+ */
+export const CUSTOM_COMMANDS: object[] = [
+  {
+    'name': 'Template 1',
+    'command': 'nest g co',
+    'args': '--flat',
+  },
+  {
+    'name': 'Template 2',
+    'command': 'nest g co',
+    'args': '--no-flat',
+  },
+];
+
+/**
+ * MenuIterface: The menu options.
+ * @type {object}
+ * @public
+ * @memberof Constants
+ * @example
+ * console.log(MenuIterface);
+ *
+ * @returns {object} - The menu options
+ */
+export interface MenuInterface {
+  file: {
+    class: boolean;
+    controller: boolean;
+    decorator: boolean;
+    dto: boolean;
+    exception: boolean;
+    exceptionFilter: boolean;
+    filter: boolean;
+    gateway: boolean;
+    guard: boolean;
+    interceptor: boolean;
+    interface: boolean;
+    jwtGuard: boolean;
+    jwtStrategy: boolean;
+    middleware: boolean;
+    logger: boolean;
+    module: boolean;
+    pipe: boolean;
+    provider: boolean;
+    resolver: boolean;
+    service: boolean;
+    test: boolean;
+  };
+  terminal: {
+    controller: boolean;
+    gateway: boolean;
+    library: boolean;
+    module: boolean;
+    provider: boolean;
+    resolver: boolean;
+    resource: boolean;
+    service: boolean;
+    custom: boolean;
+    start: boolean;
+    startDev: boolean;
+    startDebug: boolean;
+    startProd: boolean;
+  };
+}
+
+/**
+ * ACTIVATE_MENU: Whether to show the menu or not.
+ * @type {object}
+ * @public
+ * @memberof Constants
+ * @example
+ * console.log(ACTIVATE_MENU);
+ *
+ * @returns {object} - Whether to show the menu or not
+ */
+export const ACTIVATE_MENU: MenuInterface = {
+  file: {
+    class: true,
+    controller: true,
+    decorator: true,
+    dto: true,
+    exception: true,
+    exceptionFilter: true,
+    filter: true,
+    gateway: true,
+    guard: true,
+    interceptor: true,
+    interface: true,
+    jwtGuard: true,
+    jwtStrategy: true,
+    middleware: true,
+    logger: true,
+    module: true,
+    pipe: true,
+    provider: true,
+    resolver: true,
+    service: true,
+    test: true,
+  },
+  terminal: {
+    controller: true,
+    gateway: true,
+    library: true,
+    module: true,
+    provider: true,
+    resolver: true,
+    resource: true,
+    service: true,
+    custom: true,
+    start: true,
+    startDev: true,
+    startDebug: true,
+    startProd: true,
+  },
+};
+
+/**
  * AUTO_IMPORT: The auto import setting.
  * @type {boolean}
  * @public

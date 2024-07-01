@@ -1,6 +1,7 @@
 import { Uri, window } from 'vscode';
 
-// Import the helper functions
+// Import the Config and helper functions
+import { Config } from '../configs';
 import { getName, getPath, getRelativePath, runCommand } from '../helpers';
 
 /**
@@ -10,6 +11,7 @@ import { getName, getPath, getRelativePath, runCommand } from '../helpers';
  * @classdesc The class that represents the example controller.
  * @export
  * @public
+ * @property {Config} config - The configuration
  * @example
  * const controller = new TerminalController(config);
  */
@@ -22,10 +24,11 @@ export class TerminalController {
    * Constructor for the TerminalController class.
    *
    * @constructor
+   * @param {Config} config - The configuration
    * @public
    * @memberof TerminalController
    */
-  constructor() {}
+  constructor(private readonly config: Config) {}
 
   // -----------------------------------------------------------------
   // Methods
@@ -33,15 +36,15 @@ export class TerminalController {
 
   // Public methods
   /**
-   * The generateApp method.
+   * The generateController method.
    *
-   * @function generateApp
+   * @function generateController
    * @param {Uri} [path] The path to the folder.
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generateApp();
+   * await generateController();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -170,14 +173,14 @@ export class TerminalController {
   }
 
   /**
-   * The generateInterceptor method.
+   * The generateLibrary method.
    *
-   * @function generateInterceptor
+   * @function generateLibrary
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generateInterceptor();
+   * await generateLibrary();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -232,15 +235,15 @@ export class TerminalController {
   }
 
   /**
-   * The generateMiddleware method.
+   * The generateModule method.
    *
-   * @function generateMiddleware
+   * @function generateModule
    * @param {Uri} [path] The path to the folder.
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generateMiddleware();
+   * await generateModule();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -300,15 +303,15 @@ export class TerminalController {
   }
 
   /**
-   * The generatePipe method.
+   * The generateProvider method.
    *
-   * @function generatePipe
+   * @function generateProvider
    * @param {Uri} [path] The path to the folder.
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generatePipe();
+   * await generateProvider();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -368,15 +371,15 @@ export class TerminalController {
   }
 
   /**
-   * The generatePipe method.
+   * The generateResolver method.
    *
-   * @function generatePipe
+   * @function generateResolver
    * @param {Uri} [path] The path to the folder.
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generatePipe();
+   * await generateResolver();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -504,13 +507,13 @@ export class TerminalController {
   }
 
   /**
-   * The generateService method.
+   * The start method.
    *
-   * @function generateService
+   * @function start
    * @public
    * @memberof TerminalController
    * @example
-   * await generateService();
+   * start();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -564,15 +567,15 @@ export class TerminalController {
   }
 
   /**
-   * The generateSubApp method.
+   * The generateService method.
    *
-   * @function generateSubApp
+   * @function generateService
    * @param {Uri} [path] The path to the folder.
    * @public
    * @async
    * @memberof TerminalController
    * @example
-   * await generateSubApp();
+   * await generateService();
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
@@ -690,5 +693,62 @@ export class TerminalController {
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
     runCommand('generate sub-app', command);
+  }
+
+  /**
+   * Generates a custom element.
+   *
+   * @function generateCustomElement
+   * @param {Uri} [path] - The path
+   * @public
+   * @async
+   * @memberof TerminalController
+   * @example
+   * controller.generateCustomElement();
+   *
+   * @returns {Promise<void>} - No return value
+   */
+  async generateCustomElement(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? await getRelativePath(path.path) : '';
+
+    // Get the path to the folder
+    let folder = await getPath(
+      'Element name',
+      'Element name. E.g. src/app/modules/users, modules/users, modules/projects...',
+      folderPath,
+      (path: string) => {
+        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+          return 'The folder name must be a valid name';
+        }
+        return;
+      },
+    );
+
+    if (folder === undefined) {
+      return;
+    }
+
+    const items = this.config.customCommands.map((item: any) => {
+      return {
+        label: item.name,
+        description: item.command,
+        detail: item.args,
+      };
+    });
+
+    const option = await window.showQuickPick(items, {
+      placeHolder: 'Select the template for the custom element generation',
+    });
+
+    if (option === undefined) {
+      return;
+    }
+
+    folder = folder.replace('src/', '');
+
+    const command = `${option.description} ${folder} ${option.detail}`;
+
+    runCommand('generate custom element', command);
   }
 }

@@ -4,9 +4,7 @@
   "properties": {
     "nestjs.files.include": {
       "type": "array",
-      "default": [
-        "ts"
-      ],
+      "default": ["ts"],
       "scope": "resource",
       "description": "Glob patterns to include in the package. The default is ts, html, css, scss, less."
     },
@@ -24,11 +22,7 @@
     },
     "nestjs.files.watch": {
       "type": "array",
-      "default": [
-        "controllers",
-        "dtos",
-        "services"
-      ],
+      "default": ["controllers", "dtos", "services"],
       "scope": "resource",
       "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
     },
@@ -37,6 +31,301 @@
       "default": true,
       "scope": "resource",
       "description": "Show the path of the file in the name of the list of generated files"
+    },
+    "nestjs.submenu.customCommands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the command"
+          },
+          "command": {
+            "type": "string",
+            "description": "The command to execute"
+          },
+          "args": {
+            "type": "string",
+            "description": "The arguments to pass to the command"
+          }
+        }
+      },
+      "default": [
+        {
+          "name": "Template 1",
+          "command": "nest g co",
+          "args": "--flat"
+        },
+        {
+          "name": "Template 2",
+          "command": "nest g co",
+          "args": "--no-flat"
+        }
+      ],
+      "scope": "resource",
+      "description": "Custom commands to add to the context menu"
+    },
+    "nestjs.submenu.activateItem": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "object",
+          "properties": {
+            "class": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the class item in the context menu. The default is true."
+            },
+            "controller": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the controller item in the context menu. The default is true."
+            },
+            "decorator": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the decorator item in the context menu. The default is true."
+            },
+            "dto": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the DTO item in the context menu. The default is true."
+            },
+            "exception": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the exception item in the context menu. The default is true."
+            },
+            "exceptionFilter": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the exception filter item in the context menu. The default is true."
+            },
+            "filter": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the filter item in the context menu. The default is true."
+            },
+            "gateway": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the gateway item in the context menu. The default is true."
+            },
+            "guard": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the guard item in the context menu. The default is true."
+            },
+            "interceptor": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the interceptor item in the context menu. The default is true."
+            },
+            "interface": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the interface item in the context menu. The default is true."
+            },
+            "jwtGuard": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the JWT guard item in the context menu. The default is true."
+            },
+            "jwtStrategy": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the JWT strategy item in the context menu. The default is true."
+            },
+            "middleware": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the middleware item in the context menu. The default is true."
+            },
+            "logger": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the logger item in the context menu. The default is true."
+            },
+            "module": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the module item in the context menu. The default is true."
+            },
+            "pipe": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the pipe item in the context menu. The default is true."
+            },
+            "provider": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the provider item in the context menu. The default is true."
+            },
+            "resolver": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the resolver item in the context menu. The default is true."
+            },
+            "service": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the service item in the context menu. The default is true."
+            },
+            "test": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the test item in the context menu. The default is true."
+            }
+          }
+        },
+        "terminal": {
+          "type": "object",
+          "properties": {
+            "controller": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the controller item in the context menu. The default is true."
+            },
+            "gateway": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the gateway item in the context menu. The default is true."
+            },
+            "library": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the library item in the context menu. The default is true."
+            },
+            "module": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the module item in the context menu. The default is true."
+            },
+            "provider": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the provider item in the context menu. The default is true."
+            },
+            "resolver": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the resolver item in the context menu. The default is true."
+            },
+            "resource": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the resource item in the context menu. The default is true."
+            },
+            "service": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the service item in the context menu. The default is true."
+            },
+            "custom": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the custom item in the context menu. The default is true."
+            },
+            "start": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the start item in the context menu. The default is true."
+            },
+            "startDev": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the startDev item in the context menu. The default is true."
+            },
+            "startDebug": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the startDebug item in the context menu. The default is true."
+            },
+            "startProd": {
+              "type": "boolean",
+              "default": true,
+              "scope": "resource",
+              "description": "Activate the startProd item in the context menu. The default is true."
+            }
+          }
+        }
+      },
+      "default": {
+        "file": {
+          "class": true,
+          "controller": true,
+          "decorator": true,
+          "dto": true,
+          "exception": true,
+          "exceptionFilter": true,
+          "filter": true,
+          "gateway": true,
+          "guard": true,
+          "interceptor": true,
+          "interface": true,
+          "jwtGuard": true,
+          "jwtStrategy": true,
+          "middleware": true,
+          "logger": true,
+          "module": true,
+          "pipe": true,
+          "provider": true,
+          "resolver": true,
+          "service": true,
+          "test": true
+        },
+        "terminal": {
+          "controller": true,
+          "gateway": true,
+          "library": true,
+          "module": true,
+          "provider": true,
+          "resolver": true,
+          "resource": true,
+          "service": true,
+          "custom": true,
+          "start": true,
+          "startDev": true,
+          "startDebug": true,
+          "startProd": true
+        }
+      },
+      "scope": "resource",
+      "description": "Activate or deactivate items in the context menu"
     },
     "nestjs.files.autoImport": {
       "type": "boolean",
@@ -47,12 +336,7 @@
     "nestjs.files.orm": {
       "type": "string",
       "default": "typeorm",
-      "enum": [
-        "mikroorm",
-        "mongoose",
-        "sequelize",
-        "typeorm"
-      ],
+      "enum": ["mikroorm", "mongoose", "sequelize", "typeorm"],
       "scope": "resource",
       "description": "The ORM to use. The default is typeorm."
     }

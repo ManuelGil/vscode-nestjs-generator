@@ -41,6 +41,171 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // -----------------------------------------------------------------
+  // Set the context values
+  // -----------------------------------------------------------------
+
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.class`,
+    config.activateItem.file.class,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.controller`,
+    config.activateItem.file.controller,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.decorator`,
+    config.activateItem.file.decorator,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.dto`,
+    config.activateItem.file.dto,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.exception`,
+    config.activateItem.file.exception,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.exceptionFilter`,
+    config.activateItem.file.exceptionFilter,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.filter`,
+    config.activateItem.file.filter,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.gateway`,
+    config.activateItem.file.gateway,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.guard`,
+    config.activateItem.file.guard,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.interceptor`,
+    config.activateItem.file.interceptor,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.interface`,
+    config.activateItem.file.interface,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.jwtGuard`,
+    config.activateItem.file.jwtGuard,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.jwtStrategy`,
+    config.activateItem.file.jwtStrategy,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.middleware`,
+    config.activateItem.file.middleware,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.logger`,
+    config.activateItem.file.logger,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.module`,
+    config.activateItem.file.module,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.pipe`,
+    config.activateItem.file.pipe,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.provider`,
+    config.activateItem.file.provider,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.resolver`,
+    config.activateItem.file.resolver,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.service`,
+    config.activateItem.file.service,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.test`,
+    config.activateItem.file.test,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.controller`,
+    config.activateItem.terminal.controller,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.gateway`,
+    config.activateItem.terminal.gateway,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.module`,
+    config.activateItem.terminal.module,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.provider`,
+    config.activateItem.terminal.provider,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.resolver`,
+    config.activateItem.terminal.resolver,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.resource`,
+    config.activateItem.terminal.resource,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.service`,
+    config.activateItem.terminal.service,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.custom`,
+    config.activateItem.terminal.custom,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.start`,
+    config.activateItem.terminal.start,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.startDev`,
+    config.activateItem.terminal.startDev,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.terminal.startDebug`,
+    config.activateItem.terminal.startDebug,
+  );
+
+  // -----------------------------------------------------------------
   // Register FileController and commands
   // -----------------------------------------------------------------
 
@@ -137,7 +302,7 @@ export function activate(context: vscode.ExtensionContext) {
   // -----------------------------------------------------------------
 
   // Create a new TerminalController
-  const terminalController = new TerminalController();
+  const terminalController = new TerminalController(config);
 
   const disposableTerminalController = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.controller`,
@@ -190,6 +355,10 @@ export function activate(context: vscode.ExtensionContext) {
   const disposableTerminalStartProd = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.startProd`,
     () => terminalController.startProd(),
+  );
+  const disposableTerminalCustomElement = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.terminal.custom`,
+    (args) => terminalController.generateCustomElement(args),
   );
 
   // -----------------------------------------------------------------
@@ -415,6 +584,7 @@ export function activate(context: vscode.ExtensionContext) {
     disposableTerminalStartDev,
     disposableTerminalStartDebug,
     disposableTerminalStartProd,
+    disposableTerminalCustomElement,
     disposableListOpenFile,
     disposableListGotoLine,
     disposableListFilesTreeView,

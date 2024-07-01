@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.5.0] - 2024-06-29
+
+### Added
+
+- Add `submenu.activateItem` settings to enable or disable the items in the context menu
+- Add `submenu.customCommands` settings to customize the commands in the context menu
+- Add `generateCustomElement` command to generate a custom element
+
+### Changed
+
+- Update the `extension.ts` file to use the new `submenu.activateItem` settings
+- Update the `extension.ts` file to use the new `submenu.customCommands` settings
+- Update the `package.json` file to include the new settings
+
 ## [2.4.0] - 2024-04-05
 
 ### Added
@@ -184,7 +198,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.4.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.5.0...HEAD
+[2.5.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.2.3...v2.3.0

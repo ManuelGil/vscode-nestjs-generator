@@ -22,8 +22,11 @@ With this powerful extension, you can streamline your NestJS development workflo
   - [Requirements](#requirements)
   - [Project Settings](#project-settings)
   - [Features](#features)
-  - [Connect with me](#connect-with-me)
+  - [Follow Me](#follow-me)
+  - [VSXpert Template](#vsxpert-template)
   - [Other Extensions](#other-extensions)
+  - [Contributing](#contributing)
+  - [Code of Conduct](#code-of-conduct)
   - [Changelog](#changelog)
   - [Authors](#authors)
   - [License](#license)
@@ -62,6 +65,58 @@ Configure your project by creating or updating a settings.json file at the proje
         "services"
       ],
       "nestjs.files.showPath": true,
+      "nestjs.submenu.customCommands": [
+        {
+          "name": "Template 1",
+          "command": "nest g co",
+          "args": "--flat"
+        },
+        {
+          "name": "Template 2",
+          "command": "nest g co",
+          "args": "--no-flat"
+        }
+      ],
+      "nestjs.submenu.activateItem": {
+        "file": {
+          "class": true,
+          "controller": true,
+          "decorator": true,
+          "dto": true,
+          "exception": true,
+          "exceptionFilter": true,
+          "filter": true,
+          "gateway": true,
+          "guard": true,
+          "interceptor": true,
+          "interface": true,
+          "jwtGuard": true,
+          "jwtStrategy": true,
+          "middleware": true,
+          "logger": true,
+          "module": true,
+          "pipe": true,
+          "provider": true,
+          "resolver": true,
+          "service": true,
+          "test": true
+        },
+        "terminal": {
+          "controller": true,
+          "gateway": true,
+          "library": true,
+          "module": true,
+          "provider": true,
+          "resolver": true,
+          "resource": true,
+          "service": true,
+          "custom": true,
+          "start": true,
+          "startDev": true,
+          "startDebug": true,
+          "startProd": true
+        }
+      },
       "nestjs.files.autoImport": true,
       "nestjs.files.orm": "typeorm",
     }
@@ -110,26 +165,38 @@ Your project is now set up to automatically format code upon saving.
 | NestJS: Start Server (Debug mode)         | Launches the Nest Debug Server           |
 | NestJS: Start Server (Production mode)    | Launches the Nest Production Server      |
 
-## Connect with me
+## Follow Me
+
+If you enjoy using this extension, consider following me for updates on this and future projects:
 
 [![GitHub followers](https://img.shields.io/github/followers/ManuelGil?style=for-the-badge&logo=github)](https://github.com/ManuelGil)
 [![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/imgildev?style=for-the-badge&logo=x)](https://twitter.com/imgildev)
 
+## VSXpert Template
+
+This extension was created using [VSXpert](https://vsxpert.com), a template that helps you create Visual Studio Code extensions with ease. VSXpert provides a simple and easy-to-use structure to get you started quickly.
+
 ## Other Extensions
 
-- [NestJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
-- [NestJS Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-snippets-extension)
 - [Angular File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-angular-generator)
+- [NestJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
 - [T3 Stack / NextJS / ReactJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nextjs-generator)
-- [CodeIgniter 4 Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-snippets)
-- [CodeIgniter 4 Shield Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-shield-snippets)
+- [Auto Barrel](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-auto-barrel)
 - [CodeIgniter 4 Spark](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-spark)
-- [Moodle Pack](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-moodle-snippets)
-- [Mustache Template Engine - Snippets & Autocomplete](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-mustache-snippets)
+
+## Contributing
+
+NestJS File Generator for VSCode is open-source software, and we welcome contributions from the community. If you'd like to contribute, please fork the [GitHub repository](https://github.com/ManuelGil/vscode-nestjs-generator) and submit a pull request with your changes.
+
+Before contributing, please read our [Contribution Guidelines](./CONTRIBUTING.md) for instructions on coding standards, testing, and more.
+
+## Code of Conduct
+
+We are committed to providing a friendly, safe, and welcoming environment for all, regardless of gender, sexual orientation, disability, ethnicity, religion, or similar personal characteristic. Please review our [Code of Conduct](./CODE_OF_CONDUCT.md) before participating in our community.
 
 ## Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md)
+For a complete list of changes, see the [CHANGELOG.md](./CHANGELOG.md)
 
 ## Authors
 

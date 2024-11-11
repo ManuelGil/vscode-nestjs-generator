@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.6.0] - 2024-11-11
+
+### Added
+
+- Add Spanish language support to the extension.
+- Add convert json to ts command
+
 ## [2.5.0] - 2024-06-29
 
 ### Added
@@ -199,6 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release
 
 [unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.5.0...HEAD
+[2.6.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.3.0...v2.3.1

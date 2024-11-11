@@ -1,0 +1,19 @@
+{
+  "No text editor is active!": "¡No hay editor de texto activo!",
+  "The file has not been created!": "¡El archivo no ha sido creado!",
+  "Successfully created the file!": "¡Archivo creado con éxito!",
+  "Name already exist!": "¡El nombre ya existe!",
+  "No module file found, skipping auto-import!": "¡No se encontró el archivo de módulo, se omite la importación automática!",
+  "Auto-imported of {0} into '{1}' is successfully!": "La importación automática de {0} en '{1}' se realizó con éxito!",
+  "Error occurred while auto-importing: {0}": "Se produjo un error al importar automáticamente: {0}",
+  "ORM annotations not found for {0}": "Anotaciones ORM no encontradas para {0}",
+  "No text is selected!": "¡No hay texto seleccionado!",
+  "Invalid JSON Schema!": "¡Esquema JSON inválido!",
+  "About Us": "Acerca de Nosotros",
+  "Report Issues": "Reportar Problemas",
+  "Rate Us": "Calificanos",
+  "Support Us": "Apóyanos",
+  "Become a Sponsor": "Conviértete en Patrocinador",
+  "Donate via PayPal": "Donar a través de PayPal",
+  "Although {0} is offered at no cost, your support is deeply appreciated if you find it beneficial. Thank you for considering!": "Aunque {0} se ofrece sin costo, su apoyo es muy apreciado si lo encuentra beneficioso. ¡Gracias por considerarlo!"
+}

@@ -1,3 +1,4 @@
+import { l10n } from 'vscode';
 import { Config } from '../configs';
 import { showError } from '../helpers';
 
@@ -14,7 +15,7 @@ export class ORMController {
    * @memberof ORMController
    */
   private readonly orms: Readonly<Record<string, string[]>> = {
-    'mikroorm': [
+    mikroorm: [
       'Entity',
       'PrimaryKey',
       'Property',
@@ -44,7 +45,7 @@ export class ORMController {
       'SerializedPrimaryKey',
       'Subscriber',
     ],
-    'mongoose': [
+    mongoose: [
       'Schema',
       'Prop',
       'PropString',
@@ -61,7 +62,7 @@ export class ORMController {
       'PropUnique',
       'PropIndex',
     ],
-    'sequelize': [
+    sequelize: [
       'CreatedAt',
       'UpdatedAt',
       'DeletedAt',
@@ -98,7 +99,7 @@ export class ORMController {
       'BelongsTo',
       'BelongsToMany',
     ],
-    'typeorm': [
+    typeorm: [
       'Column',
       'CreateDateColumn',
       'UpdateDateColumn',
@@ -175,7 +176,11 @@ export class ORMController {
 
     // Return undefined if no annotations are found
     if (!annotations) {
-      showError('ORM annotations not found');
+      const message = l10n.t(
+        'ORM annotations not found for {0}',
+        this.config.orm,
+      );
+      showError(message);
       return;
     }
 

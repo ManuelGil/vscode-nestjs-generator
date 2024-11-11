@@ -8,6 +8,7 @@ import {
   ListFilesController,
   ORMController,
   TerminalController,
+  TransformController,
 } from './app/controllers';
 import {
   FeedbackProvider,
@@ -362,6 +363,18 @@ export function activate(context: vscode.ExtensionContext) {
   );
 
   // -----------------------------------------------------------------
+  // Register TransformController and commands
+  // -----------------------------------------------------------------
+
+  // Create a new TransformController
+  const transformController = new TransformController();
+
+  const disposableTransformJson2Ts = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.transform.json.ts`,
+    () => transformController.json2ts(),
+  );
+
+  // -----------------------------------------------------------------
   // Register ListFilesController
   // -----------------------------------------------------------------
 
@@ -585,6 +598,7 @@ export function activate(context: vscode.ExtensionContext) {
     disposableTerminalStartDebug,
     disposableTerminalStartProd,
     disposableTerminalCustomElement,
+    disposableTransformJson2Ts,
     disposableListOpenFile,
     disposableListGotoLine,
     disposableListFilesTreeView,

@@ -3,6 +3,7 @@ import {
   Uri,
   WorkspaceEdit,
   commands,
+  l10n,
   window,
   workspace,
 } from 'vscode';
@@ -184,13 +185,19 @@ export class FileController {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Create${className}Dto } from './dto/create-${dasherize(className)}.dto';
-import { Update${className}Dto } from './dto/update-${dasherize(className)}.dto';
+import { Create${className}Dto } from './dto/create-${dasherize(
+      className,
+    )}.dto';
+import { Update${className}Dto } from './dto/update-${dasherize(
+      className,
+    )}.dto';
 import { ${className}Service } from './${dasherize(className)}.service';
 
 @Controller('${dasherize(className)}s')
 export class ${className}Controller {
-  constructor(private readonly ${dasherize(className)}Service: ${className}Service) {}
+  constructor(private readonly ${dasherize(
+    className,
+  )}Service: ${className}Service) {}
 
   @Post()
   create(@Body() create${className}Dto: Create${className}Dto) {
@@ -209,7 +216,9 @@ export class ${className}Controller {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() update${className}Dto: Update${className}Dto) {
-    return this.${dasherize(className)}Service.update(+id, update${className}Dto);
+    return this.${dasherize(
+      className,
+    )}Service.update(+id, update${className}Dto);
   }
 
   @Delete(':id')
@@ -1628,7 +1637,9 @@ describe('${className}Controller', () => {
           excludePatterns,
           1,
         );
-        filename = `${directoryPath.substring(directoryPath.lastIndexOf('/') + 1)}/${filename}`;
+        filename = `${directoryPath.substring(
+          directoryPath.lastIndexOf('/') + 1,
+        )}/${filename}`;
       } else {
         files = await workspace.findFiles(
           `${directoryPath}/*.module.ts`,
@@ -1638,7 +1649,8 @@ describe('${className}Controller', () => {
       }
 
       if (files.length === 0) {
-        showError('No module file found, skipping auto-import');
+        const message = l10n.t('No module file found, skipping auto-import');
+        showError(message);
         return; // No files found, nothing to do
       }
 
@@ -1671,15 +1683,22 @@ describe('${className}Controller', () => {
           await commands.executeCommand('workbench.action.files.saveAll'); // Saving the files
 
           const folder = await getRelativePath(targetFile.path);
-          showMessage(
-            `Auto-imported ${className} into '${folder}' successfully!`,
+
+          const message = l10n.t(
+            "Auto-imported of {0} into '{1}' is successfully!",
+            [className, folder],
           );
+          showMessage(message);
 
           return; // Import added, exiting function
         }
       }
     } catch (error) {
-      showError(`Error occurred while auto-importing: ${error}`);
+      const message = l10n.t(
+        'Error occurred while auto-importing: {0}',
+        Object(error).message ?? (error as string),
+      );
+      showError(message);
     }
   }
 }

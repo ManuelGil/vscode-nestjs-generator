@@ -6,7 +6,7 @@
       "type": "array",
       "default": ["ts"],
       "scope": "resource",
-      "description": "Glob patterns to include in the package. The default is ts, html, css, scss, less."
+      "description": "Glob patterns to include in the package. The default is ts"
     },
     "nestjs.files.exclude": {
       "type": "array",
@@ -14,17 +14,16 @@
         "**/node_modules/**",
         "**/dist/**",
         "**/out/**",
-        "**/build/**",
-        "**/.*/**"
+        "**/build/**"
       ],
       "scope": "resource",
-      "description": "Glob patterns to exclude from the package. The default is node_modules, dist, out, build, and any hidden files."
+      "description": "Glob patterns to exclude from the package. The default is node_modules, dist, out, and build"
     },
     "nestjs.files.watch": {
       "type": "array",
       "default": ["controllers", "dtos", "services"],
       "scope": "resource",
-      "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
+      "description": "The list of directories to watch for changes. The default is controllers, dtos, and services"
     },
     "nestjs.files.showPath": {
       "type": "boolean",

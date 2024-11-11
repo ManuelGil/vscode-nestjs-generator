@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -55,6 +55,7 @@
     "workspaceContains:**/nest-cli.json"
   ],
   "main": "./out/extension.js",
+  "l10n": "./l10n",
   "contributes": {
     "configuration": {
       "title": "NestJS File Generator",
@@ -65,7 +66,7 @@
             "ts"
           ],
           "scope": "resource",
-          "description": "Glob patterns to include in the package. The default is ts, html, css, scss, less."
+          "description": "%nestjs.files.include%"
         },
         "nestjs.files.exclude": {
           "type": "array",
@@ -73,11 +74,10 @@
             "**/node_modules/**",
             "**/dist/**",
             "**/out/**",
-            "**/build/**",
-            "**/.*/**"
+            "**/build/**"
           ],
           "scope": "resource",
-          "description": "Glob patterns to exclude from the package. The default is node_modules, dist, out, build, and any hidden files."
+          "description": "%nestjs.files.exclude%"
         },
         "nestjs.files.watch": {
           "type": "array",
@@ -87,13 +87,13 @@
             "services"
           ],
           "scope": "resource",
-          "description": "The list of directories to watch for changes. The default is controllers, dtos, and services."
+          "description": "%nestjs.files.watch%"
         },
         "nestjs.files.showPath": {
           "type": "boolean",
           "default": true,
           "scope": "resource",
-          "description": "Show the path of the file in the name of the list of generated files"
+          "description": "%nestjs.files.showPath%"
         },
         "nestjs.submenu.customCommands": {
           "type": "array",
@@ -102,15 +102,15 @@
             "properties": {
               "name": {
                 "type": "string",
-                "description": "The name of the command"
+                "description": "%nestjs.submenu.customCommands.name%"
               },
               "command": {
                 "type": "string",
-                "description": "The command to execute"
+                "description": "%nestjs.submenu.customCommands.command%"
               },
               "args": {
                 "type": "string",
-                "description": "The arguments to pass to the command"
+                "description": "%nestjs.submenu.customCommands.args%"
               }
             }
           },
@@ -127,7 +127,7 @@
             }
           ],
           "scope": "resource",
-          "description": "Custom commands to add to the context menu"
+          "description": "%nestjs.submenu.customCommands%"
         },
         "nestjs.submenu.activateItem": {
           "type": "object",
@@ -139,127 +139,127 @@
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the class item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.class%"
                 },
                 "controller": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the controller item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.controller%"
                 },
                 "decorator": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the decorator item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.decorator%"
                 },
                 "dto": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the DTO item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.dto%"
                 },
                 "exception": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the exception item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.exception%"
                 },
                 "exceptionFilter": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the exception filter item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.exceptionFilter%"
                 },
                 "filter": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the filter item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.filter%"
                 },
                 "gateway": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the gateway item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.gateway%"
                 },
                 "guard": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the guard item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.guard%"
                 },
                 "interceptor": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the interceptor item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.interceptor%"
                 },
                 "interface": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the interface item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.interface%"
                 },
                 "jwtGuard": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the JWT guard item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.jwtGuard%"
                 },
                 "jwtStrategy": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the JWT strategy item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.jwtStrategy%"
                 },
                 "middleware": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the middleware item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.middleware%"
                 },
                 "logger": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the logger item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.logger%"
                 },
                 "module": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the module item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.module%"
                 },
                 "pipe": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the pipe item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.pipe%"
                 },
                 "provider": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the provider item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.provider%"
                 },
                 "resolver": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the resolver item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.resolver%"
                 },
                 "service": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the service item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.service%"
                 },
                 "test": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the test item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.file.test%"
                 }
               }
             },
@@ -270,79 +270,79 @@
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the controller item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.controller%"
                 },
                 "gateway": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the gateway item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.gateway%"
                 },
                 "library": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the library item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.library%"
                 },
                 "module": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the module item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.module%"
                 },
                 "provider": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the provider item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.provider%"
                 },
                 "resolver": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the resolver item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.resolver%"
                 },
                 "resource": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the resource item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.resource%"
                 },
                 "service": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the service item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.service%"
                 },
                 "custom": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the custom item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.custom%"
                 },
                 "start": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the start item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.start%"
                 },
                 "startDev": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the startDev item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.startDev%"
                 },
                 "startDebug": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the startDebug item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.startDebug%"
                 },
                 "startProd": {
                   "type": "boolean",
                   "default": true,
                   "scope": "resource",
-                  "description": "Activate the startProd item in the context menu. The default is true."
+                  "description": "%nestjs.submenu.activateItem.terminal.startProd%"
                 }
               }
             }
@@ -388,13 +388,13 @@
             }
           },
           "scope": "resource",
-          "description": "Activate or deactivate items in the context menu"
+          "description": "%nestjs.submenu.activateItem%"
         },
         "nestjs.files.autoImport": {
           "type": "boolean",
           "default": true,
           "scope": "resource",
-          "description": "Automatically import the generated file in the module. The default is true."
+          "description": "%nestjs.files.autoImport%"
         },
         "nestjs.files.orm": {
           "type": "string",
@@ -406,213 +406,218 @@
             "typeorm"
           ],
           "scope": "resource",
-          "description": "The ORM to use. The default is typeorm."
+          "description": "%nestjs.files.orm%"
         }
       }
     },
     "commands": [
       {
         "command": "nestjs.file.class",
-        "title": "Generate Class",
+        "title": "%nestjs.file.class%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.controller",
-        "title": "Generate Controller",
+        "title": "%nestjs.file.controller%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.decorator",
-        "title": "Generate Decorator",
+        "title": "%nestjs.file.decorator%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.dto",
-        "title": "Generate Update Dto",
+        "title": "%nestjs.file.dto%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.exception",
-        "title": "Generate Exception",
+        "title": "%nestjs.file.exception%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.exceptionFilter",
-        "title": "Generate Exception Filter",
+        "title": "%nestjs.file.exceptionFilter%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.filter",
-        "title": "Generate Filter",
+        "title": "%nestjs.file.filter%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.gateway",
-        "title": "Generate Gateway",
+        "title": "%nestjs.file.gateway%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.guard",
-        "title": "Generate Guard",
+        "title": "%nestjs.file.guard%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.interceptor",
-        "title": "Generate Interceptor",
+        "title": "%nestjs.file.interceptor%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.interface",
-        "title": "Generate Interface",
+        "title": "%nestjs.file.interface%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.jwtGuard",
-        "title": "Generate Jwt Guard",
+        "title": "%nestjs.file.jwtGuard%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.jwtStrategy",
-        "title": "Generate Jwt Strategy",
+        "title": "%nestjs.file.jwtStrategy%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.middleware",
-        "title": "Generate Middleware",
+        "title": "%nestjs.file.middleware%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.logger",
-        "title": "Generate Logger",
+        "title": "%nestjs.file.logger%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.module",
-        "title": "Generate Module",
+        "title": "%nestjs.file.module%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.pipe",
-        "title": "Generate Pipe",
+        "title": "%nestjs.file.pipe%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.provider",
-        "title": "Generate Provider",
+        "title": "%nestjs.file.provider%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.resolver",
-        "title": "Generate Resolver",
+        "title": "%nestjs.file.resolver%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.service",
-        "title": "Generate Service",
+        "title": "%nestjs.file.service%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.file.test",
-        "title": "Generate Test",
+        "title": "%nestjs.file.test%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.controller",
-        "title": "Generate Controller with CLI",
+        "title": "%nestjs.terminal.controller%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.gateway",
-        "title": "Generate Gateway with CLI",
+        "title": "%nestjs.terminal.gateway%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.library",
-        "title": "Generate Library with CLI",
+        "title": "%nestjs.terminal.library%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.module",
-        "title": "Generate Module with CLI",
+        "title": "%nestjs.terminal.module%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.provider",
-        "title": "Generate Provider with CLI",
+        "title": "%nestjs.terminal.provider%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.resolver",
-        "title": "Generate Resolver with CLI",
+        "title": "%nestjs.terminal.resolver%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.resource",
-        "title": "Generate Resource with CLI",
+        "title": "%nestjs.terminal.resource%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.service",
-        "title": "Generate Service with CLI",
+        "title": "%nestjs.terminal.service%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.subApp",
-        "title": "Generate Sub Application with CLI",
+        "title": "%nestjs.terminal.subApp%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.custom",
-        "title": "Generate Custom Element with CLI",
+        "title": "%nestjs.terminal.custom%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.start",
-        "title": "Start Server",
+        "title": "%nestjs.terminal.start%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.startDev",
-        "title": "Start Server (Dev mode)",
+        "title": "%nestjs.terminal.startDev%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.startDebug",
-        "title": "Start Server (Debug mode)",
+        "title": "%nestjs.terminal.startDebug%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.terminal.startProd",
-        "title": "Start Server (Production mode)",
+        "title": "%nestjs.terminal.startProd%",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.transform.json.ts",
+        "title": "%nestjs.transform.json.ts%",
         "category": "NestJS"
       },
       {
         "command": "nestjs.listMethods.refresh",
-        "title": "Refresh List of Methods",
+        "title": "%nestjs.listMethods.refresh%",
         "icon": "$(refresh)",
         "category": "NestJS"
       },
       {
         "command": "nestjs.listEntities.refresh",
-        "title": "Refresh List of Entities",
+        "title": "%nestjs.listEntities.refresh%",
         "icon": "$(refresh)",
         "category": "NestJS"
       },
       {
         "command": "nestjs.listDTOs.refresh",
-        "title": "Refresh List of DTOs",
+        "title": "%nestjs.listDTOs.refresh%",
         "icon": "$(refresh)",
         "category": "NestJS"
       },
       {
         "command": "nestjs.listModules.refresh",
-        "title": "Refresh List of Modules",
+        "title": "%nestjs.listModules.refresh%",
         "icon": "$(refresh)",
         "category": "NestJS"
       },
       {
         "command": "nestjs.listFiles.refresh",
-        "title": "Refresh List of Files",
+        "title": "%nestjs.listFiles.refresh%",
         "icon": "$(refresh)",
         "category": "NestJS"
       }
@@ -628,23 +633,23 @@
     "viewsWelcome": [
       {
         "view": "nestjs.listMethodsView",
-        "contents": "Your project currently lacks controllers. You can begin by adding a new controller to initiate your work.\n[Generate Controller](command:nestjs.file.controller)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+        "contents": "%viewsWelcome.nestjs.listMethodsView%"
       },
       {
         "view": "nestjs.listEntitiesView",
-        "contents": "Your project currently lacks entities. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+        "contents": "%viewsWelcome.nestjs.listEntitiesView%"
       },
       {
         "view": "nestjs.listDTOsView",
-        "contents": "Your project currently lacks DTOs. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+        "contents": "%viewsWelcome.nestjs.listDTOsView%"
       },
       {
         "view": "nestjs.listModulesView",
-        "contents": "Your project currently lacks modules. You can begin by adding a new module to initiate your work.\n[Generate Module](command:nestjs.file.module)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+        "contents": "%viewsWelcome.nestjs.listModulesView%"
       },
       {
         "view": "nestjs.listFilesView",
-        "contents": "To effectively capture files, ensure you include the plural form of the file type within the workspace settings.\n[Open Workspace Setting](command:workbench.action.openWorkspaceSettingsFile)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator)."
+        "contents": "%viewsWelcome.nestjs.listFilesView%"
       }
     ],
     "viewsContainers": {
@@ -660,32 +665,32 @@
       "nestjs-explorer": [
         {
           "id": "nestjs.listMethodsView",
-          "name": "List of HTTP Methods",
+          "name": "%nestjs.listMethodsView%",
           "visibility": "visible"
         },
         {
           "id": "nestjs.listEntitiesView",
-          "name": "List of Entities",
+          "name": "%nestjs.listEntitiesView%",
           "visibility": "visible"
         },
         {
           "id": "nestjs.listDTOsView",
-          "name": "List of DTOs",
+          "name": "%nestjs.listDTOsView%",
           "visibility": "visible"
         },
         {
           "id": "nestjs.listModulesView",
-          "name": "List of Modules",
+          "name": "%nestjs.listModulesView%",
           "visibility": "visible"
         },
         {
           "id": "nestjs.listFilesView",
-          "name": "List of Files",
+          "name": "%nestjs.listFilesView%",
           "visibility": "visible"
         },
         {
           "id": "nestjs.feedbackView",
-          "name": "Help and Feedback",
+          "name": "%nestjs.feedbackView%",
           "visibility": "visible"
         }
       ]
@@ -693,6 +698,10 @@
     "submenus": [
       {
         "id": "nestjs.folder.submenu",
+        "label": "NestJS File Generator"
+      },
+      {
+        "id": "nestjs.editor.submenu",
         "label": "NestJS File Generator"
       },
       {
@@ -740,180 +749,194 @@
           "when": "explorerViewletFocus && explorerResourceIsRoot && explorerResourceIsFolder"
         }
       ],
+      "editor/context": [
+        {
+          "submenu": "nestjs.editor.submenu",
+          "group": "1_modification",
+          "when": "editorHasSelection"
+        }
+      ],
       "nestjs.folder.submenu": [
         {
           "command": "nestjs.file.class",
-          "alt": "Generate Class",
+          "alt": "%nestjs.file.class%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.class"
         },
         {
           "command": "nestjs.file.controller",
-          "alt": "Generate Controller",
+          "alt": "%nestjs.file.controller%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.controller"
         },
         {
           "command": "nestjs.file.decorator",
-          "alt": "Generate Decorator",
+          "alt": "%nestjs.file.decorator%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.decorator"
         },
         {
           "command": "nestjs.file.dto",
-          "alt": "Generate Update Dto",
+          "alt": "%nestjs.file.dto%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.dto"
         },
         {
           "command": "nestjs.file.exception",
-          "alt": "Generate Exception",
+          "alt": "%nestjs.file.exception%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.exception"
         },
         {
           "command": "nestjs.file.exceptionFilter",
-          "alt": "Generate Exception Filter",
+          "alt": "%nestjs.file.exceptionFilter%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.exceptionFilter"
         },
         {
           "command": "nestjs.file.filter",
-          "alt": "Generate Filter",
+          "alt": "%nestjs.file.filter%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.filter"
         },
         {
           "command": "nestjs.file.gateway",
-          "alt": "Generate Gateway",
+          "alt": "%nestjs.file.gateway%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.gateway"
         },
         {
           "command": "nestjs.file.guard",
-          "alt": "Generate Guard",
+          "alt": "%nestjs.file.guard%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.guard"
         },
         {
           "command": "nestjs.file.interceptor",
-          "alt": "Generate Interceptor",
+          "alt": "%nestjs.file.interceptor%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.interceptor"
         },
         {
           "command": "nestjs.file.interface",
-          "alt": "Generate Interface",
+          "alt": "%nestjs.file.interface%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.interface"
         },
         {
           "command": "nestjs.file.jwtGuard",
-          "alt": "Generate Jwt Guard",
+          "alt": "%nestjs.file.jwtGuard%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.jwtGuard"
         },
         {
           "command": "nestjs.file.jwtStrategy",
-          "alt": "Generate Jwt Strategy",
+          "alt": "%nestjs.file.jwtStrategy%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.jwtStrategy"
         },
         {
           "command": "nestjs.file.middleware",
-          "alt": "Generate Middleware",
+          "alt": "%nestjs.file.middleware%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.middleware"
         },
         {
           "command": "nestjs.file.logger",
-          "alt": "Generate Logger",
+          "alt": "%nestjs.file.logger%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.logger"
         },
         {
           "command": "nestjs.file.module",
-          "alt": "Generate Module",
+          "alt": "%nestjs.file.module%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.module"
         },
         {
           "command": "nestjs.file.pipe",
-          "alt": "Generate Pipe",
+          "alt": "%nestjs.file.pipe%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.pipe"
         },
         {
           "command": "nestjs.file.provider",
-          "alt": "Generate Provider",
+          "alt": "%nestjs.file.provider%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.provider"
         },
         {
           "command": "nestjs.file.resolver",
-          "alt": "Generate Resolver",
+          "alt": "%nestjs.file.resolver%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.resolver"
         },
         {
           "command": "nestjs.file.service",
-          "alt": "Generate Service",
+          "alt": "%nestjs.file.service%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.service"
         },
         {
           "command": "nestjs.file.test",
-          "alt": "Generate Test",
+          "alt": "%nestjs.file.test%",
           "group": "1_file",
           "when": "nestjs.activateItem.file.test"
         },
         {
           "command": "nestjs.terminal.controller",
-          "alt": "Generate Controller with CLI",
+          "alt": "%nestjs.terminal.controller%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.controller"
         },
         {
           "command": "nestjs.terminal.gateway",
-          "alt": "Generate Gateway with CLI",
+          "alt": "%nestjs.terminal.gateway%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.gateway"
         },
         {
           "command": "nestjs.terminal.module",
-          "alt": "Generate Module with CLI",
+          "alt": "%nestjs.terminal.module%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.module"
         },
         {
           "command": "nestjs.terminal.provider",
-          "alt": "Generate Provider with CLI",
+          "alt": "%nestjs.terminal.provider%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.provider"
         },
         {
           "command": "nestjs.terminal.resolver",
-          "alt": "Generate Resolver with CLI",
+          "alt": "%nestjs.terminal.resolver%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.resolver"
         },
         {
           "command": "nestjs.terminal.resource",
-          "alt": "Generate Resource with CLI",
+          "alt": "%nestjs.terminal.resource%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.resource"
         },
         {
           "command": "nestjs.terminal.service",
-          "alt": "Generate Service with CLI",
+          "alt": "%nestjs.terminal.service%",
           "group": "2_cli",
           "when": "nestjs.activateItem.terminal.service"
         },
         {
           "command": "nestjs.terminal.custom",
-          "alt": "Generate Custom Element with CLI",
+          "alt": "%nestjs.terminal.custom%",
           "group": "3_cli",
           "when": "nestjs.activateItem.terminal.custom"
+        }
+      ],
+      "nestjs.editor.submenu": [
+        {
+          "command": "nestjs.transform.json.ts",
+          "alt": "%nestjs.transform.json.ts%",
+          "group": "1_file"
         }
       ],
       "nestjs.root.submenu": [
@@ -940,37 +963,35 @@
     "compile": "rimraf out && tsc -p ./ && cpy src/assets/* out/assets",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "format": "prettier --write 'src/**/*.ts'",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "biome format --write src",
+    "lint": "biome lint --write src",
+    "lint:check": "biome check --write src",
     "test": "node ./out/test/runTest.js",
     "compodoc": "npx compodoc -p tsconfig.doc.json -d compodoc --theme readthedocs -s",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@compodoc/compodoc": "^1.1.24",
+    "@biomejs/biome": "1.9.4",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@compodoc/compodoc": "^1.1.26",
     "@types/glob": "^8.1.0",
     "@types/minimatch": "^3.0.5",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.12.11",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.9.0",
     "@types/vscode": "^1.76.0",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@vscode/l10n-dev": "^0.0.35",
     "cpy-cli": "^5.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1",
-    "glob": "^10.3.14",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "mocha": "^10.4.0",
-    "prettier": "3.2.5",
-    "rimraf": "^5.0.5",
-    "typescript": "^5.4.5",
-    "vscode-test": "^1.5.0"
+    "glob": "^11.0.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "mocha": "^10.8.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {
+    "json-to-ts": "^2.1.0",
+    "json5": "^2.2.3"
   }
 }

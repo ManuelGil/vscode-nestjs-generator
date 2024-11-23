@@ -31,6 +31,11 @@
       "scope": "resource",
       "description": "Show the path of the file in the name of the list of generated files"
     },
+    "nestjs.terminal.cwd": {
+      "type": "string",
+      "scope": "resource",
+      "description": "The current working directory to execute the command. The default is the workspace root"
+    },
     "nestjs.submenu.customCommands": {
       "type": "array",
       "items": {

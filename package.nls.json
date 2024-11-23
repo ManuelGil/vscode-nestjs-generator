@@ -44,6 +44,7 @@
   "nestjs.files.exclude": "Glob patterns to exclude from the package. The default is node_modules, dist, out, and build",
   "nestjs.files.watch": "The list of directories to watch for changes. The default is controllers, dtos, and services",
   "nestjs.files.showPath": "Show the path of the file in the name of the list of generated files",
+  "nestjs.terminal.cwd": "The current working directory to execute the command. The default is the workspace root",
   "nestjs.submenu.customCommands": "Custom commands to add to the context menu",
   "nestjs.submenu.customCommands.name": "Name of the custom command",
   "nestjs.submenu.customCommands.command": "Command to execute",

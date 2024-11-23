@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -52,7 +52,7 @@
     "imgildev.vscode-nestjs-snippets-extension"
   ],
   "activationEvents": [
-    "workspaceContains:**/nest-cli.json"
+    "workspaceContains:**/{nest-cli.json,nx.json}"
   ],
   "main": "./out/extension.js",
   "l10n": "./l10n",
@@ -94,6 +94,11 @@
           "default": true,
           "scope": "resource",
           "description": "%nestjs.files.showPath%"
+        },
+        "nestjs.terminal.cwd": {
+          "type": "string",
+          "scope": "resource",
+          "description": "%nestjs.terminal.cwd%"
         },
         "nestjs.submenu.customCommands": {
           "type": "array",
@@ -963,9 +968,9 @@
     "compile": "rimraf out && tsc -p ./ && cpy src/assets/* out/assets",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
-    "format": "biome format --write src",
-    "lint": "biome lint --write src",
-    "lint:check": "biome check --write src",
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "lint:check": "biome check --write",
     "test": "node ./out/test/runTest.js",
     "compodoc": "npx compodoc -p tsconfig.doc.json -d compodoc --theme readthedocs -s",
     "prepare": "husky"

@@ -69,7 +69,7 @@ export class FileController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -86,7 +86,7 @@ export class FileController {
 
     // Get the class name
     const className = await getName(
-      'Class name',
+      l10n.t('Enter the class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -102,7 +102,7 @@ export class FileController {
 
     // Get the type
     let type = await getName(
-      'Type class name',
+      l10n.t('Enter the type name'),
       'E.g. class, dto, entity, model...',
       (type: string) => {
         if (!/[a-z]+/.test(type)) {
@@ -145,7 +145,7 @@ export class FileController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -162,7 +162,7 @@ export class FileController {
 
     // Get the class name
     const className = await getName(
-      'Controller class name',
+      l10n.t('Enter the controller name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -259,7 +259,7 @@ export class ${className}Controller {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -275,7 +275,7 @@ export class ${className}Controller {
     }
 
     const entityName = await getName(
-      'Decorator name',
+      l10n.t('Enter the decorator name'),
       'E.g. user, role, auth...',
       (name: string) => {
         if (!/^[A-Za-z-]{3,}$/.test(name)) {
@@ -319,7 +319,7 @@ export const ${entityName} = (...args: string[]) =>
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -336,7 +336,7 @@ export const ${entityName} = (...args: string[]) =>
 
     // Get the class name
     const className = await getName(
-      'Dto class name',
+      l10n.t('Enter the Dto class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -383,7 +383,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -400,7 +400,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
 
     // Get the class name
     const className = await getName(
-      'Exception Filter class name',
+      l10n.t('Enter the exception filter name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -466,7 +466,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -483,7 +483,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
 
     // Get the class name
     const className = await getName(
-      'Exception class name',
+      l10n.t('Enter the exception class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -530,7 +530,7 @@ export class ${className}Exception extends HttpException {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -547,7 +547,7 @@ export class ${className}Exception extends HttpException {
 
     // Get the class name
     const className = await getName(
-      'Filter class name',
+      l10n.t('Enter the filter class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -600,7 +600,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -617,7 +617,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
 
     // Get the class name
     const className = await getName(
-      'Gateway class name',
+      l10n.t('Enter the gateway class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -673,7 +673,7 @@ export class ${className}Gateway {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -690,7 +690,7 @@ export class ${className}Gateway {
 
     // Get the class name
     const className = await getName(
-      'Guard class name',
+      l10n.t('Enter the guard class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -741,7 +741,7 @@ export class ${className}Guard implements CanActivate {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -758,7 +758,7 @@ export class ${className}Guard implements CanActivate {
 
     // Get the class name
     const className = await getName(
-      'Interceptor class name',
+      l10n.t('Enter the interceptor class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -812,7 +812,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -829,7 +829,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     // Get the class name
     const className = await getName(
-      'Interface class name',
+      l10n.t('Enter the interface class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -845,7 +845,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     // Get the type
     let type = await getName(
-      'Type interface name',
+      l10n.t('Enter the interface type'),
       'E.g. interface, dto, entity, model...',
       (type: string) => {
         if (!/[a-z]+/.test(type)) {
@@ -888,7 +888,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -905,7 +905,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     // Get the class name
     const className = await getName(
-      'Guard class name',
+      l10n.t('Enter the jwt guard class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -965,7 +965,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1027,7 +1027,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1044,7 +1044,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     // Get the class name
     const className = await getName(
-      'Logger class name',
+      l10n.t('Enter the logger class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1112,7 +1112,7 @@ export class ${className}Logger implements LoggerService {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1129,7 +1129,7 @@ export class ${className}Logger implements LoggerService {
 
     // Get the class name
     const className = await getName(
-      'Middleware class name',
+      l10n.t('Enter the middleware class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1177,7 +1177,7 @@ export class ${className}Middleware implements NestMiddleware {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1194,7 +1194,7 @@ export class ${className}Middleware implements NestMiddleware {
 
     // Get the class name
     const className = await getName(
-      'Module class name',
+      l10n.t('Enter the module class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1250,7 +1250,7 @@ export class ${className}Module {}
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1267,7 +1267,7 @@ export class ${className}Module {}
 
     // Get the class name
     const className = await getName(
-      'Pipe class name',
+      l10n.t('Enter the pipe class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1315,7 +1315,7 @@ export class ${className}Pipe implements PipeTransform {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1332,7 +1332,7 @@ export class ${className}Pipe implements PipeTransform {
 
     // Get the class name
     const className = await getName(
-      'Provider class name',
+      l10n.t('Enter the provider class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1376,7 +1376,7 @@ export class ${className} {}
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1393,7 +1393,7 @@ export class ${className} {}
 
     // Get the class name
     const className = await getName(
-      'Resolver class name',
+      l10n.t('Enter the resolver class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1437,7 +1437,7 @@ export class ${className}Resolver {}
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1454,7 +1454,7 @@ export class ${className}Resolver {}
 
     // Get the class name
     const className = await getName(
-      'Service class name',
+      l10n.t('Enter the service class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1531,7 +1531,7 @@ export class ${className}Service {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Folder name',
+      l10n.t('Enter the folder name'),
       'Folder name. E.g. src, app...',
       folderPath,
       (path: string) => {
@@ -1548,7 +1548,7 @@ export class ${className}Service {
 
     // Get the class name
     const className = await getName(
-      'Test class name',
+      l10n.t('Enter the test class name'),
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
@@ -1649,7 +1649,7 @@ describe('${className}Controller', () => {
       }
 
       if (files.length === 0) {
-        const message = l10n.t('No module file found, skipping auto-import');
+        const message = l10n.t('No module file found, skipping auto-import!');
         showError(message);
         return; // No files found, nothing to do
       }

@@ -65,6 +65,7 @@ Configure your project by creating or updating a settings.json file at the proje
         "services"
       ],
       "nestjs.files.showPath": true,
+      "nestjs.terminal.cwd": "/path/to/your/project",
       "nestjs.submenu.customCommands": [
         {
           "name": "Template 1",

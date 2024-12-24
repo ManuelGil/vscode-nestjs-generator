@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.8.0",
+  "version": "2.8.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -953,16 +953,19 @@
       "nestjs.root.submenu": [
         {
           "command": "nestjs.terminal.start",
+          "alt": "%nestjs.terminal.start%",
           "group": "1_cli",
           "when": "nestjs.activateItem.terminal.start"
         },
         {
           "command": "nestjs.terminal.startDev",
+          "alt": "%nestjs.terminal.startDev%",
           "group": "1_cli",
           "when": "nestjs.activateItem.terminal.startDev"
         },
         {
           "command": "nestjs.terminal.startDebug",
+          "alt": "%nestjs.terminal.startDebug%",
           "group": "1_cli",
           "when": "nestjs.activateItem.terminal.startDebug"
         }

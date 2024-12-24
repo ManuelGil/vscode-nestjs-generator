@@ -86,6 +86,7 @@
   "nestjs.submenu.activateItem.terminal.startDebug": "Activar el elemento de iniciar servidor en modo depuración en el menú contextual. El valor por defecto es true",
   "nestjs.submenu.activateItem.terminal.startProd": "Activar el elemento de iniciar servidor en modo producción en el menú contextual. El valor por defecto es true",
   "nestjs.files.autoImport": "Importar automáticamente el archivo generado en su módulo padre. El valor por defecto es true",
+  "nestjs.files.skipFolderConfirmation": "Omitir la confirmación de la carpeta de destino. El valor por defecto es false",
   "nestjs.files.orm": "El ORM a utilizar para el proyecto. El valor por defecto es typeorm",
   "viewsWelcome.nestjs.listMethodsView": "Su proyecto actualmente carece de métodos. Puede comenzar agregando un nuevo método para iniciar su trabajo.\n[Generar Clase](command:nestjs.file.class)\nPara obtener más información sobre cómo usar NestJS File Generator para VS Code [lea nuestra documentación](https://github.com/ManuelGil/vscode-nestjs-generator).",
   "viewsWelcome.nestjs.listEntitiesView": "Su proyecto actualmente carece de entidades. Puede comenzar agregando una nueva entidad para iniciar su trabajo.\n[Generar Clase](command:nestjs.file.class)\nPara obtener más información sobre cómo usar NestJS File Generator para VS Code [lea nuestra documentación](https://github.com/ManuelGil/vscode-nestjs-generator).",

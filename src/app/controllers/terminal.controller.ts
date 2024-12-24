@@ -65,7 +65,7 @@ export class TerminalController {
     const folder = await getPath(
       'Controller name',
       'Controller name. E.g. modules/cats, modules/users, modules/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -144,7 +144,7 @@ export class TerminalController {
     const folder = await getPath(
       'Gateway name',
       'Gateway name. E.g. modules/cats, modules/users, modules/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -287,7 +287,7 @@ export class TerminalController {
     const folder = await getPath(
       'Module name',
       'Module name. E.g. modules/cats, modules/users, modules/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -366,7 +366,7 @@ export class TerminalController {
     const folder = await getPath(
       'Provider name',
       'Provider name. E.g. providers/cats, providers/users, providers/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -445,7 +445,7 @@ export class TerminalController {
     const folder = await getPath(
       'Resolver name',
       'Resolver name. E.g. resolvers/cats, resolvers/users, resolvers/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -524,7 +524,7 @@ export class TerminalController {
     const folder = await getPath(
       'Resource name',
       'Resource name. E.g. modules/cats, modules/users, modules/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -663,7 +663,7 @@ export class TerminalController {
     const folder = await getPath(
       'Service name',
       'Service name. E.g. services/cats, services/users, services/projects...',
-      folderPath,
+      `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
           return 'The folder name must be a valid name';
@@ -801,21 +801,28 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
-    let folder = await getPath(
-      'Element name',
-      'Element name. E.g. src/app/modules/users, modules/users, modules/projects...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (folder === undefined) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        `${folderPath}/`,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     const items = this.config.customCommands.map((item: any) => {

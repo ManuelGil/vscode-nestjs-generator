@@ -67,21 +67,28 @@ export class FileController {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -143,21 +150,28 @@ export class FileController {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -257,21 +271,28 @@ export class ${className}Controller {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     const entityName = await getName(
@@ -317,21 +338,28 @@ export const ${entityName} = (...args: string[]) =>
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -381,21 +409,28 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -464,21 +499,28 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -528,21 +570,28 @@ export class ${className}Exception extends HttpException {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -598,21 +647,28 @@ export class ${className}Filter<T> implements ExceptionFilter {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -671,21 +727,28 @@ export class ${className}Gateway {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -739,21 +802,28 @@ export class ${className}Guard implements CanActivate {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -810,21 +880,28 @@ export class ${className}Interceptor implements NestInterceptor {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -886,21 +963,28 @@ export class ${className}Interceptor implements NestInterceptor {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -963,21 +1047,28 @@ export class ${className}Guard extends AuthGuard('jwt') {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     const content = `import { Injectable } from '@nestjs/common';
@@ -1025,21 +1116,28 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1110,21 +1208,28 @@ export class ${className}Logger implements LoggerService {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1175,21 +1280,28 @@ export class ${className}Middleware implements NestMiddleware {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1248,21 +1360,28 @@ export class ${className}Module {}
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1313,21 +1432,28 @@ export class ${className}Pipe implements PipeTransform {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1374,21 +1500,28 @@ export class ${className} {}
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1435,21 +1568,28 @@ export class ${className}Resolver {}
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name
@@ -1529,21 +1669,28 @@ export class ${className}Service {
     // Get the relative path
     const folderPath: string = path ? await getRelativePath(path.path) : '';
 
-    // Get the path to the folder
-    const folder = await getPath(
-      l10n.t('Enter the folder name'),
-      'Folder name. E.g. src, app...',
-      folderPath,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
-        }
-        return;
-      },
-    );
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
 
-    if (!folder) {
-      return;
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        return;
+      }
+    } else {
+      folder = folderPath;
     }
 
     // Get the class name

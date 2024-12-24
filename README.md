@@ -119,6 +119,7 @@ Configure your project by creating or updating a settings.json file at the proje
         }
       },
       "nestjs.files.autoImport": true,
+      "nestjs.files.skipFolderConfirmation": false,
       "nestjs.files.orm": "typeorm",
     }
     ```

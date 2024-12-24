@@ -86,6 +86,7 @@
   "nestjs.submenu.activateItem.terminal.startDebug": "Activate the startDebug item in the context menu. The default is true",
   "nestjs.submenu.activateItem.terminal.startProd": "Activate the startProd item in the context menu. The default is true",
   "nestjs.files.autoImport": "Automatically import the generated file into the its parent module. The default is true",
+  "nestjs.files.skipFolderConfirmation": "Skip the folder confirmation dialog when generating a file. The default is false",
   "nestjs.files.orm": "The ORM to use for the project. The default is typeorm",
   "viewsWelcome.nestjs.listMethodsView": "Your project currently lacks controllers. You can begin by adding a new controller to initiate your work.\n[Generate Controller](command:nestjs.file.controller)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator).",
   "viewsWelcome.nestjs.listEntitiesView": "Your project currently lacks entities. You can begin by adding a new entity to initiate your work.\n[Generate Class](command:nestjs.file.class)\nTo learn more about how to use NestJS File Generator for VS Code [read our docs](https://github.com/ManuelGil/vscode-nestjs-generator).",

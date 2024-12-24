@@ -1,4 +1,4 @@
-import { workspace, WorkspaceConfiguration } from 'vscode';
+import { WorkspaceConfiguration, workspace } from 'vscode';
 
 import {
   ACTIVATE_MENU,
@@ -9,6 +9,7 @@ import {
   MenuInterface,
   ORM,
   SHOW_PATH,
+  SKIP_FOLDER_CONFIRMATION,
   WATCH,
 } from './constants';
 
@@ -27,6 +28,7 @@ import {
  * @property {object[]} customCommands - The custom commands
  * @property {object} activateItem - Whether to show the menu or not
  * @property {boolean} autoImport - The auto import setting
+ * @property {boolean} skipFolderConfirmation - Whether to skip the folder confirmation or not
  * @property {string} orm - The orm
  * @example
  * const config = new Config(workspace.getConfiguration());
@@ -126,6 +128,16 @@ export class Config {
    */
   autoImport: boolean;
   /**
+   * Whether to skip the folder confirmation or not.
+   * @type {boolean}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.skipFolderConfirmation);
+   */
+  skipFolderConfirmation: boolean;
+  /**
    * The orm.
    * @type {string}
    * @public
@@ -149,18 +161,68 @@ export class Config {
    * @memberof Config
    */
   constructor(readonly config: WorkspaceConfiguration) {
-    this.include = config.get<string[]>('files.include') ?? INCLUDE;
-    this.exclude = config.get<string[]>('files.exclude') ?? EXCLUDE;
-    this.watch = config.get<string[]>('files.watch') ?? WATCH;
-    this.showPath = config.get<boolean>('files.showPath') ?? SHOW_PATH;
-    this.cwd =
-      config.get<string | undefined>('terminal.cwd') ??
-      workspace.workspaceFolders?.[0].uri.fsPath;
-    this.customCommands =
-      config.get<object[]>('submenu.customCommands') ?? CUSTOM_COMMANDS;
-    this.activateItem =
-      config.get<MenuInterface>('submenu.activateItem') ?? ACTIVATE_MENU;
-    this.autoImport = config.get<boolean>('files.autoImport') ?? AUTO_IMPORT;
-    this.orm = config.get<string>('files.orm') ?? ORM;
+    this.include = config.get<string[]>('files.include', INCLUDE);
+    this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
+    this.watch = config.get<string[]>('files.watch', WATCH);
+    this.showPath = config.get<boolean>('files.showPath', SHOW_PATH);
+    this.cwd = config.get<string | undefined>(
+      'terminal.cwd',
+      workspace.workspaceFolders?.[0].uri.fsPath,
+    );
+    this.customCommands = config.get<object[]>(
+      'submenu.customCommands',
+      CUSTOM_COMMANDS,
+    );
+    this.activateItem = config.get<MenuInterface>(
+      'submenu.activateItem',
+      ACTIVATE_MENU,
+    );
+    this.autoImport = config.get<boolean>('files.autoImport', AUTO_IMPORT);
+    this.skipFolderConfirmation = config.get<boolean>(
+      'files.skipFolderConfirmation',
+      SKIP_FOLDER_CONFIRMATION,
+    );
+    this.orm = config.get<string>('files.orm', ORM);
+  }
+
+  // -----------------------------------------------------------------
+  // Methods
+  // -----------------------------------------------------------------
+
+  // Public methods
+  /**
+   * The update method.
+   *
+   * @function update
+   * @param {WorkspaceConfiguration} config - The workspace configuration
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * config.update(workspace.getConfiguration());
+   */
+  update(config: WorkspaceConfiguration): void {
+    this.include = config.get<string[]>('files.include', INCLUDE);
+    this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
+    this.watch = config.get<string[]>('files.watch', WATCH);
+    this.showPath = config.get<boolean>('files.showPath', SHOW_PATH);
+    this.cwd = config.get<string | undefined>(
+      'terminal.cwd',
+      workspace.workspaceFolders?.[0].uri.fsPath,
+    );
+    this.customCommands = config.get<object[]>(
+      'submenu.customCommands',
+      CUSTOM_COMMANDS,
+    );
+    this.activateItem = config.get<MenuInterface>(
+      'submenu.activateItem',
+      ACTIVATE_MENU,
+    );
+    this.autoImport = config.get<boolean>('files.autoImport', AUTO_IMPORT);
+    this.skipFolderConfirmation = config.get<boolean>(
+      'files.skipFolderConfirmation',
+      SKIP_FOLDER_CONFIRMATION,
+    );
+    this.orm = config.get<string>('files.orm', ORM);
   }
 }

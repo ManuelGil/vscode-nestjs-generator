@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -14,7 +14,7 @@
     "url": "https://github.com/sponsors/manuelgil"
   },
   "engines": {
-    "vscode": "^1.76.0"
+    "vscode": "^1.88.0"
   },
   "categories": [
     "Other"
@@ -400,6 +400,12 @@
           "default": true,
           "scope": "resource",
           "description": "%nestjs.files.autoImport%"
+        },
+        "nestjs.files.skipFolderConfirmation": {
+          "type": "boolean",
+          "default": false,
+          "scope": "resource",
+          "description": "%nestjs.files.skipFolderConfirmation%"
         },
         "nestjs.files.orm": {
           "type": "string",
@@ -961,7 +967,13 @@
           "when": "nestjs.activateItem.terminal.startDebug"
         }
       ]
-    }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": ".vscode/settings.json",
+        "url": "./schemas/config.schema.json"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -971,29 +983,29 @@
     "format": "biome format --write",
     "lint": "biome lint --write",
     "lint:check": "biome check --write",
-    "test": "node ./out/test/runTest.js",
+    "test": "vscode-test",
     "compodoc": "npx compodoc -p tsconfig.doc.json -d compodoc --theme readthedocs -s",
     "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@compodoc/compodoc": "^1.1.26",
     "@types/glob": "^8.1.0",
     "@types/minimatch": "^3.0.5",
-    "@types/mocha": "^10.0.9",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.9.0",
-    "@types/vscode": "^1.76.0",
+    "@types/vscode": "^1.88.0",
     "@vscode/l10n-dev": "^0.0.35",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
     "cpy-cli": "^5.0.0",
     "glob": "^11.0.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "mocha": "^10.8.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.11",
     "rimraf": "^6.0.1",
-    "typescript": "^5.6.3",
-    "vscode-test": "^1.6.1"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "json-to-ts": "^2.1.0",

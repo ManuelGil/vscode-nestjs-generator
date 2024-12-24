@@ -337,6 +337,12 @@
       "scope": "resource",
       "description": "Automatically import the generated file in the module. The default is true."
     },
+    "nestjs.files.skipFolderConfirmation": {
+      "type": "boolean",
+      "default": false,
+      "scope": "resource",
+      "description": "Skip the folder confirmation dialog when generating a file. The default is false."
+    },
     "nestjs.files.orm": {
       "type": "string",
       "default": "typeorm",

@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator for VSCode",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.8.2",
+  "version": "2.8.3",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -52,7 +52,9 @@
     "imgildev.vscode-nestjs-snippets-extension"
   ],
   "activationEvents": [
-    "onLanguage:typescript"
+    "onLanguage:typescript",
+    "workspaceContains:**/nest-cli.json",
+    "workspaceContains:**/nx.json"
   ],
   "main": "./out/extension.js",
   "l10n": "./l10n",
@@ -770,170 +772,170 @@
       "nestjs.folder.submenu": [
         {
           "command": "nestjs.file.class",
-          "group": "1_file",
+          "group": "1_file@1",
           "when": "nestjs.activateItem.file.class"
         },
         {
           "command": "nestjs.file.controller",
-          "group": "1_file",
+          "group": "1_file@2",
           "when": "nestjs.activateItem.file.controller"
         },
         {
           "command": "nestjs.file.decorator",
-          "group": "1_file",
+          "group": "1_file@3",
           "when": "nestjs.activateItem.file.decorator"
         },
         {
           "command": "nestjs.file.dto",
-          "group": "1_file",
+          "group": "1_file@4",
           "when": "nestjs.activateItem.file.dto"
         },
         {
           "command": "nestjs.file.exception",
-          "group": "1_file",
+          "group": "1_file@5",
           "when": "nestjs.activateItem.file.exception"
         },
         {
           "command": "nestjs.file.exceptionFilter",
-          "group": "1_file",
+          "group": "1_file@6",
           "when": "nestjs.activateItem.file.exceptionFilter"
         },
         {
           "command": "nestjs.file.filter",
-          "group": "1_file",
+          "group": "1_file@7",
           "when": "nestjs.activateItem.file.filter"
         },
         {
           "command": "nestjs.file.gateway",
-          "group": "1_file",
+          "group": "1_file@8",
           "when": "nestjs.activateItem.file.gateway"
         },
         {
           "command": "nestjs.file.guard",
-          "group": "1_file",
+          "group": "1_file@9",
           "when": "nestjs.activateItem.file.guard"
         },
         {
           "command": "nestjs.file.interceptor",
-          "group": "1_file",
+          "group": "1_file@10",
           "when": "nestjs.activateItem.file.interceptor"
         },
         {
           "command": "nestjs.file.interface",
-          "group": "1_file",
+          "group": "1_file@11",
           "when": "nestjs.activateItem.file.interface"
         },
         {
           "command": "nestjs.file.jwtGuard",
-          "group": "1_file",
+          "group": "1_file@12",
           "when": "nestjs.activateItem.file.jwtGuard"
         },
         {
           "command": "nestjs.file.jwtStrategy",
-          "group": "1_file",
+          "group": "1_file@13",
           "when": "nestjs.activateItem.file.jwtStrategy"
         },
         {
           "command": "nestjs.file.middleware",
-          "group": "1_file",
+          "group": "1_file@14",
           "when": "nestjs.activateItem.file.middleware"
         },
         {
           "command": "nestjs.file.logger",
-          "group": "1_file",
+          "group": "1_file@15",
           "when": "nestjs.activateItem.file.logger"
         },
         {
           "command": "nestjs.file.module",
-          "group": "1_file",
+          "group": "1_file@16",
           "when": "nestjs.activateItem.file.module"
         },
         {
           "command": "nestjs.file.pipe",
-          "group": "1_file",
+          "group": "1_file@17",
           "when": "nestjs.activateItem.file.pipe"
         },
         {
           "command": "nestjs.file.provider",
-          "group": "1_file",
+          "group": "1_file@18",
           "when": "nestjs.activateItem.file.provider"
         },
         {
           "command": "nestjs.file.resolver",
-          "group": "1_file",
+          "group": "1_file@19",
           "when": "nestjs.activateItem.file.resolver"
         },
         {
           "command": "nestjs.file.service",
-          "group": "1_file",
+          "group": "1_file@20",
           "when": "nestjs.activateItem.file.service"
         },
         {
           "command": "nestjs.file.test",
-          "group": "1_file",
+          "group": "1_file@21",
           "when": "nestjs.activateItem.file.test"
         },
         {
           "command": "nestjs.terminal.controller",
-          "group": "2_cli",
+          "group": "2_cli@1",
           "when": "nestjs.activateItem.terminal.controller"
         },
         {
           "command": "nestjs.terminal.gateway",
-          "group": "2_cli",
+          "group": "2_cli@2",
           "when": "nestjs.activateItem.terminal.gateway"
         },
         {
           "command": "nestjs.terminal.module",
-          "group": "2_cli",
+          "group": "2_cli@3",
           "when": "nestjs.activateItem.terminal.module"
         },
         {
           "command": "nestjs.terminal.provider",
-          "group": "2_cli",
+          "group": "2_cli@4",
           "when": "nestjs.activateItem.terminal.provider"
         },
         {
           "command": "nestjs.terminal.resolver",
-          "group": "2_cli",
+          "group": "2_cli@5",
           "when": "nestjs.activateItem.terminal.resolver"
         },
         {
           "command": "nestjs.terminal.resource",
-          "group": "2_cli",
+          "group": "2_cli@6",
           "when": "nestjs.activateItem.terminal.resource"
         },
         {
           "command": "nestjs.terminal.service",
-          "group": "2_cli",
+          "group": "2_cli@7",
           "when": "nestjs.activateItem.terminal.service"
         },
         {
           "command": "nestjs.terminal.custom",
-          "group": "3_cli",
+          "group": "3_cli@1",
           "when": "nestjs.activateItem.terminal.custom"
         }
       ],
       "nestjs.editor.submenu": [
         {
           "command": "nestjs.transform.json.ts",
-          "group": "1_file"
+          "group": "1_file@1"
         }
       ],
       "nestjs.root.submenu": [
         {
           "command": "nestjs.terminal.start",
-          "group": "1_cli",
+          "group": "1_cli@1",
           "when": "nestjs.activateItem.terminal.start"
         },
         {
           "command": "nestjs.terminal.startDev",
-          "group": "1_cli",
+          "group": "1_cli@2",
           "when": "nestjs.activateItem.terminal.startDev"
         },
         {
           "command": "nestjs.terminal.startDebug",
-          "group": "1_cli",
+          "group": "1_cli@3",
           "when": "nestjs.activateItem.terminal.startDebug"
         }
       ]

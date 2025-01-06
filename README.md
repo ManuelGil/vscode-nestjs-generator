@@ -49,6 +49,7 @@ Configure your project by creating or updating a settings.json file at the proje
 
     ```jsonc
     {
+      "nestjs.enable": true,
       "nestjs.files.include": [
         "ts"
       ],

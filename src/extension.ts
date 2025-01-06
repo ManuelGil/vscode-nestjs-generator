@@ -68,10 +68,31 @@ export async function activate(context: vscode.ExtensionContext) {
 
   // Watch for changes in the configuration
   vscode.workspace.onDidChangeConfiguration((event) => {
+    const workspaceConfig = vscode.workspace.getConfiguration(
+      EXTENSION_ID,
+      resource?.uri,
+    );
+
+    if (event.affectsConfiguration(`${EXTENSION_ID}.enable`, resource?.uri)) {
+      const isEnabled = workspaceConfig.get<boolean>('enable');
+
+      config.update(workspaceConfig);
+
+      if (isEnabled) {
+        const message = vscode.l10n.t('{0} is now enabled and ready to use', [
+          EXTENSION_DISPLAY_NAME,
+        ]);
+        vscode.window.showInformationMessage(message);
+      } else {
+        const message = vscode.l10n.t('{0} is now disabled', [
+          EXTENSION_DISPLAY_NAME,
+        ]);
+        vscode.window.showInformationMessage(message);
+      }
+    }
+
     if (event.affectsConfiguration(EXTENSION_ID, resource?.uri)) {
-      config.update(
-        vscode.workspace.getConfiguration(EXTENSION_ID, resource?.uri),
-      );
+      config.update(workspaceConfig);
     }
   });
 
@@ -111,21 +132,18 @@ export async function activate(context: vscode.ExtensionContext) {
       'New version of {0} is available. Check out the release notes for version {1}',
       [EXTENSION_DISPLAY_NAME, currentVersion],
     );
-    const option = await vscode.window.showInformationMessage(
-      message,
-      ...actions,
-    );
-
-    // Handle the actions
-    switch (option?.title) {
-      case actions[0].title:
-        vscode.env.openExternal(
-          vscode.Uri.parse(
-            `https://marketplace.visualstudio.com/items/${USER_PUBLISHER}.${EXTENSION_NAME}/changelog`,
-          ),
-        );
-        break;
-    }
+    vscode.window.showInformationMessage(message, ...actions).then((option) => {
+      // Handle the actions
+      switch (option?.title) {
+        case actions[0].title:
+          vscode.env.openExternal(
+            vscode.Uri.parse(
+              `https://marketplace.visualstudio.com/items/${USER_PUBLISHER}.${EXTENSION_NAME}/changelog`,
+            ),
+          );
+          break;
+      }
+    });
 
     // Update the version in the global state
     context.globalState.update('version', currentVersion);
@@ -305,87 +323,339 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableGenerateFileClass = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.class`,
-    (args) => fileController.generateClass(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateClass(args);
+    },
   );
   const disposableGenerateFileController = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.controller`,
-    (args) => fileController.generateController(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateController(args);
+    },
   );
   const disposableGenerateFileDecorator = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.decorator`,
-    (args) => fileController.generateDecorator(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateDecorator(args);
+    },
   );
   const disposableGenerateFileDto = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.dto`,
-    (args) => fileController.generateDto(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateDto(args);
+    },
   );
   const disposableGenerateFileException = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.exception`,
-    (args) => fileController.generateException(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateException(args);
+    },
   );
   const disposableGenerateFileExceptionFilter = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.exceptionFilter`,
-    (args) => fileController.generateExceptionFilter(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateExceptionFilter(args);
+    },
   );
   const disposableGenerateFileFilter = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.filter`,
-    (args) => fileController.generateFilter(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateFilter(args);
+    },
   );
   const disposableGenerateFileGateway = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.gateway`,
-    (args) => fileController.generateGateway(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateGateway(args);
+    },
   );
   const disposableGenerateFileGuard = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.guard`,
-    (args) => fileController.generateGuard(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateGuard(args);
+    },
   );
   const disposableGenerateFileInterceptor = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.interceptor`,
-    (args) => fileController.generateInterceptor(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateInterceptor(args);
+    },
   );
   const disposableGenerateFileInterface = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.interface`,
-    (args) => fileController.generateInterface(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateInterface(args);
+    },
   );
   const disposableGenerateFileJwtGuard = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.jwtGuard`,
-    (args) => fileController.generateJwtGuard(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateJwtGuard(args);
+    },
   );
   const disposableGenerateFileJwtStrategy = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.jwtStrategy`,
-    (args) => fileController.generateJwtStrategy(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateJwtStrategy(args);
+    },
   );
   const disposableGenerateFileMiddleware = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.middleware`,
-    (args) => fileController.generateMiddleware(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateMiddleware(args);
+    },
   );
   const disposableGenerateFileLogger = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.logger`,
-    (args) => fileController.generateLogger(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateLogger(args);
+    },
   );
   const disposableGenerateFileModule = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.module`,
-    (args) => fileController.generateModule(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateModule(args);
+    },
   );
   const disposableGenerateFilePipe = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.pipe`,
-    (args) => fileController.generatePipe(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generatePipe(args);
+    },
   );
   const disposableGenerateFileProvider = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.provider`,
-    (args) => fileController.generateProvider(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateProvider(args);
+    },
   );
   const disposableGenerateFileResolver = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.resolver`,
-    (args) => fileController.generateResolver(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateResolver(args);
+    },
   );
   const disposableGenerateFileService = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.service`,
-    (args) => fileController.generateService(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateService(args);
+    },
   );
   const disposableGenerateFileTest = vscode.commands.registerCommand(
     `${EXTENSION_ID}.file.test`,
-    (args) => fileController.generateTest(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateTest(args);
+    },
   );
 
   // -----------------------------------------------------------------
@@ -397,59 +667,227 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableTerminalController = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.controller`,
-    (args) => terminalController.generateController(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateController(args);
+    },
   );
   const disposableTerminalGateway = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.gateway`,
-    (args) => terminalController.generateGateway(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateGateway(args);
+    },
   );
   const disposableTerminalLibrary = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.library`,
-    () => terminalController.generateLibrary(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateLibrary();
+    },
   );
   const disposableTerminalModule = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.module`,
-    (args) => terminalController.generateModule(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateModule(args);
+    },
   );
   const disposableTerminalProvider = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.provider`,
-    (args) => terminalController.generateProvider(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateProvider(args);
+    },
   );
   const disposableTerminalResolver = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.resolver`,
-    (args) => terminalController.generateResolver(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateResolver(args);
+    },
   );
   const disposableTerminalResource = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.resource`,
-    (args) => terminalController.generateResource(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateResource(args);
+    },
   );
   const disposableTerminalService = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.service`,
-    (args) => terminalController.generateService(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateService(args);
+    },
   );
   const disposableTerminalSubApp = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.subApp`,
-    () => terminalController.generateSubApp(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateSubApp();
+    },
   );
   const disposableTerminalStart = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.start`,
-    () => terminalController.start(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.start();
+    },
   );
   const disposableTerminalStartDev = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.startDev`,
-    () => terminalController.startDev(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.startDev();
+    },
   );
   const disposableTerminalStartDebug = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.startDebug`,
-    () => terminalController.startDebug(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.startDebug();
+    },
   );
   const disposableTerminalStartProd = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.startProd`,
-    () => terminalController.startProd(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.startProd();
+    },
   );
   const disposableTerminalCustomElement = vscode.commands.registerCommand(
     `${EXTENSION_ID}.terminal.custom`,
-    (args) => terminalController.generateCustomElement(args),
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      terminalController.generateCustomElement(args);
+    },
   );
 
   // -----------------------------------------------------------------
@@ -461,7 +899,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableTransformJson2Ts = vscode.commands.registerCommand(
     `${EXTENSION_ID}.transform.json.ts`,
-    () => transformController.json2ts(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      transformController.json2ts();
+    },
   );
 
   // -----------------------------------------------------------------
@@ -473,12 +923,36 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableListOpenFile = vscode.commands.registerCommand(
     `${EXTENSION_ID}.list.openFile`,
-    (uri) => listFilesController.openFile(uri),
+    (uri) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listFilesController.openFile(uri);
+    },
   );
 
   const disposableListGotoLine = vscode.commands.registerCommand(
     `${EXTENSION_ID}.list.gotoLine`,
-    (uri, line) => listFilesController.gotoLine(uri, line),
+    (uri, line) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listFilesController.gotoLine(uri, line);
+    },
   );
 
   // -----------------------------------------------------------------
@@ -499,7 +973,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableRefreshListFiles = vscode.commands.registerCommand(
     `${EXTENSION_ID}.listFiles.refresh`,
-    () => listFilesProvider.refresh(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listFilesProvider.refresh();
+    },
   );
 
   // -----------------------------------------------------------------
@@ -520,7 +1006,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableRefreshListModules = vscode.commands.registerCommand(
     `${EXTENSION_ID}.listModules.refresh`,
-    () => listModulesProvider.refresh(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listModulesProvider.refresh();
+    },
   );
 
   // -----------------------------------------------------------------
@@ -548,7 +1046,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableRefreshListEntities = vscode.commands.registerCommand(
     `${EXTENSION_ID}.listEntities.refresh`,
-    () => listEntitiesProvider.refresh(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listEntitiesProvider.refresh();
+    },
   );
 
   // -----------------------------------------------------------------
@@ -576,7 +1086,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableRefreshListDTOs = vscode.commands.registerCommand(
     `${EXTENSION_ID}.listDTOs.refresh`,
-    () => listDTOsProvider.refresh(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listDTOsProvider.refresh();
+    },
   );
 
   // -----------------------------------------------------------------
@@ -597,7 +1119,19 @@ export async function activate(context: vscode.ExtensionContext) {
 
   const disposableRefreshListMethods = vscode.commands.registerCommand(
     `${EXTENSION_ID}.listMethods.refresh`,
-    () => listMethodsProvider.refresh(),
+    () => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      listMethodsProvider.refresh();
+    },
   );
 
   // -----------------------------------------------------------------

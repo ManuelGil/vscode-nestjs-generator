@@ -40,6 +40,7 @@
   "nestjs.listDTOs.refresh": "Actualizar Lista de DTOs",
   "nestjs.listModules.refresh": "Actualizar Lista de Módulos",
   "nestjs.listFiles.refresh": "Actualizar Lista de Archivos",
+  "nestjs.enable": "Habilita o deshabilita la extensión de generador de archivos NestJS",
   "nestjs.files.include": "Patrones Glob para incluir en el paquete. El valor por defecto es ts",
   "nestjs.files.exclude": "Patrones Glob para excluir del paquete. El valor por defecto es node_modules, dist, out, y build",
   "nestjs.files.watch": "La lista de directorios a observar para cambios. El valor por defecto es controllers, dtos, y services",

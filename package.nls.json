@@ -40,6 +40,7 @@
   "nestjs.listDTOs.refresh": "Refresh List of DTOs",
   "nestjs.listModules.refresh": "Refresh List of Modules",
   "nestjs.listFiles.refresh": "Refresh List of Files",
+  "nestjs.enable": "Enable or disable the NestJS File Generator extension",
   "nestjs.files.include": "Glob patterns to include in the package. The default is ts",
   "nestjs.files.exclude": "Glob patterns to exclude from the package. The default is node_modules, dist, out, and build",
   "nestjs.files.watch": "The list of directories to watch for changes. The default is controllers, dtos, and services",

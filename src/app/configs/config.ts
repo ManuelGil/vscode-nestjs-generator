@@ -44,6 +44,16 @@ export class Config {
 
   // Public properties
   /**
+   * Whether the extension is enabled or not.
+   * @type {boolean}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.enable);
+   */
+  enable: boolean;
+  /**
    * The files to include.
    * @type {string[]}
    * @public
@@ -161,6 +171,7 @@ export class Config {
    * @memberof Config
    */
   constructor(readonly config: WorkspaceConfiguration) {
+    this.enable = config.get<boolean>('enable', true);
     this.include = config.get<string[]>('files.include', INCLUDE);
     this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
     this.watch = config.get<string[]>('files.watch', WATCH);
@@ -202,6 +213,7 @@ export class Config {
    * config.update(workspace.getConfiguration());
    */
   update(config: WorkspaceConfiguration): void {
+    this.enable = config.get<boolean>('enable', true);
     this.include = config.get<string[]>('files.include', INCLUDE);
     this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
     this.watch = config.get<string[]>('files.watch', WATCH);

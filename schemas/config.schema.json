@@ -2,6 +2,12 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
+    "nestjs.enable": {
+      "type": "boolean",
+      "default": true,
+      "scope": "resource",
+      "description": "Enable or disable the NestJS File Generator extension"
+    },
     "nestjs.files.include": {
       "type": "array",
       "default": ["ts"],

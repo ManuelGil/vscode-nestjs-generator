@@ -97,7 +97,7 @@ export class FileController {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -180,7 +180,7 @@ export class FileController {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -368,7 +368,7 @@ export const ${entityName} = (...args: string[]) =>
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -439,7 +439,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -529,7 +529,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -600,7 +600,7 @@ export class ${className}Exception extends HttpException {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -677,7 +677,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -757,7 +757,7 @@ export class ${className}Gateway {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -832,7 +832,7 @@ export class ${className}Guard implements CanActivate {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -910,7 +910,7 @@ export class ${className}Interceptor implements NestInterceptor {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -993,7 +993,7 @@ export class ${className}Interceptor implements NestInterceptor {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1146,7 +1146,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1238,7 +1238,7 @@ export class ${className}Logger implements LoggerService {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1310,7 +1310,7 @@ export class ${className}Middleware implements NestMiddleware {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1390,7 +1390,7 @@ export class ${className}Module {}
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1462,7 +1462,7 @@ export class ${className}Pipe implements PipeTransform {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1530,7 +1530,7 @@ export class ${className} {}
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1598,7 +1598,7 @@ export class ${className}Resolver {}
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },
@@ -1699,7 +1699,7 @@ export class ${className}Service {
       'E.g. User, Role, Auth...',
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in camelCase.';
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
         }
         return;
       },

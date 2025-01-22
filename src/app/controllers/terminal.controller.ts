@@ -2,7 +2,7 @@ import { l10n, Uri, window, workspace } from 'vscode';
 
 // Import the Config and helper functions
 import { Config } from '../configs';
-import { getName, getPath, runCommand } from '../helpers';
+import { getName, getPath, runCommand, showError } from '../helpers';
 
 /**
  * The TerminalController class.
@@ -75,6 +75,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -154,6 +156,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -218,6 +222,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -297,6 +303,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -376,6 +384,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -455,6 +465,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -534,6 +546,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -673,6 +687,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -736,6 +752,8 @@ export class TerminalController {
     );
 
     if (!folder) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -819,10 +837,20 @@ export class TerminalController {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
       folder = folderPath;
+    }
+
+    if (this.config.customCommands.length === 0) {
+      const message = l10n.t(
+        'The custom commands list is empty. Please add custom commands to the configuration',
+      );
+      window.showErrorMessage(message);
+      return;
     }
 
     const items = this.config.customCommands.map((item: any) => {
@@ -839,7 +867,9 @@ export class TerminalController {
       ),
     });
 
-    if (option === undefined) {
+    if (!option) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 

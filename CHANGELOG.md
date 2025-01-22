@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.10.0] - 2025-01-07
+
+### Added
+
+- Add `submenu.templates` settings to customize the templates in the context menu
+- Add localization for cancellation message
+
 ## [2.9.0] - 2025-01-06
 
 ### Added
@@ -238,7 +245,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.9.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...HEAD
+[2.10.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.6.0...v2.7.0

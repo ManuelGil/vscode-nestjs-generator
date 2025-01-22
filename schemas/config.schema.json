@@ -76,6 +76,73 @@
       "scope": "resource",
       "description": "Custom commands to add to the context menu"
     },
+    "nestjs.submenu.templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the template"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the template"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "class",
+              "component",
+              "controller",
+              "decorator",
+              "directive",
+              "dto",
+              "enum",
+              "exception",
+              "exceptionFilter",
+              "filter",
+              "gateway",
+              "guard",
+              "interceptor",
+              "interface",
+              "logger",
+              "middleware",
+              "module",
+              "pipe",
+              "provider",
+              "resolver",
+              "service",
+              "strategy",
+              "spec",
+              "template",
+              "test"
+            ],
+            "description": "Type of the template"
+          },
+          "template": {
+            "type": "array",
+            "description": "The template content"
+          }
+        }
+      },
+      "default": [
+        {
+          "name": "Custom Service",
+          "description": "Generate a custom service",
+          "type": "service",
+          "template": [
+            "import { Injectable } from '@nestjs/common';",
+            "",
+            "@Injectable()",
+            "export class CustomService {",
+            "}"
+          ]
+        }
+      ],
+      "scope": "resource",
+      "description": "Custom templates to generate files"
+    },
     "nestjs.submenu.activateItem": {
       "type": "object",
       "properties": {
@@ -207,6 +274,11 @@
               "default": true,
               "scope": "resource",
               "description": "Activate the test item in the context menu. The default is true."
+            },
+            "template": {
+              "type": "boolean",
+              "default": true,
+              "description": "Activate the template item in the context menu. The default is true."
             }
           }
         },
@@ -316,7 +388,8 @@
           "provider": true,
           "resolver": true,
           "service": true,
-          "test": true
+          "test": true,
+          "template": true
         },
         "terminal": {
           "controller": true,

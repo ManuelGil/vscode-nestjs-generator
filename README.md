@@ -21,6 +21,7 @@ With this powerful extension, you can streamline your NestJS development workflo
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Project Settings](#project-settings)
+  - [Settings Options](#settings-options)
   - [Features](#features)
   - [Follow Me](#follow-me)
   - [VSXpert Template](#vsxpert-template)
@@ -33,7 +34,7 @@ With this powerful extension, you can streamline your NestJS development workflo
 
 ## Requirements
 
-- VSCode 1.76.0 or later
+- VSCode 1.88.0 or later
 
 ## Project Settings
 
@@ -49,24 +50,24 @@ Configure your project by creating or updating a settings.json file at the proje
 
     ```jsonc
     {
-      "nestjs.enable": true,
+      "nestjs.enable": true, // Enable or disable the extension
       "nestjs.files.include": [
         "ts"
-      ],
+      ], // The list of extensions to include in the Sidebar Nest File Generator
       "nestjs.files.exclude": [
         "**/node_modules/**",
         "**/dist/**",
         "**/out/**",
         "**/build/**",
         "**/.*/**"
-      ],
+      ], // Glob patterns of files or folders to exclude in the Sidebar Nest File Generator
       "nestjs.files.watch": [
         "controllers",
         "dtos",
         "services"
-      ],
-      "nestjs.files.showPath": true,
-      "nestjs.terminal.cwd": "/path/to/your/project",
+      ], // The list of types of files to watch in the Sidebar Nest File Generator
+      "nestjs.files.showPath": true, // Show the path in the list of files in the Sidebar Nest File Generator
+      "nestjs.terminal.cwd": "/path/to/your/project", // Sets the current working directory for the terminal
       "nestjs.submenu.customCommands": [
         {
           "name": "Template 1",
@@ -78,7 +79,21 @@ Configure your project by creating or updating a settings.json file at the proje
           "command": "nest g co",
           "args": "--no-flat"
         }
-      ],
+      ], // The list of custom commands to execute in the custom command submenu
+      "nestjs.submenu.templates": [
+        {
+          "name": "Template 1",
+          "description": "Description of Template 1",
+          "type": "controller",
+          "template": [
+            "import { Controller } from '@nestjs/common';",
+            "",
+            "@Controller('template1')",
+            "export class Template1Controller {",
+            "}"
+          ]
+        }
+      ], // The list of templates to use when generating a new file
       "nestjs.submenu.activateItem": {
         "file": {
           "class": true,
@@ -101,7 +116,8 @@ Configure your project by creating or updating a settings.json file at the proje
           "provider": true,
           "resolver": true,
           "service": true,
-          "test": true
+          "test": true,
+          "template": true
         },
         "terminal": {
           "controller": true,
@@ -118,16 +134,48 @@ Configure your project by creating or updating a settings.json file at the proje
           "startDebug": true,
           "startProd": true
         }
-      },
-      "nestjs.files.autoImport": true,
-      "nestjs.files.skipFolderConfirmation": false,
-      "nestjs.files.orm": "typeorm",
+      }, // Activate items in the submenu
+      "nestjs.files.autoImport": true, // Automatically import the generated file
+      "nestjs.files.skipFolderConfirmation": false, // Skip folder confirmation when generating a new file
+      "nestjs.files.orm": "typeorm", // The ORM to use when generating a new file
     }
     ```
 
 4. **Restart VS Code**
 
 Your project is now set up to automatically format code upon saving.
+
+## Settings Options
+
+Configure the Nest File Generator extension to suit your needs. The following settings are available:
+
+- `nestjs.enable`: Enable or disable the extension. The default is `true`.
+- `nestjs.files.include`: The list of extensions to include in the Sidebar Nest File Generator. The default is `ts`.
+- `nestjs.files.exclude`: Glob patterns of files or folders to exclude in the Sidebar Nest File Generator. The default is `**/node_modules/**`, `**/dist/**`, `**/out/**`, `**/build/**`, and `**/.*/**`.
+- `nestjs.files.watch`: The list of types of files to watch in the Sidebar Nest File Generator. The default is `controllers`, `dtos`, and `services`.
+- `nestjs.files.showPath`: Show the path in the list of files in the Sidebar Nest File Generator. The default is `true`.
+- `nestjs.terminal.cwd`: Sets the current working directory for the terminal. The directory must be an absolute path. The default is empty.
+- `nestjs.submenu.customCommands`: The list of custom commands to execute in the custom command submenu. The default is `[]`.
+- `nestjs.submenu.templates`: The list of templates to use when generating a new file. The default is `[]`.
+- `nestjs.submenu.activateItem`: Activate items in the submenu. The default is `true`.
+- `nestjs.files.autoImport`: Automatically import the generated file. The default is `true`.
+- `nestjs.files.skipFolderConfirmation`: Skip folder confirmation when generating a new file. The default is `false`.
+- `nestjs.files.orm`: The ORM to use when generating a new file. The default is `typeorm`.
+
+The `nestjs.submenu.customCommands` setting is an array of objects with the following properties:
+
+- `name`: The name of the command. Example: "Template 1".
+- `command`: The command to execute. Example: "ng g c".
+- `args`: The arguments to pass to the command. Example: "--style css --standalone true --inline-style --inline-template".
+
+The `nestjs.submenu.templates` setting is an array of objects with the following properties:
+
+- `name`: The name of the template. Example: "Service".
+- `description`: A description of the template. Example: "Creates a service file".
+- `type`: The type of component. Example: "service".
+- `template`: The template content for the file. Use `{{ComponentName}}` as a placeholder for the component name and `{{EntityName}}` for the lowercase component name or any other placeholder you want to use.
+
+For more information on configuring the Nest File Generator extension, see the [Project Settings](#project-settings) section.
 
 ## Features
 

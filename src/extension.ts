@@ -133,6 +133,10 @@ export async function activate(context: vscode.ExtensionContext) {
       [EXTENSION_DISPLAY_NAME, currentVersion],
     );
     vscode.window.showInformationMessage(message, ...actions).then((option) => {
+      if (!option) {
+        return;
+      }
+
       // Handle the actions
       switch (option?.title) {
         case actions[0].title:
@@ -141,6 +145,9 @@ export async function activate(context: vscode.ExtensionContext) {
               `https://marketplace.visualstudio.com/items/${USER_PUBLISHER}.${EXTENSION_NAME}/changelog`,
             ),
           );
+          break;
+
+        default:
           break;
       }
     });
@@ -257,6 +264,11 @@ export async function activate(context: vscode.ExtensionContext) {
     'setContext',
     `${EXTENSION_ID}.activateItem.file.test`,
     config.activateItem.file.test,
+  );
+  vscode.commands.executeCommand(
+    'setContext',
+    `${EXTENSION_ID}.activateItem.file.template`,
+    config.activateItem.file.template,
   );
   vscode.commands.executeCommand(
     'setContext',
@@ -655,6 +667,22 @@ export async function activate(context: vscode.ExtensionContext) {
       }
 
       fileController.generateTest(args);
+    },
+  );
+  const disposableFileCustomElement = vscode.commands.registerCommand(
+    `${EXTENSION_ID}.file.template`,
+    (args) => {
+      // Check if the extension is enabled
+      if (!config.enable) {
+        const message = vscode.l10n.t(
+          '{0} is disabled in settings. Enable it to use its features',
+          [EXTENSION_DISPLAY_NAME],
+        );
+        vscode.window.showErrorMessage(message);
+        return;
+      }
+
+      fileController.generateCustomElement(args);
     },
   );
 
@@ -1208,6 +1236,7 @@ export async function activate(context: vscode.ExtensionContext) {
     disposableGenerateFileResolver,
     disposableGenerateFileService,
     disposableGenerateFileTest,
+    disposableFileCustomElement,
     disposableTerminalController,
     disposableTerminalGateway,
     disposableTerminalLibrary,

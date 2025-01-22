@@ -85,6 +85,8 @@ export class FileController {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -104,6 +106,8 @@ export class FileController {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -120,6 +124,8 @@ export class FileController {
     );
 
     if (!type) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -168,6 +174,8 @@ export class FileController {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -187,6 +195,8 @@ export class FileController {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -289,6 +299,8 @@ export class ${className}Controller {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -307,6 +319,8 @@ export class ${className}Controller {
     );
 
     if (!entityName) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -356,6 +370,8 @@ export const ${entityName} = (...args: string[]) =>
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -375,6 +391,8 @@ export const ${entityName} = (...args: string[]) =>
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -427,6 +445,8 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -446,6 +466,8 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -517,6 +539,8 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -536,6 +560,8 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -588,6 +614,8 @@ export class ${className}Exception extends HttpException {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -607,6 +635,8 @@ export class ${className}Exception extends HttpException {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -665,6 +695,8 @@ export class ${className}Filter<T> implements ExceptionFilter {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -684,6 +716,8 @@ export class ${className}Filter<T> implements ExceptionFilter {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -745,6 +779,8 @@ export class ${className}Gateway {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -764,6 +800,8 @@ export class ${className}Gateway {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -820,6 +858,8 @@ export class ${className}Guard implements CanActivate {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -839,6 +879,8 @@ export class ${className}Guard implements CanActivate {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -898,6 +940,8 @@ export class ${className}Interceptor implements NestInterceptor {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -917,6 +961,8 @@ export class ${className}Interceptor implements NestInterceptor {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -933,6 +979,8 @@ export class ${className}Interceptor implements NestInterceptor {
     );
 
     if (!type) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -981,6 +1029,8 @@ export class ${className}Interceptor implements NestInterceptor {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1000,6 +1050,8 @@ export class ${className}Interceptor implements NestInterceptor {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1065,6 +1117,8 @@ export class ${className}Guard extends AuthGuard('jwt') {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1134,6 +1188,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1153,6 +1209,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1226,6 +1284,8 @@ export class ${className}Logger implements LoggerService {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1245,6 +1305,8 @@ export class ${className}Logger implements LoggerService {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1298,6 +1360,8 @@ export class ${className}Middleware implements NestMiddleware {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1317,6 +1381,8 @@ export class ${className}Middleware implements NestMiddleware {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1378,6 +1444,8 @@ export class ${className}Module {}
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1397,6 +1465,8 @@ export class ${className}Module {}
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1450,6 +1520,8 @@ export class ${className}Pipe implements PipeTransform {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1469,6 +1541,8 @@ export class ${className}Pipe implements PipeTransform {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1518,6 +1592,8 @@ export class ${className} {}
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1537,6 +1613,8 @@ export class ${className} {}
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1586,6 +1664,8 @@ export class ${className}Resolver {}
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1605,6 +1685,8 @@ export class ${className}Resolver {}
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1687,6 +1769,8 @@ export class ${className}Service {
       );
 
       if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
         return;
       }
     } else {
@@ -1706,6 +1790,8 @@ export class ${className}Service {
     );
 
     if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
       return;
     }
 
@@ -1741,6 +1827,141 @@ describe('${className}Controller', () => {
     const filename = `${dasherize(className)}.spec.ts`;
 
     await saveFile(folder, filename, content);
+  }
+
+  /**
+   * Creates a new custom element.
+   *
+   * @function generateCustomElement
+   * @param {Uri} [path] - The path to the folder
+   * @public
+   * @async
+   * @memberof FileController
+   * @example
+   * generateCustomElement();
+   *
+   * @returns {Promise<void>} - The result of the operation
+   */
+  async generateCustomElement(path?: Uri): Promise<void> {
+    // Get the relative path
+    const folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+
+    const skipFolderConfirmation = this.config.skipFolderConfirmation;
+    let folder: string | undefined;
+
+    if (!folderPath || !skipFolderConfirmation) {
+      // Get the path to the folder
+      folder = await getPath(
+        l10n.t('Enter the folder name'),
+        'Folder name. E.g. src, app...',
+        folderPath,
+        (path: string) => {
+          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
+            return 'The folder name must be a valid name';
+          }
+          return;
+        },
+      );
+
+      if (!folder) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
+        return;
+      }
+    } else {
+      folder = folderPath;
+    }
+
+    if (this.config.templates.length === 0) {
+      const message = l10n.t(
+        'The custom components list is empty. Please add custom components to the configuration',
+      );
+      window.showErrorMessage(message);
+      return;
+    }
+
+    const items = this.config.templates.map((item: any) => {
+      return {
+        label: item.name,
+        description: item.description,
+        detail: item.type,
+      };
+    });
+
+    const option = await window.showQuickPick(items, {
+      placeHolder: l10n.t(
+        'Select the template for the custom element generation',
+      ),
+    });
+
+    if (!option) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
+      return;
+    }
+
+    const template = this.config.templates.find(
+      (item: any) => item.name === option.label,
+    );
+
+    if (!template) {
+      const message = l10n.t(
+        'The template for the custom component does not exist. Please try again',
+      );
+      window.showErrorMessage(message);
+      return;
+    }
+
+    let content = Object(template).template.join('\n');
+
+    // Get the class name
+    const className = await getName(
+      l10n.t('Enter the class name'),
+      'E.g. User, Role, Auth...',
+      (name: string) => {
+        if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
+          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+        }
+        return;
+      },
+    );
+
+    if (!className) {
+      const message = l10n.t('Operation cancelled!');
+      showError(message);
+      return;
+    }
+
+    content = content.replace(/{{ComponentName}}/g, className);
+
+    if (content.includes('{{EntityName}}')) {
+      // Get the class name
+      const entityName = await getName(
+        l10n.t('Enter the entity name'),
+        'E.g. user, role, auth...',
+        (name: string) => {
+          if (!/^[a-z][\w-]+$/.test(name)) {
+            return 'Invalid format! Entity names MUST be declared in camelCase.';
+          }
+          return;
+        },
+      );
+
+      if (!entityName) {
+        const message = l10n.t('Operation cancelled!');
+        showError(message);
+        return;
+      }
+
+      content = content.replace(/{{EntityName}}/g, entityName);
+    }
+
+    const type =
+      Object(template).type.length !== 0 ? `.${Object(template).type}` : '';
+
+    const filename = `${dasherize(className)}${type}.ts`;
+
+    saveFile(folder, filename, content);
   }
 
   // Private methods

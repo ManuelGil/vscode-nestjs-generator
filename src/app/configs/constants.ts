@@ -185,6 +185,31 @@ export const CUSTOM_COMMANDS: object[] = [
 ];
 
 /**
+ * CUSTOM_TEMPLATES: The custom templates.
+ * @type {object[]}
+ * @public
+ * @memberof Constants
+ * @example
+ * console.log(CUSTOM_TEMPLATES);
+ *
+ * @returns {object[]} - The custom templates
+ */
+export const CUSTOM_TEMPLATES: object[] = [
+  {
+    'name': 'Custom Service',
+    'description': 'Generate a custom service',
+    'type': 'service',
+    'template': [
+      "import { Injectable } from '@nestjs/common';",
+      '',
+      '@Injectable()',
+      'export class CustomService {',
+      '}',
+    ],
+  },
+];
+
+/**
  * MenuIterface: The menu options.
  * @type {object}
  * @public
@@ -217,6 +242,7 @@ export interface MenuInterface {
     resolver: boolean;
     service: boolean;
     test: boolean;
+    template: boolean;
   };
   terminal: {
     controller: boolean;
@@ -268,6 +294,7 @@ export const ACTIVATE_MENU: MenuInterface = {
     resolver: true,
     service: true,
     test: true,
+    template: true,
   },
   terminal: {
     controller: true,

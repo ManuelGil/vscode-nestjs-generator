@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator",
   "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -140,6 +140,60 @@
           "scope": "resource",
           "description": "%nestjs.submenu.customCommands%"
         },
+        "nestjs.submenu.templates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "%nestjs.submenu.templates.name%"
+              },
+              "description": {
+                "type": "string",
+                "description": "%nestjs.submenu.templates.description%"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "component",
+                  "directive",
+                  "pipe",
+                  "service",
+                  "class",
+                  "enum",
+                  "guard",
+                  "interface",
+                  "module",
+                  "resolver",
+                  "spec",
+                  "template"
+                ],
+                "description": "%nestjs.submenu.templates.type%"
+              },
+              "template": {
+                "type": "array",
+                "description": "%nestjs.submenu.templates.template%"
+              }
+            }
+          },
+          "default": [
+            {
+              "name": "Custom Service",
+              "description": "Generate a custom service",
+              "type": "service",
+              "template": [
+                "import { Injectable } from '@nestjs/common';",
+                "",
+                "@Injectable()",
+                "export class CustomService {",
+                "}"
+              ]
+            }
+          ],
+          "scope": "resource",
+          "description": "%nestjs.submenu.templates%"
+        },
         "nestjs.submenu.activateItem": {
           "type": "object",
           "properties": {
@@ -271,6 +325,11 @@
                   "default": true,
                   "scope": "resource",
                   "description": "%nestjs.submenu.activateItem.file.test%"
+                },
+                "template": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "%nestjs.submenu.activateItem.file.template%"
                 }
               }
             },
@@ -380,7 +439,8 @@
               "provider": true,
               "resolver": true,
               "service": true,
-              "test": true
+              "test": true,
+              "template": true
             },
             "terminal": {
               "controller": true,
@@ -531,6 +591,11 @@
       {
         "command": "nestjs.file.test",
         "title": "%nestjs.file.test%",
+        "category": "NestJS"
+      },
+      {
+        "command": "nestjs.file.template",
+        "title": "%nestjs.file.template%",
         "category": "NestJS"
       },
       {
@@ -880,43 +945,48 @@
           "when": "nestjs.activateItem.file.test"
         },
         {
+          "command": "nestjs.file.template",
+          "group": "2_file@1",
+          "when": "nestjs.activateItem.file.template"
+        },
+        {
           "command": "nestjs.terminal.controller",
-          "group": "2_cli@1",
+          "group": "3_cli@1",
           "when": "nestjs.activateItem.terminal.controller"
         },
         {
           "command": "nestjs.terminal.gateway",
-          "group": "2_cli@2",
+          "group": "3_cli@2",
           "when": "nestjs.activateItem.terminal.gateway"
         },
         {
           "command": "nestjs.terminal.module",
-          "group": "2_cli@3",
+          "group": "3_cli@3",
           "when": "nestjs.activateItem.terminal.module"
         },
         {
           "command": "nestjs.terminal.provider",
-          "group": "2_cli@4",
+          "group": "3_cli@4",
           "when": "nestjs.activateItem.terminal.provider"
         },
         {
           "command": "nestjs.terminal.resolver",
-          "group": "2_cli@5",
+          "group": "3_cli@5",
           "when": "nestjs.activateItem.terminal.resolver"
         },
         {
           "command": "nestjs.terminal.resource",
-          "group": "2_cli@6",
+          "group": "3_cli@6",
           "when": "nestjs.activateItem.terminal.resource"
         },
         {
           "command": "nestjs.terminal.service",
-          "group": "2_cli@7",
+          "group": "3_cli@7",
           "when": "nestjs.activateItem.terminal.service"
         },
         {
           "command": "nestjs.terminal.custom",
-          "group": "3_cli@1",
+          "group": "4_cli@1",
           "when": "nestjs.activateItem.terminal.custom"
         }
       ],

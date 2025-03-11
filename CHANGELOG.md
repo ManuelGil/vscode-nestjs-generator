@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.11.0] - 2025-03-10
+
+### Added
+
+- Add `vscode-marketplace-client` dependency to check for extension updates and display a notification
+
+### Changed
+
+- Update the `extension.ts` file to use the new `vscode-marketplace-client` dependency
+- Update Localization strings for the extension
+- Improve warning and error messages for the extension
+
 ## [2.10.0] - 2025-01-07
 
 ### Added
@@ -245,7 +257,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...HEAD
+[2.11.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.8.0...v2.9.0
 [2.8.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.7.0...v2.8.0

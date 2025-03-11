@@ -92,7 +92,7 @@ export const saveFile = async (
       const message = l10n.t('Successfully created the file!');
       window.showInformationMessage(message);
     } else {
-      const message = l10n.t('Name already exist!');
+      const message = l10n.t('The name already exists!');
       window.showWarningMessage(message);
     }
   });

@@ -2017,7 +2017,7 @@ describe('${className}Controller', () => {
       }
 
       if (files.length === 0) {
-        const message = l10n.t('No module file found, skipping auto-import!');
+        const message = l10n.t('No module file found. Skipping auto-import!');
         showError(message);
         return; // No files found, nothing to do
       }
@@ -2053,7 +2053,7 @@ describe('${className}Controller', () => {
           const folder = await getRelativePath(targetFile.path);
 
           const message = l10n.t(
-            "Auto-imported of {0} into '{1}' is successfully!",
+            "Auto-import of {0} into '{1}' was successful!",
             [className, folder],
           );
           showMessage(message);
@@ -2063,7 +2063,7 @@ describe('${className}Controller', () => {
       }
     } catch (error) {
       const message = l10n.t(
-        'Error occurred while auto-importing: {0}',
+        'An error occurred during auto-import: {0}',
         Object(error).message ?? (error as string),
       );
       showError(message);

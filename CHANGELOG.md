@@ -1,11 +1,18 @@
 # Change Log
 
-All notable changes to the "NestJS File Generator for VSCode" extension will be documented in this file.
+All notable changes to the "NestJS File Generator" extension will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.12.1] - 2025-08-14
+
+### Changed
+
+- Update README.md and CHANGELOG.md for consistency
+- Enhance FeedbackProvider with disposal methods to prevent memory leaks
 
 ## [2.12.0] - 2025-08-14
 
@@ -266,7 +273,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.1...HEAD
+[2.12.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.9.0...v2.10.0

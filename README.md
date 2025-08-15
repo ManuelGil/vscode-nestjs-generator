@@ -1,4 +1,4 @@
-# NestJS File Generator for VSCode
+# NestJS File Generator
 
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/imgildev.vscode-nestjs-generator?style=for-the-badge&label=VS%20Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/imgildev.vscode-nestjs-generator?style=for-the-badge&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
@@ -7,46 +7,47 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator)
 [![GitHub license](https://img.shields.io/github/license/ManuelGil/vscode-nestjs-generator?style=for-the-badge&logo=github)](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/LICENSE)
 
-Are you tired of manually creating files for your NestJS projects in Visual Studio Code? We have the solution for you! Introducing the **NestJS File Generator** extension for VSCode.
+> Generate NestJS files and boilerplate directly from VS Code - controllers, services, modules, decorators, CLI templates and more.
+
+## Overview
+
+**NestJS File Generator** helps you speed up NestJS development by creating common files and scaffolding directly inside Visual Studio Code. It provides a Sidebar explorer, customizable templates and CLI command integration so you can generate files and run Nest commands without leaving the editor.
 
 ![demo](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/demo.gif)
 
-With this powerful extension, you can streamline your NestJS development workflow by generating files with just a few clicks. Whether you need a new class, controller, decorator, or any other NestJS component, our extension has you covered.
-
-![banner](https://raw.githubusercontent.com/ManuelGil/vscode-nestjs-generator/main/docs/images/banner.png)
-
 ## Table of Contents
 
-- [NestJS File Generator for VSCode](#nestjs-file-generator-for-vscode)
+- [NestJS File Generator](#nestjs-file-generator)
+  - [Overview](#overview)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
+  - [Installation](#installation)
   - [Project Settings](#project-settings)
   - [Settings Options](#settings-options)
   - [Features](#features)
-  - [Follow Me](#follow-me)
-  - [VSXpert Template](#vsxpert-template)
-  - [Other Extensions](#other-extensions)
+  - [Quick Start](#quick-start)
   - [Contributing](#contributing)
-  - [Code of Conduct](#code-of-conduct)
   - [Changelog](#changelog)
   - [Authors](#authors)
+  - [Follow Me](#follow-me)
+  - [Other Extensions](#other-extensions)
+  - [Recommended Browser Extension](#recommended-browser-extension)
   - [License](#license)
 
 ## Requirements
 
-- VSCode 1.88.0 or later
+- Visual Studio Code 1.88.0 or later
+
+## Installation
+
+1. Open Visual Studio Code.
+2. Go to the **Extensions** view (`Ctrl+Shift+X` / `Cmd+Shift+X` on macOS).
+3. Search for **NestJS File Generator** (or install from the [Marketplace page](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)).
+4. Click **Install** and reload the editor if prompted.
 
 ## Project Settings
 
-Configure your project by creating or updating a settings.json file at the project's root. If you already have a `.vscode/settings.json` file, skip the first two steps.
-
-1. Open the command palette in VSCode:
-   - `CTRL + SHIFT + P` (Windows)
-   - `CMD + SHIFT + P` (Mac OS)
-
-2. Type `Preferences: Open Workspace Settings (JSON)`.
-
-3. In the `.vscode/settings.json` file, copy and paste the following settings:
+You can configure the extension per-project by adding a `.vscode/settings.json` file. The example below shows recommended options and customization points used by the extension:
 
     ```jsonc
     {
@@ -179,82 +180,95 @@ For more information on configuring the Nest File Generator extension, see the [
 
 ## Features
 
-| Title                                     | Purpose                                  |
-| ----------------------------------------- | ---------------------------------------- |
-| NestJS: Generate Class                    | Generates a new Class                    |
-| NestJS: Generate Controller               | Generates a new Controller               |
-| NestJS: Generate Decorator                | Generates a new Decorator                |
-| NestJS: Generate Update Dto               | Generates a new Update Dto               |
-| NestJS: Generate Exception                | Generates a new Exception                |
-| NestJS: Generate Exception Filter         | Generates a new Exception Filter         |
-| NestJS: Generate Filter                   | Generates a new Filter                   |
-| NestJS: Generate Gateway                  | Generates a new Gateway                  |
-| NestJS: Generate Guard                    | Generates a new Guard                    |
-| NestJS: Generate Interceptor              | Generates a new Interceptor              |
-| NestJS: Generate Interface                | Generates a new Interface                |
-| NestJS: Generate Jwt Guard                | Generates a new Jwt Guard                |
-| NestJS: Generate Jwt Strategy             | Generates a new Jwt Strategy             |
-| NestJS: Generate Middleware               | Generates a new Middleware               |
-| NestJS: Generate Logger                   | Generates a new Logger                   |
-| NestJS: Generate Module                   | Generates a new Module                   |
-| NestJS: Generate Pipe                     | Generates a new Pipe                     |
-| NestJS: Generate Provider                 | Generates a new Provider                 |
-| NestJS: Generate Resolver                 | Generates a new Resolver                 |
-| NestJS: Generate Service                  | Generates a new Service                  |
-| NestJS: Generate Test                     | Generates a new Test                     |
-| NestJS: Generate Controller with CLI      | Generates a new Controller with CLI      |
-| NestJS: Generate Gateway with CLI         | Generates a new Gateway with CLI         |
-| NestJS: Generate Library with CLI         | Generates a new Library with CLI         |
-| NestJS: Generate Module with CLI          | Generates a new Module with CLI          |
-| NestJS: Generate Provider with CLI        | Generates a new Provider with CLI        |
-| NestJS: Generate Resolver with CLI        | Generates a new Resolver with CLI        |
-| NestJS: Generate Resource with CLI        | Generates a new Resource with CLI        |
-| NestJS: Generate Service with CLI         | Generates a new Service with CLI         |
-| NestJS: Generate Sub Application with CLI | Generates a new Sub Application with CLI |
-| NestJS: Start Server                      | Launches the Nest Server                 |
-| NestJS: Start Server (Dev mode)           | Launches the Nest Development Server     |
-| NestJS: Start Server (Debug mode)         | Launches the Nest Debug Server           |
-| NestJS: Start Server (Production mode)    | Launches the Nest Production Server      |
+Generate many common NestJS artifacts from the Sidebar or Command Palette:
 
-## Follow Me
+- Generate classes, controllers, services, modules, providers, pipes, guards, interceptors, filters, middlewares, loggers, decorators, DTOs and tests.
+- Run Nest CLI commands from the submenu (generate controller/module/service/resource/etc.).
+- Custom templates: create and reuse your own file templates (Mustache-like placeholders allowed).
+- Custom commands: add frequently used CLI commands to the submenu.
+- Sidebar explorer: quick access to detected Nest files and templates in the workspace.
+- Auto-import: automatically add imports for generated symbols.
+- CLI terminal helpers: launch and control `start`, `start:dev`, `start:prod`, `start:debug` and other scripts from the extension.
+- File watching: customize which kinds of files are tracked by the Sidebar.
 
-If you enjoy using this extension, consider following me for updates on this and future projects:
+## Quick Start
 
-[![GitHub followers](https://img.shields.io/github/followers/ManuelGil?style=for-the-badge&logo=github)](https://github.com/ManuelGil)
-[![X (formerly Twitter) Follow](https://img.shields.io/twitter/follow/imgildev?style=for-the-badge&logo=x)](https://twitter.com/imgildev)
-
-## VSXpert Template
-
-This extension was created using [VSXpert](https://vsxpert.com), a template that helps you create Visual Studio Code extensions with ease. VSXpert provides a simple and easy-to-use structure to get you started quickly.
-
-## Other Extensions
-
-- [Angular File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-angular-generator)
-- [NestJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)
-- [T3 Stack / NextJS / ReactJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nextjs-generator)
-- [Auto Barrel](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-auto-barrel)
-- [CodeIgniter 4 Spark](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-spark)
+- Open Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) → **NestJS: Generate** and choose the artifact type.
+- Use the Sidebar Nest File Generator to browse templates and generate files into a selected folder.
+- Use custom templates or CLI commands defined in settings for project-specific scaffolding.
 
 ## Contributing
 
-NestJS File Generator for VSCode is open-source software, and we welcome contributions from the community. If you'd like to contribute, please fork the [GitHub repository](https://github.com/ManuelGil/vscode-nestjs-generator) and submit a pull request with your changes.
+Contributions to the NestJS File Generator are welcome and appreciated. To contribute:
 
-Before contributing, please read our [Contribution Guidelines](./CONTRIBUTING.md) for instructions on coding standards, testing, and more.
+1. Fork the [GitHub repository](https://github.com/ManuelGil/vscode-nestjs-generator).
+2. Create a new branch for your feature or fix:
 
-## Code of Conduct
+   ```bash
+   git checkout -b feature/your-feature
+   ```
 
-We are committed to providing a friendly, safe, and welcoming environment for all, regardless of gender, sexual orientation, disability, ethnicity, religion, or similar personal characteristic. Please review our [Code of Conduct](./CODE_OF_CONDUCT.md) before participating in our community.
+3. Make your changes, commit them, and push to your fork.
+4. Submit a Pull Request targeting the `main` branch.
+
+Before contributing, please review the [Contribution Guidelines](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/CONTRIBUTING.md) for coding standards, testing, and commit message conventions. If you encounter a bug or wish to request a new feature, please open an Issue.
 
 ## Changelog
 
-For a complete list of changes, see the [CHANGELOG.md](./CHANGELOG.md)
+For a complete list of changes, see the [CHANGELOG.md](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/CHANGELOG.md).
 
 ## Authors
 
-- **Manuel Gil** - _Owner_ - [ManuelGil](https://github.com/ManuelGil)
+- **Manuel Gil** - _Owner_ - [@ManuelGil](https://github.com/ManuelGil)
 
-See also the list of [contributors](https://github.com/ManuelGil/vscode-nestjs-generator/contributors) who participated in this project.
+For a complete list of contributors, please refer to the [contributors](https://github.com/ManuelGil/vscode-nestjs-generator/contributors) page.
+
+## Follow Me
+
+- **GitHub**: [![GitHub followers](https://img.shields.io/github/followers/ManuelGil?style=for-the-badge\&logo=github)](https://github.com/ManuelGil)
+- **X (formerly Twitter)**: [![X Follow](https://img.shields.io/twitter/follow/imgildev?style=for-the-badge\&logo=x)](https://twitter.com/imgildev)
+
+## Other Extensions
+
+- **[Auto Barrel](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-auto-barrel)**
+  Automatically generates and maintains barrel (`index.ts`) files for your TypeScript projects.
+
+- **[Angular File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-angular-generator)**
+  Generates boilerplate and navigates your Angular (9→20+) project from within the editor, with commands for components, services, directives, modules, pipes, guards, reactive snippets, and JSON2TS transformations.
+
+- **[NestJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-generator)**
+  Simplifies creation of controllers, services, modules, and more for NestJS projects, with custom commands and Swagger snippets.
+
+- **[NestJS Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nestjs-snippets-extension)**
+  Ready-to-use code patterns for creating controllers, services, modules, DTOs, filters, interceptors, and more in NestJS.
+
+- **[T3 Stack / NextJS / ReactJS File Generator](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-nextjs-generator)**
+  Automates file creation (components, pages, hooks, API routes, etc.) in T3 Stack (Next.js, React) projects and can start your dev server from VSCode.
+
+- **[Drizzle ORM Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-drizzle-snippets)**
+  Collection of code snippets to speed up Drizzle ORM usage, defines schemas, migrations, and common database operations in TypeScript/JavaScript.
+
+- **[CodeIgniter 4 Spark](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-spark)**
+  Scaffolds controllers, models, migrations, libraries, and CLI commands in CodeIgniter 4 projects using Spark, directly from the editor.
+
+- **[CodeIgniter 4 Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-snippets)**
+  Snippets for accelerating development with CodeIgniter 4, including controllers, models, validations, and more.
+
+- **[CodeIgniter 4 Shield Snippets](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-codeigniter4-shield-snippets)**
+  Snippets tailored to CodeIgniter 4 Shield for faster authentication and security-related code.
+
+- **[Mustache Template Engine - Snippets & Autocomplete](https://marketplace.visualstudio.com/items?itemName=imgildev.vscode-mustache-snippets)**
+  Snippets and autocomplete support for Mustache templates, making HTML templating faster and more reliable.
+
+## Recommended Browser Extension
+
+For developers who work with `.vsix` files for offline installations or distribution, the complementary [**One-Click VSIX**](https://chromewebstore.google.com/detail/imojppdbcecfpeafjagncfplelddhigc?utm_source=item-share-cb) extension is recommended, available for both Chrome and Firefox.
+
+> **One-Click VSIX** integrates a direct "Download Extension" button into each VSCode Marketplace page, ensuring the file is saved with the `.vsix` extension, even if the server provides a `.zip` archive. This simplifies the process of installing or sharing extensions offline by eliminating the need for manual file renaming.
+
+- [Get One-Click VSIX for Chrome &rarr;](https://chromewebstore.google.com/detail/imojppdbcecfpeafjagncfplelddhigc?utm_source=item-share-cb)
+- [Get One-Click VSIX for Firefox &rarr;](https://addons.mozilla.org/es-ES/firefox/addon/one-click-vsix/)
 
 ## License
 
-NestJS File Generator for VSCode is licensed under the MIT License - see the [MIT License](https://opensource.org/licenses/MIT) for details.
+This project is licensed under the **MIT License**. See the [LICENSE](https://github.com/ManuelGil/vscode-nestjs-generator/blob/main/LICENSE) file for full details.

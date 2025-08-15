@@ -33,6 +33,20 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
   // Properties
   // -----------------------------------------------------------------
 
+  // Public properties
+  /**
+   * The onDidChangeTreeData event.
+   * @type {Event<NodeModel | undefined | null | void>}
+   * @public
+   * @memberof FeedbackProvider
+   * @example
+   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
+   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+   *
+   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   */
+  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+
   // Private properties
   /**
    * The onDidChangeTreeData event emitter.
@@ -49,19 +63,15 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
-  // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
+   * Indicates whether the provider has been disposed.
+   * @type {boolean}
+   * @private
    * @memberof FeedbackProvider
    * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
-   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   * this._isDisposed = false;
    */
-  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+  private _isDisposed = false;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -140,6 +150,30 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
    */
   refresh(): void {
     this._onDidChangeTreeData.fire();
+  }
+
+  /**
+   * Disposes the provider.
+   *
+   * @function dispose
+   * @public
+   * @memberof FeedbackProvider
+   * @example
+   * provider.dispose();
+   *
+   * @returns {void} - No return value
+   */
+  dispose(): void {
+    this._onDidChangeTreeData.dispose();
+    if (this._isDisposed) {
+      return;
+    }
+
+    this._isDisposed = true;
+
+    if (this._onDidChangeTreeData) {
+      this._onDidChangeTreeData.dispose();
+    }
   }
 
   // Private methods

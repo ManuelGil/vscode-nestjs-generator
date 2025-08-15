@@ -1,3 +1,4 @@
+import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
   EventEmitter,
@@ -33,6 +34,20 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
   // Properties
   // -----------------------------------------------------------------
 
+  // Public properties
+  /**
+   * The onDidChangeTreeData event.
+   * @type {Event<NodeModel | undefined | null | void>}
+   * @public
+   * @memberof ListModulesProvider
+   * @example
+   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
+   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+   *
+   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   */
+  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+
   // Private properties
   /**
    * The onDidChangeTreeData event emitter.
@@ -49,19 +64,36 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
-  // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
+   * Indicates whether the provider has been disposed.
+   * @type {boolean}
+   * @private
    * @memberof ListModulesProvider
    * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
-   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   * this._isDisposed = false;
    */
-  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+  private _isDisposed = false;
+
+  /**
+   * The cached nodes.
+   * @type {NodeModel[] | undefined}
+   * @private
+   * @memberof ListModulesProvider
+   * @example
+   * this._cachedNodes = undefined;
+   */
+  private _cachedNodes: NodeModel[] | undefined = undefined;
+
+  /**
+   * The cache promise.
+   * @type {Promise<NodeModel[] | undefined> | undefined}
+   * @private
+   * @memberof ListModulesProvider
+   * @example
+   * this._cachePromise = undefined;
+   */
+  private _cachePromise: Promise<NodeModel[] | undefined> | undefined =
+    undefined;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -101,7 +133,7 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
-    return element;
+    return element as TreeItem;
   }
 
   /**
@@ -123,22 +155,62 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
       return element.children;
     }
 
-    return this.getListModules();
+    if (this._cachedNodes) {
+      return this._cachedNodes;
+    }
+
+    if (this._cachePromise) {
+      return this._cachePromise;
+    }
+
+    this._cachePromise = this.getListModules().then((nodes) => {
+      this._cachedNodes = nodes;
+      this._cachePromise = undefined;
+      return nodes;
+    });
+
+    return this._cachePromise;
   }
 
   /**
-   * Refreshes the tree data.
+   * Refreshes the tree data by firing the event.
    *
    * @function refresh
    * @public
-   * @memberof FeedbackProvider
+   * @memberof ListModulesProvider
    * @example
    * provider.refresh();
    *
    * @returns {void} - No return value
    */
   refresh(): void {
+    this._cachedNodes = undefined;
+    this._cachePromise = undefined;
     this._onDidChangeTreeData.fire();
+  }
+
+  /**
+   * Disposes the provider.
+   *
+   * @function dispose
+   * @public
+   * @memberof ListModulesProvider
+   * @example
+   * provider.dispose();
+   *
+   * @returns {void} - No return value
+   */
+  dispose(): void {
+    this._onDidChangeTreeData.dispose();
+    if (this._isDisposed) {
+      return;
+    }
+
+    this._isDisposed = true;
+
+    if (this._onDidChangeTreeData) {
+      this._onDidChangeTreeData.dispose();
+    }
   }
 
   // Private methods
@@ -165,39 +237,57 @@ export class ListModulesProvider implements TreeDataProvider<NodeModel> {
       file.label.toString().includes('module.ts'),
     );
 
-    for (const file of nodes) {
-      const document = await workspace.openTextDocument(
-        file.resourceUri?.path ?? '',
-      );
+    // Precompile regex to avoid recreating per line and ignore commented lines
+    const sectionRegex =
+      /^(?!\s*\/\/).*\b(providers|controllers|imports|exports)\s*:\s*\[/;
 
-      const children = Array.from(
-        { length: document.lineCount },
-        (_, index) => {
-          const line = document.lineAt(index);
+    const { results, errors } = await PromisePool.for(nodes)
+      .withConcurrency(2)
+      .process(async (file) => {
+        const uri = file.resourceUri;
 
-          let node: NodeModel | undefined;
+        if (!uri) {
+          return file;
+        }
 
-          if (line.text.match(/(providers|controllers|imports|exports): \[/g)) {
-            node = new NodeModel(
-              line.text.trim(),
-              new ThemeIcon('symbol-module'),
-              {
-                command: `${EXTENSION_ID}.list.gotoLine`,
-                title: line.text,
-                arguments: [file.resourceUri, index],
-              },
-            );
-          }
+        const document = await workspace.openTextDocument(uri);
 
-          return node;
-        },
-      );
+        const children = Array.from(
+          { length: document.lineCount },
+          (_, index) => {
+            const line = document.lineAt(index);
 
-      file.setChildren(
-        children.filter((child) => child !== undefined) as NodeModel[],
-      );
+            let node: NodeModel | undefined;
+
+            if (sectionRegex.test(line.text)) {
+              node = new NodeModel(
+                line.text.trim(),
+                new ThemeIcon('symbol-module'),
+                {
+                  command: `${EXTENSION_ID}.list.gotoLine`,
+                  title: line.text,
+                  arguments: [uri, index],
+                },
+              );
+            }
+
+            return node;
+          },
+        );
+
+        file.setChildren(
+          children.filter((child) => child !== undefined) as NodeModel[],
+        );
+
+        return file;
+      });
+
+    if (errors.length > 0) {
+      console.error('Errors processing module files:', errors);
     }
 
-    return nodes.filter((file) => file.children && file.children.length !== 0);
+    return results.filter(
+      (file) => file.children && file.children.length !== 0,
+    );
   }
 }

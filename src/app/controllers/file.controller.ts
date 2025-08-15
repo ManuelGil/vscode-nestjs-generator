@@ -1,11 +1,11 @@
 import {
-  Position,
-  Uri,
-  WorkspaceEdit,
   commands,
   l10n,
+  Position,
+  Uri,
   window,
   workspace,
+  WorkspaceEdit,
 } from 'vscode';
 
 // Import the helper functions
@@ -14,10 +14,10 @@ import {
   dasherize,
   getName,
   getPath,
-  getRelativePath,
   saveFile,
   showError,
   showMessage,
+  showWarning,
   titleize,
 } from '../helpers';
 
@@ -65,7 +65,7 @@ export class FileController {
    */
   async generateClass(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -74,11 +74,11 @@ export class FileController {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -96,10 +96,12 @@ export class FileController {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -114,10 +116,10 @@ export class FileController {
     // Get the type
     let type = await getName(
       l10n.t('Enter the type name'),
-      'E.g. class, dto, entity, model...',
+      l10n.t('E.g. class, dto, entity, model...'),
       (type: string) => {
         if (!/[a-z]+/.test(type)) {
-          return 'Invalid format!';
+          return l10n.t('Invalid format!');
         }
         return;
       },
@@ -154,7 +156,7 @@ export class FileController {
    */
   async generateController(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -163,11 +165,11 @@ export class FileController {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -185,10 +187,12 @@ export class FileController {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the controller name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -279,7 +283,7 @@ export class ${className}Controller {
    */
   async generateDecorator(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -288,11 +292,11 @@ export class ${className}Controller {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -309,10 +313,10 @@ export class ${className}Controller {
 
     const entityName = await getName(
       l10n.t('Enter the decorator name'),
-      'E.g. user, role, auth...',
+      l10n.t('E.g. user, role, auth...'),
       (name: string) => {
         if (!/^[A-Za-z-]{3,}$/.test(name)) {
-          return 'Invalid format!';
+          return l10n.t('Invalid format!');
         }
         return;
       },
@@ -350,7 +354,7 @@ export const ${entityName} = (...args: string[]) =>
    */
   async generateDto(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -359,11 +363,11 @@ export const ${entityName} = (...args: string[]) =>
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -381,10 +385,12 @@ export const ${entityName} = (...args: string[]) =>
     // Get the class name
     const className = await getName(
       l10n.t('Enter the Dto class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -425,7 +431,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
    */
   async generateExceptionFilter(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -434,11 +440,11 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -456,10 +462,12 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the exception filter name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -519,7 +527,7 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
    */
   async generateException(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -528,11 +536,11 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -550,10 +558,12 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the exception class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -594,7 +604,7 @@ export class ${className}Exception extends HttpException {
    */
   async generateFilter(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -603,11 +613,11 @@ export class ${className}Exception extends HttpException {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -625,10 +635,12 @@ export class ${className}Exception extends HttpException {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the filter class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -675,7 +687,7 @@ export class ${className}Filter<T> implements ExceptionFilter {
    */
   async generateGateway(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -684,11 +696,11 @@ export class ${className}Filter<T> implements ExceptionFilter {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -706,10 +718,12 @@ export class ${className}Filter<T> implements ExceptionFilter {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the gateway class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -759,7 +773,7 @@ export class ${className}Gateway {
    */
   async generateGuard(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -768,11 +782,11 @@ export class ${className}Gateway {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -790,10 +804,12 @@ export class ${className}Gateway {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the guard class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -838,7 +854,7 @@ export class ${className}Guard implements CanActivate {
    */
   async generateInterceptor(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -847,11 +863,11 @@ export class ${className}Guard implements CanActivate {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -869,10 +885,12 @@ export class ${className}Guard implements CanActivate {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the interceptor class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -920,7 +938,7 @@ export class ${className}Interceptor implements NestInterceptor {
    */
   async generateInterface(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -929,11 +947,11 @@ export class ${className}Interceptor implements NestInterceptor {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -951,10 +969,12 @@ export class ${className}Interceptor implements NestInterceptor {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the interface class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -969,10 +989,10 @@ export class ${className}Interceptor implements NestInterceptor {
     // Get the type
     let type = await getName(
       l10n.t('Enter the interface type'),
-      'E.g. interface, dto, entity, model...',
+      l10n.t('E.g. interface, dto, entity, model...'),
       (type: string) => {
         if (!/[a-z]+/.test(type)) {
-          return 'Invalid format!';
+          return l10n.t('Invalid format!');
         }
         return;
       },
@@ -1009,7 +1029,7 @@ export class ${className}Interceptor implements NestInterceptor {
    */
   async generateJwtGuard(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1018,11 +1038,11 @@ export class ${className}Interceptor implements NestInterceptor {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1040,10 +1060,12 @@ export class ${className}Interceptor implements NestInterceptor {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the jwt guard class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1097,7 +1119,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
    */
   async generateJwtStrategy(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1106,11 +1128,11 @@ export class ${className}Guard extends AuthGuard('jwt') {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1168,7 +1190,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
    */
   async generateLogger(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1177,11 +1199,11 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1199,10 +1221,12 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the logger class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1264,7 +1288,7 @@ export class ${className}Logger implements LoggerService {
    */
   async generateMiddleware(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1273,11 +1297,11 @@ export class ${className}Logger implements LoggerService {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1295,10 +1319,12 @@ export class ${className}Logger implements LoggerService {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the middleware class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1340,7 +1366,7 @@ export class ${className}Middleware implements NestMiddleware {
    */
   async generateModule(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1349,11 +1375,11 @@ export class ${className}Middleware implements NestMiddleware {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1371,10 +1397,12 @@ export class ${className}Middleware implements NestMiddleware {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the module class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1424,7 +1452,7 @@ export class ${className}Module {}
    */
   async generatePipe(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1433,11 +1461,11 @@ export class ${className}Module {}
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1455,10 +1483,12 @@ export class ${className}Module {}
     // Get the class name
     const className = await getName(
       l10n.t('Enter the pipe class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1500,7 +1530,7 @@ export class ${className}Pipe implements PipeTransform {
    */
   async generateProvider(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1509,11 +1539,11 @@ export class ${className}Pipe implements PipeTransform {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1531,10 +1561,12 @@ export class ${className}Pipe implements PipeTransform {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the provider class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1572,7 +1604,7 @@ export class ${className} {}
    */
   async generateResolver(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1581,11 +1613,11 @@ export class ${className} {}
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1603,10 +1635,12 @@ export class ${className} {}
     // Get the class name
     const className = await getName(
       l10n.t('Enter the resolver class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1644,7 +1678,7 @@ export class ${className}Resolver {}
    */
   async generateService(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1653,11 +1687,11 @@ export class ${className}Resolver {}
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1675,10 +1709,12 @@ export class ${className}Resolver {}
     // Get the class name
     const className = await getName(
       l10n.t('Enter the service class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1749,7 +1785,7 @@ export class ${className}Service {
    */
   async generateTest(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? await getRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1758,11 +1794,11 @@ export class ${className}Service {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1780,10 +1816,12 @@ export class ${className}Service {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the test class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1844,7 +1882,7 @@ describe('${className}Controller', () => {
    */
   async generateCustomElement(path?: Uri): Promise<void> {
     // Get the relative path
-    const folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    const folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
@@ -1853,11 +1891,11 @@ describe('${className}Controller', () => {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         folderPath,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -1917,10 +1955,12 @@ describe('${className}Controller', () => {
     // Get the class name
     const className = await getName(
       l10n.t('Enter the class name'),
-      'E.g. User, Role, Auth...',
+      l10n.t('E.g. User, Role, Auth...'),
       (name: string) => {
         if (!/^[A-Z][A-Za-z]{2,}$/.test(name)) {
-          return 'Invalid format! Entity names MUST be declared in PascalCase.';
+          return l10n.t(
+            'Invalid format! Entity names MUST be declared in PascalCase.',
+          );
         }
         return;
       },
@@ -1938,10 +1978,12 @@ describe('${className}Controller', () => {
       // Get the class name
       const entityName = await getName(
         l10n.t('Enter the entity name'),
-        'E.g. user, role, auth...',
+        l10n.t('E.g. user, role, auth...'),
         (name: string) => {
           if (!/^[a-z][\w-]+$/.test(name)) {
-            return 'Invalid format! Entity names MUST be declared in camelCase.';
+            return l10n.t(
+              'Invalid format! Entity names MUST be declared in camelCase.',
+            );
           }
           return;
         },
@@ -1961,7 +2003,7 @@ describe('${className}Controller', () => {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    saveFile(folder, filename, content);
+    await saveFile(folder, filename, content);
   }
 
   // Private methods
@@ -2018,21 +2060,23 @@ describe('${className}Controller', () => {
 
       if (files.length === 0) {
         const message = l10n.t('No module file found. Skipping auto-import!');
-        showError(message);
+        showWarning(message);
         return; // No files found, nothing to do
       }
 
-      const importRegex = new RegExp(`${type}: \\[`, 'g');
+      const decoratorStart = `${type}: [`;
       const targetFile = files[0];
-      const document = await workspace.openTextDocument(targetFile.path);
+      const document = await workspace.openTextDocument(targetFile);
       const text = document.getText();
 
       for (let i = 0; i < document.lineCount; i++) {
         const line = document.lineAt(i).text;
 
-        if (importRegex.test(line)) {
+        const idx = line.indexOf(decoratorStart);
+        if (idx !== -1) {
+          const startOfLine = document.offsetAt(new Position(i, 0));
           const position = document.positionAt(
-            text.indexOf(line) + importRegex.lastIndex,
+            startOfLine + idx + decoratorStart.length,
           );
           const edit = new WorkspaceEdit();
 
@@ -2050,7 +2094,7 @@ describe('${className}Controller', () => {
           await commands.executeCommand('editor.action.organizeImports'); // Organizing the imports
           await commands.executeCommand('workbench.action.files.saveAll'); // Saving the files
 
-          const folder = await getRelativePath(targetFile.path);
+          const folder = workspace.asRelativePath(targetFile);
 
           const message = l10n.t(
             "Auto-import of {0} into '{1}' was successful!",
@@ -2061,6 +2105,14 @@ describe('${className}Controller', () => {
           return; // Import added, exiting function
         }
       }
+
+      // If we reach here, the expected decorator array was not found
+      showWarning(
+        l10n.t(
+          "Could not find expected '{0}: [...]' section. Skipping auto-import!",
+          type,
+        ),
+      );
     } catch (error) {
       const message = l10n.t(
         'An error occurred during auto-import: {0}',

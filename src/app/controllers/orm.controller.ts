@@ -189,10 +189,11 @@ export class ORMController {
       annotation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
     );
 
-    // Construct regular expression pattern
-    const importPattern = `@(${escapedAnnotations.join('|')})`;
+    // Construct regular expression pattern: anchor to start, ignore comments, allow indentation, add word boundary
+    const importPattern = `^(?!\\s*\\/\\/)\\s*@(${escapedAnnotations.join(
+      '|',
+    )})\\b`;
 
-    // Construct regular expression
     return new RegExp(importPattern);
   }
 }

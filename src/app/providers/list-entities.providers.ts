@@ -1,3 +1,4 @@
+import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
   EventEmitter,
@@ -5,6 +6,7 @@ import {
   ThemeIcon,
   TreeDataProvider,
   TreeItem,
+  l10n,
   workspace,
 } from 'vscode';
 
@@ -63,6 +65,37 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
+  /**
+   * Indicates whether the provider has been disposed.
+   * @type {boolean}
+   * @private
+   * @memberof ListEntitiesProvider
+   * @example
+   * this._isDisposed = false;
+   */
+  private _isDisposed = false;
+
+  /**
+   * The cached nodes.
+   * @type {NodeModel[] | undefined}
+   * @private
+   * @memberof ListEntitiesProvider
+   * @example
+   * this._cachedNodes = undefined;
+   */
+  private _cachedNodes: NodeModel[] | undefined = undefined;
+
+  /**
+   * The cache promise.
+   * @type {Promise<NodeModel[] | undefined> | undefined}
+   * @private
+   * @memberof ListEntitiesProvider
+   * @example
+   * this._cachePromise = undefined;
+   */
+  private _cachePromise: Promise<NodeModel[] | undefined> | undefined =
+    undefined;
+
   // -----------------------------------------------------------------
   // Constructor
   // -----------------------------------------------------------------
@@ -101,7 +134,7 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
-    return element;
+    return element as TreeItem;
   }
 
   /**
@@ -123,22 +156,62 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
       return element.children;
     }
 
-    return this.getListEntities();
+    if (this._cachedNodes) {
+      return this._cachedNodes;
+    }
+
+    if (this._cachePromise) {
+      return this._cachePromise;
+    }
+
+    this._cachePromise = this.getListEntities().then((nodes) => {
+      this._cachedNodes = nodes;
+      this._cachePromise = undefined;
+      return nodes;
+    });
+
+    return this._cachePromise;
   }
 
   /**
-   * Refreshes the tree data.
+   * Refreshes the tree data by firing the event.
    *
    * @function refresh
    * @public
-   * @memberof FeedbackProvider
+   * @memberof ListEntitiesProvider
    * @example
    * provider.refresh();
    *
    * @returns {void} - No return value
    */
   refresh(): void {
+    this._cachedNodes = undefined;
+    this._cachePromise = undefined;
     this._onDidChangeTreeData.fire();
+  }
+
+  /**
+   * Disposes the provider.
+   *
+   * @function dispose
+   * @public
+   * @memberof ListEntitiesProvider
+   * @example
+   * provider.dispose();
+   *
+   * @returns {void} - No return value
+   */
+  dispose(): void {
+    this._onDidChangeTreeData.dispose();
+    if (this._isDisposed) {
+      return;
+    }
+
+    this._isDisposed = true;
+
+    if (this._onDidChangeTreeData) {
+      this._onDidChangeTreeData.dispose();
+    }
   }
 
   // Private methods
@@ -166,39 +239,55 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
       return;
     }
 
-    for (const file of files) {
-      const document = await workspace.openTextDocument(
-        file.resourceUri?.path ?? '',
-      );
+    const { results, errors } = await PromisePool.for(files)
+      .withConcurrency(2)
+      .process(async (file) => {
+        const uri = file.resourceUri;
 
-      const children = Array.from(
-        { length: document.lineCount },
-        (_, index) => {
-          const line = document.lineAt(index);
+        if (!uri) {
+          return file;
+        }
 
-          let node: NodeModel | undefined;
+        const document = await workspace.openTextDocument(uri);
 
-          if (importRegex.test(line.text)) {
-            node = new NodeModel(
-              line.text.trim(),
-              new ThemeIcon('symbol-method'),
-              {
-                command: `${EXTENSION_ID}.list.gotoLine`,
-                title: line.text,
-                arguments: [file.resourceUri, index],
-              },
-            );
-          }
+        const children = Array.from(
+          { length: document.lineCount },
+          (_, index) => {
+            const line = document.lineAt(index);
 
-          return node;
-        },
-      );
+            let node: NodeModel | undefined;
 
-      file.setChildren(
-        children.filter((child) => child !== undefined) as NodeModel[],
-      );
+            if (importRegex.test(line.text)) {
+              node = new NodeModel(
+                line.text.trim(),
+                new ThemeIcon('symbol-method'),
+                {
+                  command: `${EXTENSION_ID}.list.gotoLine`,
+                  title: line.text,
+                  arguments: [uri, index],
+                },
+              );
+              node.description = l10n.t('line {0}', index + 1);
+              node.tooltip = l10n.t('{0}:{1}', document.uri.fsPath, index + 1);
+            }
+
+            return node;
+          },
+        );
+
+        file.setChildren(
+          children.filter((child) => child !== undefined) as NodeModel[],
+        );
+
+        return file;
+      });
+
+    if (errors.length > 0) {
+      console.error('Errors processing entity files:', errors);
     }
 
-    return files.filter((file) => file.children && file.children.length !== 0);
+    return results.filter(
+      (file) => file.children && file.children.length !== 0,
+    );
   }
 }

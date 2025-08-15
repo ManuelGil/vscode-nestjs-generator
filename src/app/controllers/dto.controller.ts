@@ -155,10 +155,11 @@ export class DTOController {
       annotation.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
     );
 
-    // Construct regular expression pattern
-    const importPattern = `@(${escapedAnnotations.join('|')})`;
+    // Match start of line, ignore commented lines, allow indentation, then '@Annotation' with word boundary
+    const importPattern = `^(?!\\s*\\/\\/)\\s*@(${escapedAnnotations.join(
+      '|',
+    )})\\b`;
 
-    // Construct regular expression
     return new RegExp(importPattern);
   }
 }

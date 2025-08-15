@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.12.0] - 2025-08-14
+
+### Changed
+
+- Add caching mechanism to `ListDTOsProvider`, `ListEntitiesProvider`, `ListFilesProvider`, `ListMethodsProvider`, and `ListModulesProvider` to improve performance by reducing redundant data fetching
+- Implement dispose methods in all providers to clean up resources and prevent memory leaks
+- Utilize PromisePool for concurrent processing of files in `ListDTOsProvider`, `ListEntitiesProvider`, `ListFilesProvider`, `ListMethodsProvider`, and `ListModulesProvider` to enhance efficiency
+- Update the activate function in `extension.ts` to properly handle configuration changes and file events
+
 ## [2.11.0] - 2025-03-10
 
 ### Added
@@ -257,7 +266,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...HEAD
+[2.12.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...v2.11.0
 [2.10.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.9.0...v2.10.0
 [2.9.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.8.0...v2.9.0

@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2021",
+    "module": "NodeNext",
+    "target": "ES2022",
     "outDir": "out",
-    "lib": ["ES6"],
+    "lib": ["ES2022"],
     "sourceMap": true,
     "rootDir": "src",
     "strict": true, /* enable all strict type-checking options */

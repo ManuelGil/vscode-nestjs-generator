@@ -1,8 +1,8 @@
 {
   "name": "vscode-nestjs-generator",
-  "displayName": "NestJS File Generator",
-  "description": "Generate NestJS files from the command palette or explorer context menu (right click). It also provides a terminal to start the server in different modes (dev, debug, prod). It is based on the NestJS CLI.",
-  "version": "2.11.0",
+  "displayName": "NestJS File Generator - NestJS Tools Collection",
+  "description": "One-click NestJS scaffolding from Explorer/Command Palette. Auto-import into modules, tree views (Methods/Entities/DTOs/Modules), and an integrated Nest CLI terminal. Supports TypeORM/MikroORM/Mongoose/Sequelize.",
+  "version": "2.12.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -20,25 +20,36 @@
     "Other"
   ],
   "keywords": [
-    "autocomplete-functionality",
-    "autocomplete",
-    "boilerplate",
-    "commands",
-    "express",
-    "extension",
-    "generator",
-    "grammars-utility",
-    "grammars",
-    "javascript",
-    "js",
     "nest",
     "nestjs",
-    "node",
-    "nodejs",
-    "ts",
+    "nestjs generator",
+    "nestjs file generator",
+    "nestjs cli",
+    "command palette",
+    "code generation",
+    "scaffolding",
+    "schematics",
+    "templates",
+    "controller",
+    "service",
+    "module",
+    "provider",
+    "resolver",
+    "gateway",
+    "guard",
+    "interceptor",
+    "pipe",
+    "dto",
+    "entity",
+    "typeorm",
+    "mikroorm",
+    "mongoose",
+    "sequelize",
+    "auto import",
+    "auto-import",
+    "graphql",
     "typescript",
-    "vscode-extension",
-    "vscode"
+    "vscode-extension"
   ],
   "homepage": "https://github.com/ManuelGil/vscode-nestjs-generator",
   "repository": {
@@ -748,32 +759,38 @@
         {
           "id": "nestjs.listMethodsView",
           "name": "%nestjs.listMethodsView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(symbol-method)"
         },
         {
           "id": "nestjs.listEntitiesView",
           "name": "%nestjs.listEntitiesView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(symbol-namespace)"
         },
         {
           "id": "nestjs.listDTOsView",
           "name": "%nestjs.listDTOsView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(symbol-struct)"
         },
         {
           "id": "nestjs.listModulesView",
           "name": "%nestjs.listModulesView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(symbol-module)"
         },
         {
           "id": "nestjs.listFilesView",
           "name": "%nestjs.listFilesView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(symbol-file)"
         },
         {
           "id": "nestjs.feedbackView",
           "name": "%nestjs.feedbackView%",
-          "visibility": "visible"
+          "visibility": "visible",
+          "icon": "$(feedback)"
         }
       ]
     },
@@ -1034,28 +1051,31 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
+    "@biomejs/biome": "2.2.0",
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@compodoc/compodoc": "^1.1.26",
-    "@types/glob": "^8.1.0",
-    "@types/minimatch": "^3.0.5",
+    "@types/glob": "^9.0.0",
+    "@types/minimatch": "^6.0.0",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.9.0",
-    "@types/vscode": "^1.88.0",
+    "@types/node": "^24.2.1",
+    "@types/vscode": "^1.102.0",
     "@vscode/l10n-dev": "^0.0.35",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "cpy-cli": "^5.0.0",
-    "glob": "^11.0.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "cpy-cli": "^6.0.0",
+    "glob": "^11.0.3",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.11",
+    "lint-staged": "^16.1.5",
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@supercharge/promise-pool": "^3.2.0",
+    "fast-glob": "^3.3.3",
+    "ignore": "^7.0.5",
     "json-to-ts": "^2.1.0",
     "json5": "^2.2.3",
-    "vscode-marketplace-client": "^1.0.0"
+    "vscode-marketplace-client": "^1.1.0"
   }
 }

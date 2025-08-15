@@ -50,10 +50,10 @@ export class TerminalController {
    */
   async generateController(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -63,12 +63,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Controller name',
-      'Controller name. E.g. modules/cats, modules/users, modules/projects...',
+      l10n.t('Controller name'),
+      l10n.t(
+        'Controller name. E.g. modules/cats, modules/users, modules/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -83,20 +85,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -113,7 +116,20 @@ export class TerminalController {
       `nest g co ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate controller', command, this.config.cwd);
+    const result = await runCommand(
+      'generate controller',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate controller: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -131,10 +147,10 @@ export class TerminalController {
    */
   async generateGateway(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -144,12 +160,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Gateway name',
-      'Gateway name. E.g. modules/cats, modules/users, modules/projects...',
+      l10n.t('Gateway name'),
+      l10n.t(
+        'Gateway name. E.g. modules/cats, modules/users, modules/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -164,20 +182,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -194,7 +213,20 @@ export class TerminalController {
       `nest g ga ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate gateway', command, this.config.cwd);
+    const result = await runCommand(
+      'generate gateway',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate gateway: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -212,10 +244,10 @@ export class TerminalController {
   async generateLibrary(): Promise<void> {
     const folder = await getName(
       l10n.t('Enter library name'),
-      'Library name. E.g. cats, users, projects...',
+      l10n.t('Library name. E.g. cats, users, projects...'),
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -230,20 +262,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -260,7 +293,20 @@ export class TerminalController {
       `nest g lib ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate library', command, this.config.cwd);
+    const result = await runCommand(
+      'generate library',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate library: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -278,10 +324,10 @@ export class TerminalController {
    */
   async generateModule(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -291,12 +337,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Module name',
-      'Module name. E.g. modules/cats, modules/users, modules/projects...',
+      l10n.t('Module name'),
+      l10n.t(
+        'Module name. E.g. modules/cats, modules/users, modules/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -311,20 +359,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -341,7 +390,20 @@ export class TerminalController {
       `nest g mo ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate module', command, this.config.cwd);
+    const result = await runCommand(
+      'generate module',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate module: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -359,10 +421,10 @@ export class TerminalController {
    */
   async generateProvider(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -372,12 +434,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Provider name',
-      'Provider name. E.g. providers/cats, providers/users, providers/projects...',
+      l10n.t('Provider name'),
+      l10n.t(
+        'Provider name. E.g. providers/cats, providers/users, providers/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -392,20 +456,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -422,7 +487,20 @@ export class TerminalController {
       `nest g pr ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate provider', command, this.config.cwd);
+    const result = await runCommand(
+      'generate provider',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate provider: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -440,10 +518,10 @@ export class TerminalController {
    */
   async generateResolver(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -453,12 +531,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Resolver name',
-      'Resolver name. E.g. resolvers/cats, resolvers/users, resolvers/projects...',
+      l10n.t('Resolver name'),
+      l10n.t(
+        'Resolver name. E.g. resolvers/cats, resolvers/users, resolvers/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -473,20 +553,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -503,7 +584,20 @@ export class TerminalController {
       `nest g r ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate resolver', command, this.config.cwd);
+    const result = await runCommand(
+      'generate resolver',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate resolver: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -521,10 +615,10 @@ export class TerminalController {
    */
   async generateResource(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -534,12 +628,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Resource name',
-      'Resource name. E.g. modules/cats, modules/users, modules/projects...',
+      l10n.t('Resource name'),
+      l10n.t(
+        'Resource name. E.g. modules/cats, modules/users, modules/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -554,20 +650,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -584,7 +681,20 @@ export class TerminalController {
       `nest g res ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate resource', command, this.config.cwd);
+    const result = await runCommand(
+      'generate resource',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate resource: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -598,8 +708,8 @@ export class TerminalController {
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
-  start(): void {
-    runCommand('start', 'nest start', this.config.cwd);
+  async start(): Promise<void> {
+    await runCommand('start', 'nest start', this.config.cwd);
   }
 
   /**
@@ -613,8 +723,8 @@ export class TerminalController {
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
-  startDev(): void {
-    runCommand('dev', 'nest start --watch', this.config.cwd);
+  async startDev(): Promise<void> {
+    await runCommand('dev', 'nest start --watch', this.config.cwd);
   }
 
   /**
@@ -628,8 +738,8 @@ export class TerminalController {
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
-  startDebug(): void {
-    runCommand('debug', 'nest start --debug --watch', this.config.cwd);
+  async startDebug(): Promise<void> {
+    await runCommand('debug', 'nest start --debug --watch', this.config.cwd);
   }
 
   /**
@@ -643,8 +753,8 @@ export class TerminalController {
    *
    * @returns {Promise<void>} The promise that resolves the method.
    */
-  startProd(): void {
-    runCommand('prod', 'node dist/main', this.config.cwd);
+  async startProd(): Promise<void> {
+    await runCommand('prod', 'node dist/main', this.config.cwd);
   }
 
   /**
@@ -662,10 +772,10 @@ export class TerminalController {
    */
   async generateService(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -675,12 +785,14 @@ export class TerminalController {
 
     // Get the path to the folder
     const folder = await getPath(
-      'Service name',
-      'Service name. E.g. services/cats, services/users, services/projects...',
+      l10n.t('Service name'),
+      l10n.t(
+        'Service name. E.g. services/cats, services/users, services/projects...',
+      ),
       `${folderPath}/`,
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -695,20 +807,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -725,7 +838,20 @@ export class TerminalController {
       `nest g s ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate service', command, this.config.cwd);
+    const result = await runCommand(
+      'generate service',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate service: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -742,10 +868,10 @@ export class TerminalController {
   async generateSubApp(): Promise<void> {
     const folder = await getName(
       l10n.t('Enter sub-app name'),
-      'Sub-app name. E.g. cats, users, projects...',
+      l10n.t('Sub-app name. E.g. cats, users, projects...'),
       (path: string) => {
         if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return 'The folder name must be a valid name';
+          return l10n.t('The folder name must be a valid name');
         }
         return;
       },
@@ -760,20 +886,21 @@ export class TerminalController {
     const items = [
       {
         label: '--dry-run',
-        description:
+        description: l10n.t(
           'Report actions that would be taken without writing out results.',
+        ),
       },
       {
         label: '--flat',
-        description: 'Enforce flat structure of generated element.',
+        description: l10n.t('Enforce flat structure of generated element.'),
       },
       {
         label: '--skip-import',
-        description: 'Skip importing (default: false)',
+        description: l10n.t('Skip importing (default: false)'),
       },
       {
         label: '--no-spec',
-        description: 'Disable spec files generation.',
+        description: l10n.t('Disable spec files generation.'),
       },
     ];
 
@@ -790,7 +917,20 @@ export class TerminalController {
       `nest g app ${filename}` +
       (options ? ' ' + options.map((item: any) => item.label).join(' ') : '');
 
-    runCommand('generate sub-app', command, this.config.cwd);
+    const result = await runCommand(
+      'generate sub-app',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate sub-app: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 
   /**
@@ -808,10 +948,10 @@ export class TerminalController {
    */
   async generateCustomElement(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path.path) : '';
+    let folderPath: string = path ? workspace.asRelativePath(path) : '';
 
     if (this.config.cwd) {
-      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd).path);
+      const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
 
       if (folderPath.startsWith('/')) {
@@ -826,11 +966,11 @@ export class TerminalController {
       // Get the path to the folder
       folder = await getPath(
         l10n.t('Enter the folder name'),
-        'Folder name. E.g. src, app...',
+        l10n.t('Folder name. E.g. src, app...'),
         `${folderPath}/`,
         (path: string) => {
           if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return 'The folder name must be a valid name';
+            return l10n.t('The folder name must be a valid name');
           }
           return;
         },
@@ -877,6 +1017,19 @@ export class TerminalController {
 
     const command = `${option.description} ${folder} ${option.detail}`;
 
-    runCommand('generate custom element', command, this.config.cwd);
+    const result = await runCommand(
+      'generate custom element',
+      command,
+      this.config.cwd,
+    );
+
+    if (!result.success) {
+      const message = l10n.t(
+        'Failed to generate custom element: {0}',
+        result.error ?? '',
+      );
+      showError(message);
+      return;
+    }
   }
 }

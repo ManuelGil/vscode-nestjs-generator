@@ -1,6 +1,8 @@
+import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
   EventEmitter,
+  l10n,
   ProviderResult,
   ThemeIcon,
   TreeDataProvider,
@@ -8,7 +10,6 @@ import {
 } from 'vscode';
 
 import { ListFilesController } from '../controllers';
-import { singularize, titleize } from '../helpers';
 import { NodeModel } from '../models';
 
 /**
@@ -32,6 +33,20 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   // Properties
   // -----------------------------------------------------------------
 
+  // Public properties
+  /**
+   * The onDidChangeTreeData event.
+   * @type {Event<NodeModel | undefined | null | void>}
+   * @public
+   * @memberof ListFilesProvider
+   * @example
+   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
+   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
+   *
+   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   */
+  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+
   // Private properties
   /**
    * The onDidChangeTreeData event emitter.
@@ -48,19 +63,36 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
     NodeModel | undefined | null | void
   >;
 
-  // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
+   * Indicates whether the provider has been disposed.
+   * @type {boolean}
+   * @private
    * @memberof ListFilesProvider
    * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
-   * @see https://code.visualstudio.com/api/references/vscode-api#Event
+   * this._isDisposed = false;
    */
-  readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
+  private _isDisposed = false;
+
+  /**
+   * The cached nodes.
+   * @type {NodeModel[] | undefined}
+   * @private
+   * @memberof ListFilesProvider
+   * @example
+   * this._cachedNodes = undefined;
+   */
+  private _cachedNodes: NodeModel[] | undefined = undefined;
+
+  /**
+   * The cache promise.
+   * @type {Promise<NodeModel[] | undefined> | undefined}
+   * @private
+   * @memberof ListFilesProvider
+   * @example
+   * this._cachePromise = undefined;
+   */
+  private _cachePromise: Promise<NodeModel[] | undefined> | undefined =
+    undefined;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -100,7 +132,7 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
-    return element;
+    return element as TreeItem;
   }
 
   /**
@@ -122,25 +154,64 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
       return element.children;
     }
 
-    return this.getListFiles();
+    if (this._cachedNodes) {
+      return this._cachedNodes;
+    }
+
+    if (this._cachePromise) {
+      return this._cachePromise;
+    }
+
+    this._cachePromise = this.getListFiles().then((nodes) => {
+      this._cachedNodes = nodes;
+      this._cachePromise = undefined;
+      return nodes;
+    });
+
+    return this._cachePromise;
   }
 
   /**
-   * Refreshes the tree data.
+   * Refreshes the tree data by firing the event.
    *
    * @function refresh
    * @public
-   * @memberof FeedbackProvider
+   * @memberof ListFilesProvider
    * @example
    * provider.refresh();
    *
    * @returns {void} - No return value
    */
   refresh(): void {
+    this._cachedNodes = undefined;
+    this._cachePromise = undefined;
     this._onDidChangeTreeData.fire();
   }
 
-  // Private methods
+  /**
+   * Disposes the provider.
+   *
+   * @function dispose
+   * @public
+   * @memberof ListFilesProvider
+   * @example
+   * provider.dispose();
+   *
+   * @returns {void} - No return value
+   */
+  dispose(): void {
+    this._onDidChangeTreeData.dispose();
+    if (this._isDisposed) {
+      return;
+    }
+
+    this._isDisposed = true;
+
+    if (this._onDidChangeTreeData) {
+      this._onDidChangeTreeData.dispose();
+    }
+  }
+
   /**
    * Gets the list of files.
    *
@@ -156,35 +227,66 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
     const files = await ListFilesController.getFiles();
 
     if (!files) {
-      return;
+      return [];
     }
 
-    const nodes: NodeModel[] = [];
+    // Build matchers from watch config. Accept tokens like
+    //  - "controller" or "controllers" -> match ".controller.ts"
+    //  - explicit tokens with dot, e.g. "module.ts" -> match literally
+    const watchMatchers = (ListFilesController.config.watch || [])
+      .map((token) => (token ?? '').trim())
+      .filter((token): token is string => token.length > 0)
+      .map((token) => {
+        const hasDot = token.includes('.');
+        const base = hasDot ? token : token.replace(/s$/, '');
+        const escaped = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`\\.${escaped}(?:\\.|$)`);
+        return { token, regex };
+      });
 
-    const fileTypes = ListFilesController.config.watch;
+    const { results, errors } = await PromisePool.for(watchMatchers)
+      .withConcurrency(2)
+      .process(async ({ token, regex }) => {
+        const children = files.filter((file) =>
+          regex.test(file.label.toString()),
+        );
 
-    for (const fileType of fileTypes) {
-      const children = files.filter((file) =>
-        file.label.toString().includes(`${singularize(fileType)}.ts`),
-      );
+        if (children.length === 0) {
+          return undefined;
+        }
+        // Stable sort children by label for predictable ordering
+        children.sort((a, b) =>
+          a.label.toString().localeCompare(b.label.toString()),
+        );
 
-      if (children.length !== 0) {
         const node = new NodeModel(
-          `${titleize(fileType)}: ${children.length}`,
+          l10n.t('{0}: {1}', token, children.length),
           new ThemeIcon('folder-opened'),
           undefined,
           undefined,
-          fileType,
+          token,
           children,
         );
+        node.tooltip = l10n.t(
+          'Files matching "{0}" • {1}',
+          token,
+          children.length,
+        );
+        return node;
+      });
 
-        nodes.push(node);
-      }
+    if (errors.length > 0) {
+      console.error('Errors processing file types:', errors);
     }
 
-    if (nodes.length === 0) {
-      return;
-    }
+    const nodes = results.filter(
+      (node): node is NodeModel => node !== undefined,
+    );
+
+    // Sort groups by token (stored in contextValue) for consistent order
+    nodes.sort((a, b) =>
+      (a.contextValue ?? '').localeCompare(b.contextValue ?? ''),
+    );
 
     return nodes;
   }

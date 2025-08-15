@@ -25,6 +25,7 @@ export const getPath = async (
     prompt,
     placeHolder,
     value: currentPath,
+    ignoreFocusOut: true,
     validateInput: validate,
   });
 };
@@ -51,6 +52,7 @@ export const getName = async (
   return await window.showInputBox({
     prompt,
     placeHolder,
+    ignoreFocusOut: true,
     validateInput: validate,
   });
 };
@@ -71,6 +73,9 @@ export const pickItem = async (
 ): Promise<string | undefined> => {
   return await window.showQuickPick(items, {
     placeHolder,
+    ignoreFocusOut: true,
+    matchOnDescription: true,
+    matchOnDetail: true,
   });
 };
 

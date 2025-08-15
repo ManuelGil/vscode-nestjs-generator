@@ -71,35 +71,37 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   // Watch for changes in the configuration
-  vscode.workspace.onDidChangeConfiguration((event) => {
-    const workspaceConfig = vscode.workspace.getConfiguration(
-      EXTENSION_ID,
-      resource?.uri,
-    );
+  const disposableConfigChange = vscode.workspace.onDidChangeConfiguration(
+    (event) => {
+      const workspaceConfig = vscode.workspace.getConfiguration(
+        EXTENSION_ID,
+        resource?.uri,
+      );
 
-    if (event.affectsConfiguration(`${EXTENSION_ID}.enable`, resource?.uri)) {
-      const isEnabled = workspaceConfig.get<boolean>('enable');
+      if (event.affectsConfiguration(`${EXTENSION_ID}.enable`, resource?.uri)) {
+        const isEnabled = workspaceConfig.get<boolean>('enable');
 
-      config.update(workspaceConfig);
+        config.update(workspaceConfig);
 
-      if (isEnabled) {
-        const message = vscode.l10n.t(
-          'The {0} extension is now enabled and ready to use',
-          [EXTENSION_DISPLAY_NAME],
-        );
-        vscode.window.showInformationMessage(message);
-      } else {
-        const message = vscode.l10n.t('The {0} extension is now disabled', [
-          EXTENSION_DISPLAY_NAME,
-        ]);
-        vscode.window.showInformationMessage(message);
+        if (isEnabled) {
+          const message = vscode.l10n.t(
+            'The {0} extension is now enabled and ready to use',
+            [EXTENSION_DISPLAY_NAME],
+          );
+          vscode.window.showInformationMessage(message);
+        } else {
+          const message = vscode.l10n.t('The {0} extension is now disabled', [
+            EXTENSION_DISPLAY_NAME,
+          ]);
+          vscode.window.showInformationMessage(message);
+        }
       }
-    }
 
-    if (event.affectsConfiguration(EXTENSION_ID, resource?.uri)) {
-      config.update(workspaceConfig);
-    }
-  });
+      if (event.affectsConfiguration(EXTENSION_ID, resource?.uri)) {
+        config.update(workspaceConfig);
+      }
+    },
+  );
 
   // -----------------------------------------------------------------
   // Get version of the extension
@@ -1223,14 +1225,15 @@ export async function activate(context: vscode.ExtensionContext) {
   // Register ListFilesProvider and ListMethodsProvider events
   // -----------------------------------------------------------------
 
-  vscode.workspace.onDidCreateFiles(() => {
+  const disposableFileCreate = vscode.workspace.onDidCreateFiles(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
     listEntitiesProvider.refresh();
     listDTOsProvider.refresh();
     listMethodsProvider.refresh();
   });
-  vscode.workspace.onDidSaveTextDocument(() => {
+
+  const disposableFileSave = vscode.workspace.onDidSaveTextDocument(() => {
     listFilesProvider.refresh();
     listModulesProvider.refresh();
     listEntitiesProvider.refresh();
@@ -1272,6 +1275,7 @@ export async function activate(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
+    disposableConfigChange,
     disposableGenerateFileClass,
     disposableGenerateFileController,
     disposableGenerateFileDecorator,
@@ -1321,6 +1325,8 @@ export async function activate(context: vscode.ExtensionContext) {
     disposableRefreshListDTOs,
     disposableListMethodsTreeView,
     disposableRefreshListMethods,
+    disposableFileCreate,
+    disposableFileSave,
     disposableFeedbackTreeView,
     disposableFeedbackAboutUs,
     disposableFeedbackReportIssues,

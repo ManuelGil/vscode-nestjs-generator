@@ -1,4 +1,4 @@
-import { MessageItem, Uri, env, l10n, window } from 'vscode';
+import { env, l10n, MessageItem, Uri, window } from 'vscode';
 
 import {
   EXTENSION_DISPLAY_NAME,
@@ -92,7 +92,7 @@ export class FeedbackController {
     // Create the actions
     const actions: MessageItem[] = [
       { title: l10n.t('Become a Sponsor') },
-      { title: l10n.t('Donate via PayPal') },
+      { title: l10n.t('Buy Me a Coffee') },
     ];
 
     // Show the message

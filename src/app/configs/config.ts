@@ -7,6 +7,7 @@ import {
   CUSTOM_TEMPLATES,
   EXCLUDE,
   INCLUDE,
+  IS_ROOT_CONTEXT,
   MenuInterface,
   ORM,
   SHOW_PATH,
@@ -26,10 +27,12 @@ import {
  * @property {string[]} exclude - The files to exclude
  * @property {string[]} watch - The files to watch
  * @property {boolean} showPath - Whether to show the path or not
+ * @property {string | undefined} cwd - The current working directory
  * @property {object[]} customCommands - The custom commands
  * @property {object[]} customTemplates - The custom templates
  * @property {object} activateItem - Whether to show the menu or not
  * @property {boolean} autoImport - The auto import setting
+ * @property {boolean} useRootWorkspace - Use root workspace to resolve relative paths
  * @property {boolean} skipFolderConfirmation - Whether to skip the folder confirmation or not
  * @property {string} orm - The orm
  * @example
@@ -54,7 +57,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.enable);
    */
-  enable: boolean;
+  enable!: boolean;
   /**
    * The files to include.
    * @type {string[]}
@@ -64,7 +67,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.include);
    */
-  include: string[];
+  include!: string[];
   /**
    * The files to exclude.
    * @type {string[]}
@@ -74,7 +77,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.exclude);
    */
-  exclude: string[];
+  exclude!: string[];
   /**
    * The files to watch.
    * @type {string[]}
@@ -84,7 +87,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.watch);
    */
-  watch: string[];
+  watch!: string[];
   /**
    * Whether to show the path or not.
    * @type {boolean}
@@ -94,7 +97,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.showPath);
    */
-  showPath: boolean;
+  showPath!: boolean;
   /**
    * The current working directory.
    * @type {string | undefined}
@@ -104,7 +107,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.cwd);
    */
-  cwd: string | undefined;
+  cwd!: string | undefined;
   /**
    * The custom commands.
    * @type {object[]}
@@ -117,7 +120,7 @@ export class Config {
    * console.log(config.customCommands[0].command);
    * console.log(config.customCommands[0].args);
    */
-  customCommands: object[];
+  customCommands!: object[];
   /**
    * The custom templates.
    * @type {object[]}
@@ -131,7 +134,7 @@ export class Config {
    * console.log(config.customTemplates[0].type);
    * console.log(config.customTemplates[0].template);
    */
-  templates: object[];
+  templates!: object[];
   /**
    * Whether to show the menu or not.
    * @type {MenuInterface}
@@ -142,7 +145,7 @@ export class Config {
    * console.log(config.activateItem);
    * console.log(config.activateItem.terminal.components);
    */
-  activateItem: MenuInterface;
+  activateItem!: MenuInterface;
   /**
    * The auto import setting.
    * @type {boolean}
@@ -152,7 +155,17 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.autoImport);
    */
-  autoImport: boolean;
+  autoImport!: boolean;
+  /**
+   * Use root workspace to resolve relative paths.
+   * @type {string | undefined}
+   * @public
+   * @memberof Config
+   * @example
+   * const config = new Config(workspace.getConfiguration());
+   * console.log(config.fileGenerator.useRootWorkspace);
+   */
+  useRootWorkspace!: boolean;
   /**
    * Whether to skip the folder confirmation or not.
    * @type {boolean}
@@ -162,7 +175,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.skipFolderConfirmation);
    */
-  skipFolderConfirmation: boolean;
+  skipFolderConfirmation!: boolean;
   /**
    * The orm.
    * @type {string}
@@ -172,7 +185,7 @@ export class Config {
    * const config = new Config(workspace.getConfiguration());
    * console.log(config.orm);
    */
-  orm: string;
+  orm!: string;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -187,33 +200,7 @@ export class Config {
    * @memberof Config
    */
   constructor(readonly config: WorkspaceConfiguration) {
-    this.enable = config.get<boolean>('enable', true);
-    this.include = config.get<string[]>('files.include', INCLUDE);
-    this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
-    this.watch = config.get<string[]>('files.watch', WATCH);
-    this.showPath = config.get<boolean>('files.showPath', SHOW_PATH);
-    this.cwd = config.get<string | undefined>(
-      'terminal.cwd',
-      workspace.workspaceFolders?.[0].uri.fsPath,
-    );
-    this.customCommands = config.get<object[]>(
-      'submenu.customCommands',
-      CUSTOM_COMMANDS,
-    );
-    this.templates = config.get<object[]>(
-      'submenu.templates',
-      CUSTOM_TEMPLATES,
-    );
-    this.activateItem = config.get<MenuInterface>(
-      'submenu.activateItem',
-      ACTIVATE_MENU,
-    );
-    this.autoImport = config.get<boolean>('files.autoImport', AUTO_IMPORT);
-    this.skipFolderConfirmation = config.get<boolean>(
-      'files.skipFolderConfirmation',
-      SKIP_FOLDER_CONFIRMATION,
-    );
-    this.orm = config.get<string>('files.orm', ORM);
+    this.loadConfiguration(config);
   }
 
   // -----------------------------------------------------------------
@@ -233,6 +220,19 @@ export class Config {
    * config.update(workspace.getConfiguration());
    */
   update(config: WorkspaceConfiguration): void {
+    this.loadConfiguration(config);
+  }
+
+  // Private methods
+  /**
+   * Loads configuration values from WorkspaceConfiguration.
+   *
+   * @function loadConfiguration
+   * @param {WorkspaceConfiguration} config - The workspace configuration
+   * @private
+   * @memberof Config
+   */
+  private loadConfiguration(config: WorkspaceConfiguration): void {
     this.enable = config.get<boolean>('enable', true);
     this.include = config.get<string[]>('files.include', INCLUDE);
     this.exclude = config.get<string[]>('files.exclude', EXCLUDE);
@@ -255,6 +255,10 @@ export class Config {
       ACTIVATE_MENU,
     );
     this.autoImport = config.get<boolean>('files.autoImport', AUTO_IMPORT);
+    this.useRootWorkspace = config.get<boolean>(
+      'fileGenerator.useRootWorkspace',
+      IS_ROOT_CONTEXT,
+    );
     this.skipFolderConfirmation = config.get<boolean>(
       'files.skipFolderConfirmation',
       SKIP_FOLDER_CONFIRMATION,

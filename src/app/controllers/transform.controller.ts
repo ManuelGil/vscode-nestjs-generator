@@ -1,6 +1,6 @@
 import JsonToTS from 'json-to-ts';
-import * as json5 from 'json5';
-import { Range, TextEditor, l10n, window, workspace } from 'vscode';
+import json5 from 'json5';
+import { l10n, Range, TextEditor, window, workspace } from 'vscode';
 
 // Import the helper functions
 import { showError } from '../helpers';
@@ -44,7 +44,13 @@ export class TransformController {
       return;
     }
 
-    const selection = editor?.selection;
+    if (!editor) {
+      const message = l10n.t('No text editor is active!');
+      showError(message);
+      return;
+    }
+
+    const selection = editor.selection;
 
     if (selection && !selection.isEmpty) {
       const selectionRange = new Range(
@@ -54,9 +60,9 @@ export class TransformController {
         selection.end.character,
       );
 
-      let text = editor?.document.getText(selectionRange) || '';
+      let text = editor.document.getText(selectionRange) || '';
 
-      const languageId = editor?.document.languageId || '';
+      const languageId = editor.document.languageId || '';
 
       if (
         [

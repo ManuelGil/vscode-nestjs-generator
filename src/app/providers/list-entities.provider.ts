@@ -2,15 +2,15 @@ import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
   EventEmitter,
+  l10n,
   ProviderResult,
   ThemeIcon,
   TreeDataProvider,
   TreeItem,
-  l10n,
   workspace,
 } from 'vscode';
 
-import { EXTENSION_ID } from '../configs';
+import { CommandIds, EXTENSION_ID } from '../configs';
 import { ListFilesController, ORMController } from '../controllers';
 import { NodeModel } from '../models';
 
@@ -262,7 +262,7 @@ export class ListEntitiesProvider implements TreeDataProvider<NodeModel> {
                 line.text.trim(),
                 new ThemeIcon('symbol-method'),
                 {
-                  command: `${EXTENSION_ID}.list.gotoLine`,
+                  command: `${EXTENSION_ID}.${CommandIds.ListGotoLine}`,
                   title: line.text,
                   arguments: [uri, index],
                 },

@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update README.md and CHANGELOG.md for consistency
-- Enhance FeedbackProvider with disposal methods to prevent memory leaks
+- Enhance `FeedbackProvider` with disposal methods to prevent memory leaks
 
 ## [2.12.0] - 2025-08-14
 

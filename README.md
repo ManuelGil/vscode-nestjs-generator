@@ -137,12 +137,13 @@ You can configure the extension per-project by adding a `.vscode/settings.json` 
         }
       }, // Activate items in the submenu
       "nestjs.files.autoImport": true, // Automatically import the generated file
+      "nestjs.files.useRootWorkspace": false, // Use the root folder of the workspace as the current working directory to resolve relative paths
       "nestjs.files.skipFolderConfirmation": false, // Skip folder confirmation when generating a new file
       "nestjs.files.orm": "typeorm", // The ORM to use when generating a new file
     }
     ```
 
-4. **Restart VS Code**
+1. **Restart VS Code**
 
 Your project is now set up to automatically format code upon saving.
 
@@ -160,6 +161,7 @@ Configure the Nest File Generator extension to suit your needs. The following se
 - `nestjs.submenu.templates`: The list of templates to use when generating a new file. The default is `[]`.
 - `nestjs.submenu.activateItem`: Activate items in the submenu. The default is `true`.
 - `nestjs.files.autoImport`: Automatically import the generated file. The default is `true`.
+- `nestjs.files.useRootWorkspace`: Use the root folder of the workspace as the current working directory to resolve relative paths. The default is `false`.
 - `nestjs.files.skipFolderConfirmation`: Skip folder confirmation when generating a new file. The default is `false`.
 - `nestjs.files.orm`: The ORM to use when generating a new file. The default is `typeorm`.
 

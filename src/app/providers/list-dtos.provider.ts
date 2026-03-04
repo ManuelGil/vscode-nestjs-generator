@@ -2,6 +2,7 @@ import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
   EventEmitter,
+  l10n,
   ProviderResult,
   ThemeIcon,
   TreeDataProvider,
@@ -9,12 +10,12 @@ import {
   workspace,
 } from 'vscode';
 
-import { EXTENSION_ID } from '../configs';
-import { ListFilesController } from '../controllers';
+import { CommandIds, EXTENSION_ID } from '../configs';
+import { DTOController, ListFilesController } from '../controllers';
 import { NodeModel } from '../models';
 
 /**
- * The ListMethodsProvider class
+ * The ListDTOsProvider class
  *
  * @class
  * @classdesc The class that represents the list of files provider.
@@ -25,11 +26,11 @@ import { NodeModel } from '../models';
  * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
  * @property {ListFilesController} controller - The list of files controller
  * @example
- * const provider = new ListMethodsProvider();
+ * const provider = new ListDTOsProvider();
  *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
-export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
+export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
   // Properties
   // -----------------------------------------------------------------
@@ -39,7 +40,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * The onDidChangeTreeData event.
    * @type {Event<NodeModel | undefined | null | void>}
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
    * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -53,7 +54,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * The onDidChangeTreeData event emitter.
    * @type {EventEmitter<NodeModel | undefined | null | void>}
    * @private
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
    * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -68,7 +69,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * Indicates whether the provider has been disposed.
    * @type {boolean}
    * @private
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * this._isDisposed = false;
    */
@@ -78,7 +79,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * The cached nodes.
    * @type {NodeModel[] | undefined}
    * @private
-   * @memberof ListMethodsProvider
+   * @memberof ListRoutesProvider
    * @example
    * this._cachedNodes = undefined;
    */
@@ -88,7 +89,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * The cache promise.
    * @type {Promise<NodeModel[] | undefined> | undefined}
    * @private
-   * @memberof ListMethodsProvider
+   * @memberof ListRoutesProvider
    * @example
    * this._cachePromise = undefined;
    */
@@ -100,13 +101,13 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the ListMethodsProvider class
+   * Constructor for the ListDTOsProvider class
    *
    * @constructor
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    */
-  constructor() {
+  constructor(readonly controller: DTOController) {
     this._onDidChangeTreeData = new EventEmitter<
       NodeModel | undefined | null | void
     >();
@@ -124,7 +125,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * @function getTreeItem
    * @param {NodeModel} element - The element
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * const treeItem = provider.getTreeItem(element);
    *
@@ -142,7 +143,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    * @function getChildren
    * @param {NodeModel} [element] - The element
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * const children = provider.getChildren(element);
    *
@@ -163,7 +164,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
       return this._cachePromise;
     }
 
-    this._cachePromise = this.getListMethods().then((nodes) => {
+    this._cachePromise = this.getListDtos().then((nodes) => {
       this._cachedNodes = nodes;
       this._cachePromise = undefined;
       return nodes;
@@ -177,7 +178,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    *
    * @function refresh
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * provider.refresh();
    *
@@ -194,7 +195,7 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
    *
    * @function dispose
    * @public
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
    * provider.dispose();
    *
@@ -217,29 +218,31 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
   /**
    * Returns the list of files.
    *
-   * @function getListMethods
+   * @function getListDtos
    * @private
-   * @memberof ListMethodsProvider
+   * @memberof ListDTOsProvider
    * @example
-   * const files = provider.getListMethods();
+   * const files = provider.getListDtos();
    *
    * @returns {Promise<NodeModel[] | undefined>} - The list of files
    */
-  private async getListMethods(): Promise<NodeModel[] | undefined> {
+  private async getListDtos(): Promise<NodeModel[] | undefined> {
     const files = await ListFilesController.getFiles();
 
     if (!files) {
       return;
     }
 
-    // List of Controllers
+    // List of DTOs
     const nodes = files.filter((file) =>
-      file.label.toString().includes('controller.ts'),
+      file.label.toString().includes('dto.ts'),
     );
 
-    // Precompile decorator regex: start of line, ignore commented lines, allow indentation
-    const decoratorRegex =
-      /^(?!\s*\/\/).*\s*@(?:Get|Post|Put|Delete|Patch|Options|Head|All)\b/;
+    const importRegex = this.controller.getAnnotationsRegex();
+
+    if (!importRegex) {
+      return;
+    }
 
     const { results, errors } = await PromisePool.for(nodes)
       .withConcurrency(2)
@@ -259,16 +262,18 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
 
             let node: NodeModel | undefined;
 
-            if (decoratorRegex.test(line.text)) {
+            if (importRegex.test(line.text)) {
               node = new NodeModel(
                 line.text.trim(),
                 new ThemeIcon('symbol-method'),
                 {
-                  command: `${EXTENSION_ID}.list.gotoLine`,
+                  command: `${EXTENSION_ID}.${CommandIds.ListGotoLine}`,
                   title: line.text,
                   arguments: [uri, index],
                 },
               );
+              node.description = l10n.t('line {0}', index + 1);
+              node.tooltip = l10n.t('{0}:{1}', document.uri.fsPath, index + 1);
             }
 
             return node;
@@ -283,9 +288,11 @@ export class ListMethodsProvider implements TreeDataProvider<NodeModel> {
       });
 
     if (errors.length > 0) {
-      console.error('Errors processing controller files:', errors);
+      console.error('Errors processing DTO files:', errors);
     }
 
-    return results.filter((file) => file.children?.length !== 0);
+    return results.filter(
+      (file) => file.children && file.children.length !== 0,
+    );
   }
 }

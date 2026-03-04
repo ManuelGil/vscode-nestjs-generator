@@ -2,7 +2,14 @@ import { l10n, Uri, window, workspace } from 'vscode';
 
 // Import the Config and helper functions
 import { Config } from '../configs';
-import { getName, getPath, runCommand, showError } from '../helpers';
+import {
+  getName,
+  getPath,
+  runCommand,
+  showError,
+  validateFolderName,
+} from '../helpers';
+import { relativePath } from '../helpers/relative-path.helper';
 
 /**
  * The TerminalController class.
@@ -50,7 +57,7 @@ export class TerminalController {
    */
   async generateController(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -68,12 +75,7 @@ export class TerminalController {
         'Controller name. E.g. modules/cats, modules/users, modules/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -86,12 +88,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -99,7 +101,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -147,7 +149,7 @@ export class TerminalController {
    */
   async generateGateway(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -165,12 +167,7 @@ export class TerminalController {
         'Gateway name. E.g. modules/cats, modules/users, modules/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -183,12 +180,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -196,7 +193,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -245,12 +242,7 @@ export class TerminalController {
     const folder = await getName(
       l10n.t('Enter library name'),
       l10n.t('Library name. E.g. cats, users, projects...'),
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -263,12 +255,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -276,7 +268,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -324,7 +316,7 @@ export class TerminalController {
    */
   async generateModule(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -342,12 +334,7 @@ export class TerminalController {
         'Module name. E.g. modules/cats, modules/users, modules/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -360,12 +347,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -373,7 +360,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -421,7 +408,7 @@ export class TerminalController {
    */
   async generateProvider(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -439,12 +426,7 @@ export class TerminalController {
         'Provider name. E.g. providers/cats, providers/users, providers/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -457,12 +439,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -470,7 +452,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -518,7 +500,7 @@ export class TerminalController {
    */
   async generateResolver(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -536,12 +518,7 @@ export class TerminalController {
         'Resolver name. E.g. resolvers/cats, resolvers/users, resolvers/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -554,12 +531,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -567,7 +544,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -615,7 +592,7 @@ export class TerminalController {
    */
   async generateResource(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -633,12 +610,7 @@ export class TerminalController {
         'Resource name. E.g. modules/cats, modules/users, modules/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -651,12 +623,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -664,7 +636,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -772,7 +744,7 @@ export class TerminalController {
    */
   async generateService(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -790,12 +762,7 @@ export class TerminalController {
         'Service name. E.g. services/cats, services/users, services/projects...',
       ),
       `${folderPath}/`,
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -808,12 +775,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -821,7 +788,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -869,12 +836,7 @@ export class TerminalController {
     const folder = await getName(
       l10n.t('Enter sub-app name'),
       l10n.t('Sub-app name. E.g. cats, users, projects...'),
-      (path: string) => {
-        if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-          return l10n.t('The folder name must be a valid name');
-        }
-        return;
-      },
+      validateFolderName,
     );
 
     if (!folder) {
@@ -887,12 +849,12 @@ export class TerminalController {
       {
         label: '--dry-run',
         description: l10n.t(
-          'Report actions that would be taken without writing out results.',
+          'Report actions that would be taken without writing out results',
         ),
       },
       {
         label: '--flat',
-        description: l10n.t('Enforce flat structure of generated element.'),
+        description: l10n.t('Enforce flat structure of generated element'),
       },
       {
         label: '--skip-import',
@@ -900,7 +862,7 @@ export class TerminalController {
       },
       {
         label: '--no-spec',
-        description: l10n.t('Disable spec files generation.'),
+        description: l10n.t('Disable spec files generation'),
       },
     ];
 
@@ -948,7 +910,7 @@ export class TerminalController {
    */
   async generateCustomElement(path?: Uri): Promise<void> {
     // Get the relative path
-    let folderPath: string = path ? workspace.asRelativePath(path) : '';
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -968,12 +930,7 @@ export class TerminalController {
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
         `${folderPath}/`,
-        (path: string) => {
-          if (!/^(?!\/)[^\sÀ-ÿ]+?$/.test(path)) {
-            return l10n.t('The folder name must be a valid name');
-          }
-          return;
-        },
+        validateFolderName,
       );
 
       if (!folder) {

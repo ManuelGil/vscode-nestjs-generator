@@ -60,35 +60,13 @@ export const getName = async (
 /**
  * Displays a message box with the provided message
  *
- * @param {string[]} items - The list of items to select from
- * @param {string} placeHolder - The input placeholder
- * @example
- * const item = await pickItem(['foo', 'bar'], 'Select an item');
- *
- * @returns {Promise<string | undefined>} - The selected item
- */
-export const pickItem = async (
-  items: string[],
-  placeHolder: string,
-): Promise<string | undefined> => {
-  return await window.showQuickPick(items, {
-    placeHolder,
-    ignoreFocusOut: true,
-    matchOnDescription: true,
-    matchOnDetail: true,
-  });
-};
-
-/**
- * Displays a message box with the provided message
- *
  * @param {string} message - The message to display
  * @example
- * await showMessage('Hello, world!');
+ * showMessage('Hello, world!');
  *
- * @returns {Promise<void>} - No return value
+ * @returns {void} - No return value
  */
-export const showMessage = async (message: string): Promise<void> => {
+export const showMessage = (message: string): void => {
   window.showInformationMessage(message);
 };
 
@@ -97,11 +75,11 @@ export const showMessage = async (message: string): Promise<void> => {
  *
  * @param {string} message - The message to display
  * @example
- * await showError('An error occurred');
+ * showError('An error occurred');
  *
- * @returns {Promise<void>} - No return value
+ * @returns {void} - No return value
  */
-export const showError = async (message: string): Promise<void> => {
+export const showError = (message: string): void => {
   window.showErrorMessage(message);
 };
 
@@ -110,10 +88,10 @@ export const showError = async (message: string): Promise<void> => {
  *
  * @param {string} message - The message to display
  * @example
- * await showWarning('This is a warning');
+ * showWarning('This is a warning');
  *
- * @returns {Promise<void>} - No return value
+ * @returns {void} - No return value
  */
-export const showWarning = async (message: string): Promise<void> => {
+export const showWarning = (message: string): void => {
   window.showWarningMessage(message);
 };

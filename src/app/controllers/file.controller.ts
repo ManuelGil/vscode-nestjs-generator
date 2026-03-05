@@ -86,14 +86,16 @@ export class FileController {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateClass(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -109,7 +111,6 @@ export class FileController {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the class name'),
@@ -129,7 +130,6 @@ export class FileController {
       showError(message);
       return;
     }
-
 
     let type = await getName(
       l10n.t('Enter the type name'),
@@ -172,14 +172,16 @@ export class FileController {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateController(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -195,7 +197,6 @@ export class FileController {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the controller name'),
@@ -294,14 +295,16 @@ export class ${className}Controller {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateDecorator(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -360,14 +363,16 @@ export const ${entityName} = (...args: string[]) =>
    * @returns {Promise<void>} The result of the operation.
    */
   async generateDto(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -383,7 +388,6 @@ export const ${entityName} = (...args: string[]) =>
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the Dto class name'),
@@ -432,14 +436,16 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateExceptionFilter(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -455,7 +461,6 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the exception filter name'),
@@ -523,14 +528,16 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateException(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -546,7 +553,6 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the exception class name'),
@@ -595,14 +601,16 @@ export class ${className}Exception extends HttpException {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateFilter(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -618,7 +626,6 @@ export class ${className}Exception extends HttpException {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the filter class name'),
@@ -673,14 +680,16 @@ export class ${className}Filter<T> implements ExceptionFilter {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateGateway(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -696,7 +705,6 @@ export class ${className}Filter<T> implements ExceptionFilter {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the gateway class name'),
@@ -754,14 +762,16 @@ export class ${className}Gateway {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateGuard(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -777,7 +787,6 @@ export class ${className}Gateway {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the guard class name'),
@@ -830,14 +839,16 @@ export class ${className}Guard implements CanActivate {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateInterceptor(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -853,7 +864,6 @@ export class ${className}Guard implements CanActivate {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the interceptor class name'),
@@ -909,14 +919,16 @@ export class ${className}Interceptor implements NestInterceptor {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateInterface(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -932,7 +944,6 @@ export class ${className}Interceptor implements NestInterceptor {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the interface class name'),
@@ -952,7 +963,6 @@ export class ${className}Interceptor implements NestInterceptor {
       showError(message);
       return;
     }
-
 
     let type = await getName(
       l10n.t('Enter the interface type'),
@@ -995,14 +1005,16 @@ export class ${className}Interceptor implements NestInterceptor {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateJwtGuard(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1018,7 +1030,6 @@ export class ${className}Interceptor implements NestInterceptor {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the jwt guard class name'),
@@ -1080,14 +1091,16 @@ export class ${className}Guard extends AuthGuard('jwt') {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateJwtStrategy(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1146,14 +1159,16 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateLogger(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1169,7 +1184,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the logger class name'),
@@ -1239,14 +1253,16 @@ export class ${className}Logger implements LoggerService {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateMiddleware(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1262,7 +1278,6 @@ export class ${className}Logger implements LoggerService {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the middleware class name'),
@@ -1312,14 +1327,16 @@ export class ${className}Middleware implements NestMiddleware {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateModule(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1335,7 +1352,6 @@ export class ${className}Middleware implements NestMiddleware {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the module class name'),
@@ -1393,14 +1409,16 @@ export class ${className}Module {}
    * @returns {Promise<void>} The result of the operation.
    */
   async generatePipe(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1416,7 +1434,6 @@ export class ${className}Module {}
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the pipe class name'),
@@ -1466,14 +1483,16 @@ export class ${className}Pipe implements PipeTransform {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateProvider(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1489,7 +1508,6 @@ export class ${className}Pipe implements PipeTransform {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the provider class name'),
@@ -1535,14 +1553,16 @@ export class ${className} {}
    * @returns {Promise<void>} The result of the operation.
    */
   async generateResolver(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1558,7 +1578,6 @@ export class ${className} {}
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the resolver class name'),
@@ -1604,14 +1623,16 @@ export class ${className}Resolver {}
    * @returns {Promise<void>} The result of the operation.
    */
   async generateService(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1627,7 +1648,6 @@ export class ${className}Resolver {}
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the service class name'),
@@ -1706,14 +1726,16 @@ export class ${className}Service {
    * @returns {Promise<void>} The result of the operation.
    */
   async generateTest(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1729,7 +1751,6 @@ export class ${className}Service {
     } else {
       folder = folderPath;
     }
-
 
     const className = await getName(
       l10n.t('Enter the test class name'),
@@ -1798,14 +1819,16 @@ describe('${className}Controller', () => {
    * @returns {Promise<void>} - The result of the operation
    */
   async generateCustomElement(path?: Uri): Promise<void> {
-
-    const folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
+    const folderPath: string = relativePath(
+      path,
+      this.config.useRootWorkspace,
+      this.config,
+    );
 
     const skipFolderConfirmation = this.config.skipFolderConfirmation;
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),
@@ -1864,7 +1887,6 @@ describe('${className}Controller', () => {
 
     let content = Object(template).template.join('\n');
 
-
     const className = await getName(
       l10n.t('Enter the class name'),
       l10n.t('E.g. User, Role, Auth...'),
@@ -1887,7 +1909,6 @@ describe('${className}Controller', () => {
     content = content.replace(/{{ComponentName}}/g, className);
 
     if (content.includes('{{EntityName}}')) {
-  
       const entityName = await getName(
         l10n.t('Enter the entity name'),
         l10n.t('E.g. user, role, auth...'),
@@ -1954,10 +1975,7 @@ describe('${className}Controller', () => {
 
       // Convert the workspace-relative directory into an absolute path.
       // The file search helper relies on FastGlob which expects absolute paths.
-      const absoluteDirectoryPath = path.join(
-        workspaceRoot,
-        directoryPath,
-      );
+      const absoluteDirectoryPath = path.join(workspaceRoot, directoryPath);
 
       let files: Uri[] = [];
       let searchDirectory = absoluteDirectoryPath;
@@ -1994,11 +2012,7 @@ describe('${className}Controller', () => {
 
       const moduleDirectory = path.dirname(targetFile.fsPath);
 
-      const sourceFilePath = path.join(
-        workspaceFolder.uri.fsPath,
-        directoryPath,
-        filename,
-      );
+      const sourceFilePath = path.join(workspaceRoot, directoryPath, filename);
 
       // Compute the import path relative to the module file.
       // Normalize separators and remove the .ts extension for a valid TS import.

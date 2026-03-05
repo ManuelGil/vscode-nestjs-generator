@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   commands,
   l10n,
@@ -7,7 +8,6 @@ import {
   window,
   workspace,
 } from 'vscode';
-
 // Import the helper functions
 import { Config } from '../configs';
 import {
@@ -140,7 +140,7 @@ export class FileController {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -255,9 +255,9 @@ export class ${className}Controller {
 
     const filename = `${dasherize(className)}.controller.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'controllers',
       `${className}Controller`,
@@ -328,7 +328,7 @@ export const ${entityName} = (...args: string[]) =>
 
     const filename = `${dasherize(entityName)}.decorator.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -400,7 +400,7 @@ export class Update${className}Dto extends PartialType(Create${className}Dto) {
 
     const filename = `update-${dasherize(className)}.dto.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -484,9 +484,9 @@ export class ${className}ExceptionFilter implements ExceptionFilter {
 
     const filename = `${dasherize(className)}.filter.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'providers',
       `${className}ExceptionFilter`,
@@ -563,7 +563,7 @@ export class ${className}Exception extends HttpException {
 
     const filename = `${dasherize(className)}.exception.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -634,9 +634,9 @@ export class ${className}Filter<T> implements ExceptionFilter {
 
     const filename = `${dasherize(className)}.filter.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'providers',
       `${className}Filter`,
@@ -715,9 +715,9 @@ export class ${className}Gateway {
 
     const filename = `${dasherize(className)}.gateway.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'providers',
       `${className}Gateway`,
@@ -798,7 +798,7 @@ export class ${className}Guard implements CanActivate {
 
     const filename = `${dasherize(className)}.guard.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -877,7 +877,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     const filename = `${dasherize(className)}.interceptor.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -963,7 +963,7 @@ export class ${className}Interceptor implements NestInterceptor {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1048,7 +1048,7 @@ export class ${className}Guard extends AuthGuard('jwt') {
 
     const filename = `${dasherize(className)}.guard.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1112,9 +1112,9 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     const filename = 'jwt.strategy.ts';
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(folder, 'providers', 'JwtStrategy', 'jwt.strategy');
+    void this.autoImport(folder, 'providers', 'JwtStrategy', 'jwt.strategy');
   }
 
   /**
@@ -1207,7 +1207,7 @@ export class ${className}Logger implements LoggerService {
 
     const filename = `${dasherize(className)}.logger.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1280,7 +1280,7 @@ export class ${className}Middleware implements NestMiddleware {
 
     const filename = `${dasherize(className)}.middleware.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1354,9 +1354,9 @@ export class ${className}Module {}
 
     const filename = `${dasherize(className)}.module.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'imports',
       `${className}Module`,
@@ -1434,7 +1434,7 @@ export class ${className}Pipe implements PipeTransform {
 
     const filename = `${dasherize(className)}.pipe.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1503,7 +1503,7 @@ export class ${className} {}
 
     const filename = `${dasherize(className)}.provider.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1572,7 +1572,7 @@ export class ${className}Resolver {}
 
     const filename = `${dasherize(className)}.resolver.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1667,9 +1667,9 @@ export class ${className}Service {
 
     const filename = `${dasherize(className)}.service.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
 
-    await this.autoImport(
+    void this.autoImport(
       folder,
       'providers',
       `${className}Service`,
@@ -1766,7 +1766,7 @@ describe('${className}Controller', () => {
 
     const filename = `${dasherize(className)}.spec.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   /**
@@ -1900,7 +1900,7 @@ describe('${className}Controller', () => {
 
     const filename = `${dasherize(className)}${type}.ts`;
 
-    await saveFile(folder, filename, content);
+    void saveFile(folder, filename, content);
   }
 
   // Private methods
@@ -1928,89 +1928,154 @@ describe('${className}Controller', () => {
   ): Promise<void> {
     try {
       if (!this.config.autoImport) {
-        return; // Auto import is disabled, nothing to do
+        return;
       }
 
-      let files: Uri[];
+      const workspaceFolder = workspace.workspaceFolders?.[0];
 
-      if (filename.includes('module')) {
-        const tempPath = directoryPath.substring(
-          0,
-          directoryPath.lastIndexOf('/'),
-        );
+      if (!workspaceFolder) {
+        return;
+      }
 
+      // Convert the workspace-relative directory into an absolute path.
+      // The file search helper relies on FastGlob which expects absolute paths.
+      const absoluteDirectoryPath = path.join(
+        workspaceFolder.uri.fsPath,
+        directoryPath,
+      );
+
+      let files: Uri[] = [];
+      let searchDirectory = absoluteDirectoryPath;
+
+      // Walk up the directory tree until the nearest *.module.ts is found.
+      // This supports typical NestJS structures where feature files live
+      // in subfolders (dto, guards, entities, etc.).
+      while (true) {
         files = await findFiles({
-          baseDirectoryPath: tempPath,
+          baseDirectoryPath: searchDirectory,
           includeFilePatterns: ['*.module.ts'],
           excludedPatterns: this.config.exclude,
           disableRecursive: true,
         });
 
-        filename = `${directoryPath.substring(
-          directoryPath.lastIndexOf('/') + 1,
-        )}/${filename}`;
-      } else {
-        files = await findFiles({
-          baseDirectoryPath: directoryPath,
-          includeFilePatterns: ['*.module.ts'],
-          excludedPatterns: this.config.exclude,
-          disableRecursive: true,
-        });
+        if (files.length > 0) {
+          break;
+        }
+
+        const parent = path.dirname(searchDirectory);
+        if (parent === searchDirectory) {
+          break;
+        }
+
+        searchDirectory = parent;
       }
 
       if (files.length === 0) {
-        const message = l10n.t('No module file found. Skipping auto-import!');
-        showWarning(message);
-        return; // No files found, nothing to do
+        showWarning(l10n.t('No module file found. Skipping auto-import!'));
+        return;
       }
 
-      const decoratorStart = `${type}: [`;
       const targetFile = files[0];
-      const document = await workspace.openTextDocument(targetFile);
 
+      const moduleDirectory = path.dirname(targetFile.fsPath);
+
+      const sourceFilePath = path.join(
+        workspaceFolder.uri.fsPath,
+        directoryPath,
+        filename,
+      );
+
+      // Compute the import path relative to the module file.
+      // Normalize separators and remove the .ts extension for a valid TS import.
+      let relativeImportPath = path.relative(moduleDirectory, sourceFilePath);
+
+      relativeImportPath = relativeImportPath
+        .replace(/\.ts$/, '')
+        .replace(/\\/g, '/');
+
+      if (!relativeImportPath.startsWith('.')) {
+        relativeImportPath = './' + relativeImportPath;
+      }
+
+      const document = await workspace.openTextDocument(targetFile);
+      const documentText = document.getText();
+
+      const importStatement = `import { ${className} } from '${relativeImportPath}';`;
+
+      // Prevent duplicate imports when the generator triggers multiple times.
+      if (documentText.includes(importStatement)) {
+        return;
+      }
+
+      const edit = new WorkspaceEdit();
+
+      let decoratorInsertPosition: Position | undefined;
+
+      // Locate the decorator array (providers, controllers, imports, etc.).
+      // The search supports both single-line and multi-line module metadata.
       for (let i = 0; i < document.lineCount; i++) {
         const line = document.lineAt(i).text;
 
-        const idx = line.indexOf(decoratorStart);
-        if (idx !== -1) {
-          const startOfLine = document.offsetAt(new Position(i, 0));
-          const position = document.positionAt(
-            startOfLine + idx + decoratorStart.length,
-          );
-          const edit = new WorkspaceEdit();
+        if (line.includes(`${type}:`)) {
+          let bracketLine = i;
+          let bracketIndex = line.indexOf('[');
 
-          edit.insert(targetFile, position, `${className}, `);
-          edit.insert(
-            targetFile,
-            new Position(0, 0),
-            `import { ${className} } from './${filename}';\n`,
-          );
+          if (bracketIndex === -1) {
+            for (let j = i + 1; j < document.lineCount; j++) {
+              const nextLine = document.lineAt(j).text;
+              bracketIndex = nextLine.indexOf('[');
 
-          await workspace.applyEdit(edit); // Applying edit asynchronously
+              if (bracketIndex !== -1) {
+                bracketLine = j;
+                break;
+              }
+            }
+          }
 
-          await window.showTextDocument(document);
-          await commands.executeCommand('editor.action.formatDocument'); // Formatting the document
-          await commands.executeCommand('editor.action.organizeImports'); // Organizing the imports
-          await commands.executeCommand('workbench.action.files.saveAll'); // Saving the files
+          if (bracketIndex !== -1) {
+            const startOfLine = document.offsetAt(new Position(bracketLine, 0));
 
-          const folder = workspace.asRelativePath(targetFile);
+            decoratorInsertPosition = document.positionAt(
+              startOfLine + bracketIndex + 1,
+            );
 
-          const message = l10n.t(
-            "Auto-import of {0} into '{1}' was successful!",
-            className,
-            folder,
-          );
-          showMessage(message);
-
-          return; // Import added, exiting function
+            break;
+          }
         }
       }
 
-      // If we reach here, the expected decorator array was not found
-      showWarning(
+      if (!decoratorInsertPosition) {
+        showWarning(
+          l10n.t(
+            "Could not find expected '{0}: [...]' section. Skipping auto-import!",
+            type,
+          ),
+        );
+        return;
+      }
+
+      // Insert the provider/controller entry first because it is located
+      // deeper in the file. This avoids offset issues when applying edits.
+      edit.insert(targetFile, decoratorInsertPosition, ` ${className},`);
+
+      // Insert the import at the beginning of the file.
+      edit.insert(targetFile, new Position(0, 0), importStatement + '\n');
+
+      await workspace.applyEdit(edit);
+
+      await window.showTextDocument(document);
+
+      await commands.executeCommand('editor.action.formatDocument');
+      await commands.executeCommand('editor.action.organizeImports');
+      await commands.executeCommand('workbench.action.files.saveAll');
+
+      const folder = relativePath(targetFile, false);
+
+      showMessage(
         l10n.t(
-          "Could not find expected '{0}: [...]' section. Skipping auto-import!",
-          type,
+          "Auto-import of {0} into '{1}' was successful!",
+          className,
+          folder,
         ),
       );
     } catch (error) {
@@ -2018,6 +2083,7 @@ describe('${className}Controller', () => {
         'An error occurred during auto-import: {0}',
         Object(error).message ?? (error as string),
       );
+
       showError(message);
     }
   }

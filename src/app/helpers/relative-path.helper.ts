@@ -24,11 +24,11 @@ export const relativePath = (
 
   if (isRootContext) {
     // First workspace is the root => https://code.visualstudio.com/api/references/vscode-api#workspace
-    const wsFolder = workspace.workspaceFolders
+    const workspaceFolder = workspace.workspaceFolders
       ? workspace.workspaceFolders[0]
       : '';
-    if (wsFolder && path) {
-      folderPath = relative(wsFolder.uri.fsPath, path.fsPath);
+    if (workspaceFolder && path) {
+      folderPath = relative(workspaceFolder.uri.fsPath, path.fsPath);
     }
   } else {
     folderPath = path ? workspace.asRelativePath(path.fsPath, false) : '';

@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.13.0] - 2026-03-04
+
+### Added
+
+- Add `ExtensionRuntime` to centralize the extension activation flow
+
+### Changed
+
+- Improve extension activation logic and error handling
+- Improve activation error messages to provide clearer feedback
+- Improve variable naming in the relative path helper for better clarity and maintainability
+
+### Removed
+
+- Remove unnecessary workspace folder checks and configuration handling
+
 ## [2.12.1] - 2025-08-14
 
 ### Changed
@@ -273,7 +289,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.1...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.13.0...HEAD
+[2.13.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.1...v2.13.0
 [2.12.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...v2.12.0
 [2.11.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.10.0...v2.11.0

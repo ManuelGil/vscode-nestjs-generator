@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator - NestJS Tools Collection",
   "description": "One-click NestJS scaffolding from Explorer/Command Palette. Auto-import into modules, tree views (Methods/Entities/DTOs/Modules), and an integrated Nest CLI terminal. Supports TypeORM/MikroORM/Mongoose/Sequelize.",
-  "version": "2.12.1",
+  "version": "2.13.0",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",

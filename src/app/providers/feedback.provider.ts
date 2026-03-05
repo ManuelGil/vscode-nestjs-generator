@@ -1,3 +1,7 @@
+/**
+ * @file Tree data provider that shows static feedback links (About Us, Report
+ * Issues, Rate Us, Support Us) in the sidebar.
+ */
 import {
   Event,
   EventEmitter,
@@ -13,19 +17,11 @@ import { FeedbackController } from '../controllers';
 import { NodeModel } from '../models';
 
 /**
- * The FeedbackProvider class
+ * Provides a static tree of feedback and support links in the sidebar.
+ * Unlike other providers, these entries are not derived from workspace files.
  *
  * @class
- * @classdesc The class that represents the feedback provider.
- * @export
- * @public
  * @implements {TreeDataProvider<NodeModel>}
- * @property {EventEmitter<NodeModel | undefined | null | void>} _onDidChangeTreeData - The onDidChangeTreeData event emitter
- * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
- * @property {FeedbackController} controller - The feedback controller
- * @example
- * const provider = new FeedbackProvider();
- *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
 export class FeedbackProvider implements TreeDataProvider<NodeModel> {
@@ -35,42 +31,21 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
 
   // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
-   * @memberof FeedbackProvider
-   * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Event fired when the tree data changes, consumed by VSCode to refresh the view.
    * @see https://code.visualstudio.com/api/references/vscode-api#Event
    */
   readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
 
   // Private properties
   /**
-   * The onDidChangeTreeData event emitter.
-   * @type {EventEmitter<NodeModel | undefined | null | void>}
-   * @private
-   * @memberof FeedbackProvider
-   * @example
-   * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Backing emitter for {@link onDidChangeTreeData}.
    * @see https://code.visualstudio.com/api/references/vscode-api#EventEmitter
    */
   private _onDidChangeTreeData: EventEmitter<
     NodeModel | undefined | null | void
   >;
 
-  /**
-   * Indicates whether the provider has been disposed.
-   * @type {boolean}
-   * @private
-   * @memberof FeedbackProvider
-   * @example
-   * this._isDisposed = false;
-   */
+  /** Indicates whether the provider has been disposed. */
   private _isDisposed = false;
 
   // -----------------------------------------------------------------
@@ -78,12 +53,10 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the FeedbackProvider class
+   * Constructor for the FeedbackProvider class.
    *
    * @constructor
-   * @param {FeedbackController} controller - The feedback controller
-   * @public
-   * @memberof FeedbackProvider
+   * @param controller - The feedback controller.
    */
   constructor(readonly controller: FeedbackController) {
     this._onDidChangeTreeData = new EventEmitter<
@@ -100,15 +73,8 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
   /**
    * Returns the tree item for the supplied element.
    *
-   * @function getTreeItem
-   * @param {NodeModel} element - The element
-   * @public
-   * @memberof FeedbackProvider
-   * @example
-   * const treeItem = provider.getTreeItem(element);
-   *
-   * @returns {TreeItem | Thenable<TreeItem>} - The tree item
-   *
+   * @param element - The node to convert to a TreeItem.
+   * @returns The tree item representation.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
@@ -116,17 +82,11 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
   }
 
   /**
-   * Returns the children for the supplied element.
+   * Returns the children for the supplied element, or the static feedback
+   * entries when no element is provided.
    *
-   * @function getChildren
-   * @param {NodeModel} [element] - The element
-   * @public
-   * @memberof FeedbackProvider
-   * @example
-   * const children = provider.getChildren(element);
-   *
-   * @returns {ProviderResult<NodeModel[]>} - The children
-   *
+   * @param element - Parent node, or undefined for root.
+   * @returns The child nodes.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getChildren(element?: NodeModel): ProviderResult<NodeModel[]> {
@@ -137,32 +97,12 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
     return this.getFeedbacks();
   }
 
-  /**
-   * Refreshes the tree data.
-   *
-   * @function refresh
-   * @public
-   * @memberof FeedbackProvider
-   * @example
-   * provider.refresh();
-   *
-   * @returns {void} - No return value
-   */
+  /** Signals VSCode to re-render the feedback tree. */
   refresh(): void {
     this._onDidChangeTreeData.fire();
   }
 
-  /**
-   * Disposes the provider.
-   *
-   * @function dispose
-   * @public
-   * @memberof FeedbackProvider
-   * @example
-   * provider.dispose();
-   *
-   * @returns {void} - No return value
-   */
+  /** Releases resources held by this provider. */
   dispose(): void {
     this._onDidChangeTreeData.dispose();
     if (this._isDisposed) {
@@ -178,15 +118,10 @@ export class FeedbackProvider implements TreeDataProvider<NodeModel> {
 
   // Private methods
   /**
-   * Returns the feedbacks.
+   * Builds the static list of feedback and support tree items.
+   * These entries are hardcoded (not derived from workspace files).
    *
-   * @function getFeedbacks
-   * @private
-   * @memberof FeedbackProvider
-   * @example
-   * const feedbacks = this.getFeedbacks();
-   *
-   * @returns {NodeModel[]} - The feedbacks
+   * @returns Static feedback nodes (About Us, Report Issues, Rate Us, Support Us).
    */
   private getFeedbacks(): NodeModel[] {
     return [

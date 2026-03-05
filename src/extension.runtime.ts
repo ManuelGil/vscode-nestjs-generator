@@ -1,3 +1,10 @@
+/**
+ * @file Central orchestrator for the NestJS File Generator extension.
+ *
+ * Handles workspace selection, configuration loading, version notifications,
+ * and registration of all commands, tree-view providers, and file watchers.
+ * Instantiated by the {@link activate} function in `extension.ts`.
+ */
 import {
   commands,
   ExtensionContext,
@@ -40,6 +47,14 @@ import {
   ListModulesProvider,
 } from './app/providers';
 
+/**
+ * Orchestrates the full lifecycle of the extension: workspace selection,
+ * configuration, version checks, command registration, tree-view providers,
+ * and file watchers.
+ *
+ * Usage follows a two-phase pattern: {@link initialize} resolves the workspace
+ * and configuration, then {@link start} registers all VSCode contributions.
+ */
 export class ExtensionRuntime {
   private warningShown = false;
   private config!: Config;
@@ -275,6 +290,7 @@ export class ExtensionRuntime {
     this.config = new Config(
       workspace.getConfiguration(EXTENSION_ID, workspaceFolder.uri),
     );
+    this.config.workspaceRoot = workspaceFolder.uri.fsPath;
 
     const disposableConfigChange = workspace.onDidChangeConfiguration(
       (event) => {
@@ -474,6 +490,10 @@ export class ExtensionRuntime {
     });
   }
 
+  /**
+   * Registers a VSCode command that is gated by the extension's enabled state.
+   * If the extension is disabled when the command is invoked, the handler is skipped.
+   */
   private registerCommand(
     id: string,
     handler: (...args: any[]) => void | Promise<any>,
@@ -487,6 +507,7 @@ export class ExtensionRuntime {
     });
   }
 
+  /** Registers the command that lets users switch the active workspace folder. */
   private registerWorkspaceCommands(): void {
     const disposableChangeWorkspace = commands.registerCommand(
       `${EXTENSION_ID}.${CommandIds.ChangeWorkspace}`,
@@ -507,6 +528,7 @@ export class ExtensionRuntime {
             selectedFolder.uri,
           );
           this.config.update(workspaceConfig);
+          this.config.workspaceRoot = selectedFolder.uri.fsPath;
 
           window.showInformationMessage(
             l10n.t('Switched to workspace folder: {0}', selectedFolder.name),
@@ -518,6 +540,7 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(disposableChangeWorkspace);
   }
 
+  /** Registers all file-generation commands (class, controller, service, etc.). */
   private registerFileCommands(): void {
     const fileController = new FileController(this.config);
 
@@ -622,6 +645,7 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(...fileDisposables);
   }
 
+  /** Registers all NestJS CLI terminal commands (generate, start, etc.). */
   private registerTerminalCommands(): void {
     const terminalController = new TerminalController(this.config);
 
@@ -694,6 +718,7 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(...terminalDisposables);
   }
 
+  /** Registers data-transformation commands (e.g. JSON to TypeScript). */
   private registerTransformCommands(): void {
     const transformController = new TransformController();
 
@@ -705,6 +730,7 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(disposableTransformJson2Ts);
   }
 
+  /** Registers commands for opening files and navigating to lines from tree views. */
   private registerListCommands(): void {
     const listFilesController = new ListFilesController(this.config);
 
@@ -724,6 +750,7 @@ export class ExtensionRuntime {
     );
   }
 
+  /** Creates sidebar tree views (files, modules, entities, DTOs, methods) and their refresh commands. */
   private registerTreeViews(): void {
     const listFilesProvider = new ListFilesProvider();
 
@@ -821,6 +848,7 @@ export class ExtensionRuntime {
     );
   }
 
+  /** Watches for file creation and save events to auto-refresh all tree-view providers. */
   private registerFileWatchers(): void {
     const allProviders = [
       new ListFilesProvider(),
@@ -841,6 +869,7 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(disposableFileCreate, disposableFileSave);
   }
 
+  /** Registers the feedback tree view and its action commands (about, report, rate, support). */
   private registerFeedbackCommands(): void {
     const feedbackProvider = new FeedbackProvider(new FeedbackController());
 

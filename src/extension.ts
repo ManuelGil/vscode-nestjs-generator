@@ -1,3 +1,10 @@
+/**
+ * @file VSCode extension entry point for the NestJS File Generator.
+ *
+ * Exports the {@link activate} and {@link deactivate} lifecycle hooks required
+ * by the VSCode extension API. All initialization logic is delegated to
+ * {@link ExtensionRuntime}.
+ */
 import * as vscode from 'vscode';
 
 import { EXTENSION_DISPLAY_NAME } from './app/configs';

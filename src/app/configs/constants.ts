@@ -1,134 +1,43 @@
 /**
- * EXTENSION_ID: The unique identifier of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_ID);
+ * @file Default values and identity constants for the NestJS File Generator extension.
  *
- * @returns {string} - The unique identifier of the extension
+ * These constants serve as fallback defaults when no user configuration is
+ * provided, and as identity values (IDs, URLs) used throughout the extension.
  */
+
+/** VSCode configuration scope prefix (e.g. `nestjs.enable`). */
 export const EXTENSION_ID: string = 'nestjs';
 
-/**
- * EXTENSION_NAME: The repository ID of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_NAME);
- *
- * @returns {string} - The repository ID of the extension
- */
+/** Package/repository name used in marketplace and GitHub URLs. */
 export const EXTENSION_NAME: string = 'vscode-nestjs-generator';
 
-/**
- * EXTENSION_DISPLAY_NAME: The name of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_DISPLAY_NAME);
- *
- * @returns {string} - The name of the extension
- */
+/** Human-readable name shown in notifications and UI. */
 export const EXTENSION_DISPLAY_NAME: string = 'NestJS File Generator';
 
-/**
- * USER_NAME: The githubUsername of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(USER_NAME);
- *
- * @returns {string} - The githubUsername of the extension
- */
+/** GitHub username of the extension author. */
 export const USER_NAME: string = 'ManuelGil';
 
-/**
- * USER_PUBLISHER: The publisher of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(USER_PUBLISHER);
- *
- * @returns {string} - The publisher of the extension
- */
+/** VSCode Marketplace publisher ID. */
 export const USER_PUBLISHER: string = 'imgildev';
 
-/**
- * EXTENSION_REPOSITORY_URL: The repository URL of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_REPOSITORY_URL);
- *
- * @returns {string} - The repository URL of the extension
- */
+/** GitHub repository URL. */
 export const EXTENSION_REPOSITORY_URL: string = `https://github.com/${USER_NAME}/${EXTENSION_NAME}`;
 
-/**
- * MARKETPLACE_URL: The marketplace URL of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(MARKETPLACE_URL);
- *
- * @returns {string} - The marketplace URL of the extension
- */
+/** VSCode Marketplace listing URL. */
 export const EXTENSION_MARKETPLACE_URL: string = `https://marketplace.visualstudio.com/items?itemName=${USER_PUBLISHER}.${EXTENSION_NAME}`;
 
-/**
- * EXTENSION_SPONSOR_URL: The sponsor URL of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_SPONSOR_URL);
- *
- * @returns {string} - The sponsor URL of the extension
- */
+/** GitHub Sponsors URL. */
 export const EXTENSION_SPONSOR_URL: string =
   'https://github.com/sponsors/ManuelGil';
 
-/**
- * EXTENSION_PAYPAL_URL: The PayPal URL of the extension.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXTENSION_PAYPAL_URL);
- *
- * @returns {string} - The PayPal URL of the extension
- */
+/** PayPal donation URL. */
 export const EXTENSION_PAYPAL_URL: string =
   'https://www.paypal.com/paypalme/ManuelFGil';
 
-/**
- * INCLUDE: The files to include.
- * @type {string[]}
- * @public
- * @memberof Constants
- * @example
- * console.log(INCLUDE);
- *
- * @returns {string[]} - The files to include
- */
+/** Default file extensions to include when scanning the workspace. */
 export const INCLUDE: string[] = ['ts'];
-/**
- * EXCLUDE: The files to exclude.
- * @type {string[]}
- * @public
- * @memberof Constants
- * @example
- * console.log(EXCLUDE);
- *
- * @returns {string[]} - The files to exclude
- */
+
+/** Default glob patterns to exclude from workspace scans. */
 export const EXCLUDE: string[] = [
   '**/node_modules/**',
   '**/dist/**',
@@ -137,40 +46,13 @@ export const EXCLUDE: string[] = [
   '**/.*/**',
 ];
 
-/**
- * WATCH: The files to watch.
- * @type {string[]}
- * @public
- * @memberof Constants
- * @example
- * console.log(WATCH);
- *
- * @returns {string[]} - The files to watch
- */
+/** Default file categories to watch for changes. */
 export const WATCH: string[] = ['controllers', 'dtos', 'services'];
 
-/**
- * SHOW_PATH: Whether to show the path or not.
- * @type {boolean}
- * @public
- * @memberof Constants
- * @example
- * console.log(SHOW_PATH);
- *
- * @returns {boolean} - Whether to show the path or not
- */
+/** Default: whether to show relative paths in tree-view items. */
 export const SHOW_PATH: boolean = true;
 
-/**
- * CUSTOM_COMMANDS: The custom commands.
- * @type {object[]}
- * @public
- * @memberof Constants
- * @example
- * console.log(CUSTOM_COMMANDS);
- *
- * @returns {object[]} - The custom commands
- */
+/** Default custom terminal command templates. */
 export const CUSTOM_COMMANDS: object[] = [
   {
     'name': 'Template 1',
@@ -184,16 +66,7 @@ export const CUSTOM_COMMANDS: object[] = [
   },
 ];
 
-/**
- * CUSTOM_TEMPLATES: The custom templates.
- * @type {object[]}
- * @public
- * @memberof Constants
- * @example
- * console.log(CUSTOM_TEMPLATES);
- *
- * @returns {object[]} - The custom templates
- */
+/** Default custom file templates for boilerplate generation. */
 export const CUSTOM_TEMPLATES: object[] = [
   {
     'name': 'Custom Service',
@@ -209,16 +82,7 @@ export const CUSTOM_TEMPLATES: object[] = [
   },
 ];
 
-/**
- * MenuIterface: The menu options.
- * @type {object}
- * @public
- * @memberof Constants
- * @example
- * console.log(MenuIterface);
- *
- * @returns {object} - The menu options
- */
+/** Shape of the menu activation configuration controlling which commands are visible. */
 export interface MenuInterface {
   file: {
     class: boolean;
@@ -261,16 +125,7 @@ export interface MenuInterface {
   };
 }
 
-/**
- * ACTIVATE_MENU: Whether to show the menu or not.
- * @type {object}
- * @public
- * @memberof Constants
- * @example
- * console.log(ACTIVATE_MENU);
- *
- * @returns {object} - Whether to show the menu or not
- */
+/** Default menu activation — all file and terminal commands enabled. */
 export const ACTIVATE_MENU: MenuInterface = {
   file: {
     class: true,
@@ -313,50 +168,14 @@ export const ACTIVATE_MENU: MenuInterface = {
   },
 };
 
-/**
- * AUTO_IMPORT: The auto import setting.
- * @type {boolean}
- * @public
- * @memberof Constants
- * @example
- * console.log(AUTO_IMPORT);
- *
- * @returns {boolean} - The auto import setting
- */
+/** Default: whether to auto-import generated files into the nearest module. */
 export const AUTO_IMPORT: boolean = true;
 
-/**
- * IS_ROOT_CONTEXT: Whether the current context is the root context or not.
- * @type {boolean}
- * @public
- * @memberof Constants
- * @example
- * console.log(IS_ROOT_CONTEXT);
- *
- * @returns {boolean} - Whether the current context is the root context or not
- */
+/** Default: whether to resolve relative paths from the workspace root. */
 export const IS_ROOT_CONTEXT: boolean = false;
 
-/**
- * SKIP_FOLDER_CONFIRMATION: Whether to skip the folder confirmation or not.
- * @type {boolean}
- * @public
- * @memberof Constants
- * @example
- * console.log(SKIP_FOLDER_CONFIRMATION);
- *
- * @returns {boolean} - Whether to skip the folder confirmation or not
- */
+/** Default: whether to skip the folder selection confirmation dialog. */
 export const SKIP_FOLDER_CONFIRMATION: boolean = false;
 
-/**
- * ORM: The orm.
- * @type {string}
- * @public
- * @memberof Constants
- * @example
- * console.log(ORM);
- *
- * @returns {string} - The orm
- */
+/** Default ORM used for entity/DTO generation (e.g. 'typeorm', 'sequelize'). */
 export const ORM: string = 'typeorm';

@@ -1,6 +1,16 @@
+/**
+ * @file Generates NestJS artifacts by delegating to the NestJS CLI (`nest g`)
+ * via a VSCode integrated terminal.
+ *
+ * Each `generate*` method resolves a workspace-relative path, normalizes it
+ * for the CLI (stripping the configured cwd and the `src/` prefix), lets the
+ * user pick optional CLI flags, and then executes the corresponding
+ * `nest generate` command.
+ *
+ * @module controllers/terminal
+ */
 import { l10n, Uri, window, workspace } from 'vscode';
 
-// Import the Config and helper functions
 import { Config } from '../configs';
 import {
   getName,
@@ -12,15 +22,16 @@ import {
 import { relativePath } from '../helpers/relative-path.helper';
 
 /**
- * The TerminalController class.
+ * Runs NestJS CLI commands (`nest g`, `nest start`, etc.) in a VSCode terminal.
+ *
+ * Generate methods normalize the workspace-relative path before passing it to
+ * the CLI: the configured `cwd` prefix is stripped so the path is relative to
+ * the Nest project root, and the `src/` segment is removed because the CLI
+ * adds it automatically.
  *
  * @class
- * @classdesc The class that represents the example controller.
  * @export
  * @public
- * @property {Config} config - The configuration
- * @example
- * const controller = new TerminalController(config);
  */
 export class TerminalController {
   // -----------------------------------------------------------------
@@ -56,9 +67,9 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateController(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
+    // Strip the configured cwd prefix so the path is relative to the Nest project root
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
       folderPath = folderPath.replace(cwd, '');
@@ -68,7 +79,6 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
     const folder = await getPath(
       l10n.t('Controller name'),
       l10n.t(
@@ -112,6 +122,7 @@ export class TerminalController {
       canPickMany: true,
     });
 
+    // Remove `src/` — the NestJS CLI adds it automatically
     const filename = folder.replace('src/', '');
 
     const command =
@@ -148,8 +159,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateGateway(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -160,7 +171,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Gateway name'),
       l10n.t(
@@ -315,8 +326,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateModule(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -327,7 +338,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Module name'),
       l10n.t(
@@ -407,8 +418,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateProvider(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -419,7 +430,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Provider name'),
       l10n.t(
@@ -499,8 +510,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateResolver(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -511,7 +522,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Resolver name'),
       l10n.t(
@@ -591,8 +602,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateResource(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -603,7 +614,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Resource name'),
       l10n.t(
@@ -743,8 +754,8 @@ export class TerminalController {
    * @returns {Promise<void>} The promise that resolves the method.
    */
   async generateService(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -755,7 +766,7 @@ export class TerminalController {
       }
     }
 
-    // Get the path to the folder
+
     const folder = await getPath(
       l10n.t('Service name'),
       l10n.t(
@@ -909,8 +920,8 @@ export class TerminalController {
    * @returns {Promise<void>} - No return value
    */
   async generateCustomElement(path?: Uri): Promise<void> {
-    // Get the relative path
-    let folderPath: string = relativePath(path, this.config.useRootWorkspace);
+
+    let folderPath: string = relativePath(path, this.config.useRootWorkspace, this.config);
 
     if (this.config.cwd) {
       const cwd = workspace.asRelativePath(Uri.file(this.config.cwd));
@@ -925,7 +936,7 @@ export class TerminalController {
     let folder: string | undefined;
 
     if (!folderPath || !skipFolderConfirmation) {
-      // Get the path to the folder
+  
       folder = await getPath(
         l10n.t('Enter the folder name'),
         l10n.t('Folder name. E.g. src, app...'),

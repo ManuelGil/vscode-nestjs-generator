@@ -1,3 +1,16 @@
+/**
+ * @fileoverview Executes shell commands via VSCode's Terminal and Task APIs.
+ *
+ * Supports three execution modes:
+ * - **Fire-and-forget** (`captureOutput=false, waitResponse=false`): sends the
+ *   command to a new terminal and returns immediately.
+ * - **Blocking with output capture** (`captureOutput=true`): runs the command
+ *   as a VSCode Task and waits for its exit code before resolving.
+ * - **Non-blocking with completion monitoring** (`waitResponse=true, captureOutput=false`):
+ *   sends the command to a visible terminal while a hidden monitor task tracks
+ *   completion, allowing the user to see output in real time.
+ */
+
 import {
   Disposable,
   EventEmitter,
@@ -16,6 +29,10 @@ import {
 
 /**
  * Represents the result of a command execution.
+ *
+ * @property {boolean} success - Whether the command exited with code 0.
+ * @property {string} [output] - Human-readable success message (when applicable).
+ * @property {string} [error] - Error description on failure or cancellation.
  */
 type CommandResultEvent = {
   success: boolean;

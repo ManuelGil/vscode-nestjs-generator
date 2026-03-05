@@ -1,3 +1,10 @@
+/**
+ * @file Typed configuration wrapper for the NestJS File Generator extension.
+ *
+ * Reads values from VSCode's {@link WorkspaceConfiguration} and exposes them
+ * as strongly-typed properties with sensible defaults from `constants.ts`.
+ * Supports live-reload via {@link Config.update}.
+ */
 import { WorkspaceConfiguration, workspace } from 'vscode';
 
 import {
@@ -16,188 +23,52 @@ import {
 } from './constants';
 
 /**
- * The Config class.
- *
- * @class
- * @classdesc The class that represents the configuration of the extension.
- * @export
- * @public
- * @property {WorkspaceConfiguration} config - The workspace configuration
- * @property {string[]} include - The files to include
- * @property {string[]} exclude - The files to exclude
- * @property {string[]} watch - The files to watch
- * @property {boolean} showPath - Whether to show the path or not
- * @property {string | undefined} cwd - The current working directory
- * @property {object[]} customCommands - The custom commands
- * @property {object[]} customTemplates - The custom templates
- * @property {object} activateItem - Whether to show the menu or not
- * @property {boolean} autoImport - The auto import setting
- * @property {boolean} useRootWorkspace - Use root workspace to resolve relative paths
- * @property {boolean} skipFolderConfirmation - Whether to skip the folder confirmation or not
- * @property {string} orm - The orm
- * @example
- * const config = new Config(workspace.getConfiguration());
- * console.log(config.include);
- * console.log(config.exclude);
- * console.log(config.watch);
- * console.log(config.autoImport);
+ * Wraps {@link WorkspaceConfiguration} to provide typed access to all
+ * extension settings, falling back to the defaults defined in `constants.ts`.
  */
 export class Config {
   // -----------------------------------------------------------------
   // Properties
   // -----------------------------------------------------------------
 
-  // Public properties
-  /**
-   * Whether the extension is enabled or not.
-   * @type {boolean}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.enable);
-   */
+  /** Whether the extension is enabled. */
   enable!: boolean;
-  /**
-   * The files to include.
-   * @type {string[]}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.include);
-   */
+  /** File extensions to include when scanning the workspace. */
   include!: string[];
-  /**
-   * The files to exclude.
-   * @type {string[]}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.exclude);
-   */
+  /** Glob patterns to exclude from workspace scans. */
   exclude!: string[];
-  /**
-   * The files to watch.
-   * @type {string[]}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.watch);
-   */
+  /** File categories to watch for changes. */
   watch!: string[];
-  /**
-   * Whether to show the path or not.
-   * @type {boolean}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.showPath);
-   */
+  /** Whether to show relative paths in tree-view items. */
   showPath!: boolean;
-  /**
-   * The current working directory.
-   * @type {string | undefined}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.cwd);
-   */
+  /** Working directory override for terminal commands. */
   cwd!: string | undefined;
-  /**
-   * The custom commands.
-   * @type {object[]}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.customCommands);
-   * console.log(config.customCommands[0].name);
-   * console.log(config.customCommands[0].command);
-   * console.log(config.customCommands[0].args);
-   */
+  /** User-defined custom terminal command templates. */
   customCommands!: object[];
-  /**
-   * The custom templates.
-   * @type {object[]}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.customTemplates);
-   * console.log(config.customTemplates[0].name);
-   * console.log(config.customTemplates[0].description);
-   * console.log(config.customTemplates[0].type);
-   * console.log(config.customTemplates[0].template);
-   */
+  /** User-defined custom file templates for boilerplate generation. */
   templates!: object[];
-  /**
-   * Whether to show the menu or not.
-   * @type {MenuInterface}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.activateItem);
-   * console.log(config.activateItem.terminal.components);
-   */
+  /** Controls which file/terminal menu items are visible. */
   activateItem!: MenuInterface;
-  /**
-   * The auto import setting.
-   * @type {boolean}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.autoImport);
-   */
+  /** Whether to auto-import generated files into the nearest module. */
   autoImport!: boolean;
-  /**
-   * Use root workspace to resolve relative paths.
-   * @type {string | undefined}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.fileGenerator.useRootWorkspace);
-   */
+  /** Whether to resolve relative paths from the workspace root. */
   useRootWorkspace!: boolean;
-  /**
-   * Whether to skip the folder confirmation or not.
-   * @type {boolean}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.skipFolderConfirmation);
-   */
+  /** Whether to skip the folder selection confirmation dialog. */
   skipFolderConfirmation!: boolean;
-  /**
-   * The orm.
-   * @type {string}
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * console.log(config.orm);
-   */
+  /** ORM used for entity/DTO generation (e.g. 'typeorm', 'sequelize'). */
   orm!: string;
+  /**
+   * Resolved workspace root path.
+   * Set externally from the selected workspace folder stored in global state.
+   */
+  workspaceRoot?: string;
 
   // -----------------------------------------------------------------
   // Constructor
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the Config class.
-   *
-   * @constructor
-   * @param {WorkspaceConfiguration} config - The workspace configuration
-   * @public
-   * @memberof Config
+   * @param config - The scoped workspace configuration to read settings from.
    */
   constructor(readonly config: WorkspaceConfiguration) {
     this.loadConfiguration(config);
@@ -207,30 +78,17 @@ export class Config {
   // Methods
   // -----------------------------------------------------------------
 
-  // Public methods
   /**
-   * The update method.
-   *
-   * @function update
-   * @param {WorkspaceConfiguration} config - The workspace configuration
-   * @public
-   * @memberof Config
-   * @example
-   * const config = new Config(workspace.getConfiguration());
-   * config.update(workspace.getConfiguration());
+   * Reloads all settings from a (possibly updated) workspace configuration.
+   * Called when the user changes settings or switches workspace folders.
    */
   update(config: WorkspaceConfiguration): void {
     this.loadConfiguration(config);
   }
 
-  // Private methods
   /**
-   * Loads configuration values from WorkspaceConfiguration.
-   *
-   * @function loadConfiguration
-   * @param {WorkspaceConfiguration} config - The workspace configuration
-   * @private
-   * @memberof Config
+   * Maps each configuration key to its corresponding property,
+   * using the default constants as fallback values.
    */
   private loadConfiguration(config: WorkspaceConfiguration): void {
     this.enable = config.get<boolean>('enable', true);
@@ -240,7 +98,7 @@ export class Config {
     this.showPath = config.get<boolean>('files.showPath', SHOW_PATH);
     this.cwd = config.get<string | undefined>(
       'terminal.cwd',
-      workspace.workspaceFolders?.[0].uri.fsPath,
+      workspace.workspaceFolders?.[0]?.uri.fsPath,
     );
     this.customCommands = config.get<object[]>(
       'submenu.customCommands',

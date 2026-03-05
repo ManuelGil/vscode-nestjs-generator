@@ -1,6 +1,14 @@
 /**
- * Command identifiers for the extension.
- * These are the short IDs without the extension ID prefix.
+ * @file Command identifier constants for the NestJS File Generator extension.
+ *
+ * Each value is the short suffix appended to {@link EXTENSION_ID} when
+ * registering commands with the VSCode API (e.g. `nestjs.file.controller`).
+ */
+
+/**
+ * Short command IDs registered by the extension, grouped by category:
+ * file generation, terminal (NestJS CLI), list/tree-view actions,
+ * data transforms, and feedback actions.
  */
 export enum CommandIds {
   ChangeWorkspace = 'changeWorkspace',

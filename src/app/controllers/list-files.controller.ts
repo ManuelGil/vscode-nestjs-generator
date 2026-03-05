@@ -1,3 +1,11 @@
+/**
+ * @file Discovers workspace files matching configured glob patterns and
+ * supplies them as {@link NodeModel} items for sidebar tree view providers.
+ *
+ * Also provides file-open and goto-line actions used by tree item commands.
+ *
+ * @module controllers/list-files
+ */
 import {
   l10n,
   Position,
@@ -11,18 +19,20 @@ import {
 } from 'vscode';
 
 import { CommandIds, Config, EXTENSION_ID } from '../configs';
-import { clearCache, findFiles, showError } from '../helpers';
+import { clearCache, findFiles, getWorkspaceRoot, showError } from '../helpers';
 import { NodeModel } from '../models';
 
 /**
- * The ListFilesController class.
+ * Bridge between tree view providers and workspace file discovery.
+ *
+ * Multiple tree view providers (e.g. ListFilesProvider, ListEntitiesProvider)
+ * share a single configuration via the static {@link ListFilesController.config}
+ * property, which is set once during construction and then accessed by the
+ * static {@link getFiles} method without needing an instance reference.
  *
  * @class
- * @classdesc The class that represents the list files controller.
  * @export
  * @public
- * @example
- * const controller = new ListFilesController();
  */
 export class ListFilesController {
   // -----------------------------------------------------------------
@@ -31,7 +41,9 @@ export class ListFilesController {
 
   // Public properties
   /**
-   * The configuration object
+   * Shared configuration instance. Static so that the static {@link getFiles}
+   * method can access it without requiring a controller instance.
+   *
    * @type {Config}
    * @static
    * @public
@@ -78,12 +90,14 @@ export class ListFilesController {
     let folders: string[] = [];
     const files: Uri[] = [];
 
-    if (!workspace.workspaceFolders) {
+    const workspaceRoot = getWorkspaceRoot(ListFilesController.config);
+
+    if (!workspaceRoot) {
       showError(l10n.t('Operation cancelled!'));
       return [];
     }
 
-    folders = workspace.workspaceFolders.map((folder) => folder.uri.fsPath);
+    folders = [workspaceRoot];
 
     const { include, exclude } = ListFilesController.config;
 

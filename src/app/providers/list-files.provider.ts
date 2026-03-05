@@ -1,3 +1,7 @@
+/**
+ * @file Tree data provider that groups workspace files by configured watch
+ * categories (e.g., controllers, services, dtos) for the sidebar file browser.
+ */
 import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
@@ -13,19 +17,13 @@ import { ListFilesController } from '../controllers';
 import { NodeModel } from '../models';
 
 /**
- * The ListFilesProvider class
+ * Groups workspace files by configured watch categories (e.g., controllers,
+ * services, dtos) and serves as the top-level file browser in the sidebar.
+ * Delegates file discovery to {@link ListFilesController} and uses PromisePool
+ * for concurrent processing of each category.
  *
  * @class
- * @classdesc The class that represents the list of files provider.
- * @export
- * @public
  * @implements {TreeDataProvider<NodeModel>}
- * @property {EventEmitter<NodeModel | undefined | null | void>} _onDidChangeTreeData - The onDidChangeTreeData event emitter
- * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
- * @property {ListFilesController} controller - The list of files controller
- * @example
- * const provider = new ListFilesProvider();
- *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
 export class ListFilesProvider implements TreeDataProvider<NodeModel> {
@@ -35,62 +33,27 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
 
   // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
-   * @memberof ListFilesProvider
-   * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Event fired when the tree data changes, consumed by VSCode to refresh the view.
    * @see https://code.visualstudio.com/api/references/vscode-api#Event
    */
   readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
 
   // Private properties
   /**
-   * The onDidChangeTreeData event emitter.
-   * @type {EventEmitter<NodeModel | undefined | null | void>}
-   * @private
-   * @memberof ListFilesProvider
-   * @example
-   * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Backing emitter for {@link onDidChangeTreeData}.
    * @see https://code.visualstudio.com/api/references/vscode-api#EventEmitter
    */
   private _onDidChangeTreeData: EventEmitter<
     NodeModel | undefined | null | void
   >;
 
-  /**
-   * Indicates whether the provider has been disposed.
-   * @type {boolean}
-   * @private
-   * @memberof ListFilesProvider
-   * @example
-   * this._isDisposed = false;
-   */
+  /** Indicates whether the provider has been disposed. */
   private _isDisposed = false;
 
-  /**
-   * The cached nodes.
-   * @type {NodeModel[] | undefined}
-   * @private
-   * @memberof ListFilesProvider
-   * @example
-   * this._cachedNodes = undefined;
-   */
+  /** Cached top-level nodes returned by the last successful fetch. */
   private _cachedNodes: NodeModel[] | undefined = undefined;
 
-  /**
-   * The cache promise.
-   * @type {Promise<NodeModel[] | undefined> | undefined}
-   * @private
-   * @memberof ListFilesProvider
-   * @example
-   * this._cachePromise = undefined;
-   */
+  /** In-flight fetch promise used to deduplicate concurrent getChildren calls. */
   private _cachePromise: Promise<NodeModel[] | undefined> | undefined =
     undefined;
 
@@ -99,11 +62,8 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the ListFilesProvider class
-   *
+   * Constructor for the ListFilesProvider class.
    * @constructor
-   * @public
-   * @memberof ListFilesProvider
    */
   constructor() {
     this._onDidChangeTreeData = new EventEmitter<
@@ -120,15 +80,8 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   /**
    * Returns the tree item for the supplied element.
    *
-   * @function getTreeItem
-   * @param {NodeModel} element - The element
-   * @public
-   * @memberof ListFilesProvider
-   * @example
-   * const treeItem = provider.getTreeItem(element);
-   *
-   * @returns {TreeItem | Thenable<TreeItem>} - The tree item
-   *
+   * @param element - The node to convert to a TreeItem.
+   * @returns The tree item representation.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
@@ -136,17 +89,11 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   }
 
   /**
-   * Returns the children for the supplied element.
+   * Returns the children for the supplied element, or the top-level category
+   * nodes when no element is provided. Uses a cache to avoid redundant fetches.
    *
-   * @function getChildren
-   * @param {NodeModel} [element] - The element
-   * @public
-   * @memberof ListFilesProvider
-   * @example
-   * const children = provider.getChildren(element);
-   *
-   * @returns {ProviderResult<NodeModel[]>} - The children
-   *
+   * @param element - Parent node, or undefined for root.
+   * @returns The child nodes.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getChildren(element?: NodeModel): ProviderResult<NodeModel[]> {
@@ -171,34 +118,14 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
     return this._cachePromise;
   }
 
-  /**
-   * Refreshes the tree data by firing the event.
-   *
-   * @function refresh
-   * @public
-   * @memberof ListFilesProvider
-   * @example
-   * provider.refresh();
-   *
-   * @returns {void} - No return value
-   */
+  /** Invalidates the cache and signals VSCode to re-fetch tree data. */
   refresh(): void {
     this._cachedNodes = undefined;
     this._cachePromise = undefined;
     this._onDidChangeTreeData.fire();
   }
 
-  /**
-   * Disposes the provider.
-   *
-   * @function dispose
-   * @public
-   * @memberof ListFilesProvider
-   * @example
-   * provider.dispose();
-   *
-   * @returns {void} - No return value
-   */
+  /** Releases resources held by this provider. */
   dispose(): void {
     this._onDidChangeTreeData.dispose();
     if (this._isDisposed) {
@@ -213,15 +140,10 @@ export class ListFilesProvider implements TreeDataProvider<NodeModel> {
   }
 
   /**
-   * Gets the list of files.
+   * Fetches workspace files via {@link ListFilesController.getFiles} and groups
+   * them into category nodes based on the configured watch tokens.
    *
-   * @function getListFiles
-   * @private
-   * @memberof ListFilesProvider
-   * @example
-   * const files = provider.getListFiles();
-   *
-   * @returns {Promise<NodeModel[] | undefined>} - The list of files
+   * @returns Category nodes, each containing matching file nodes as children.
    */
   private async getListFiles(): Promise<NodeModel[] | undefined> {
     const files = await ListFilesController.getFiles();

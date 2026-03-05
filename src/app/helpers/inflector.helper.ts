@@ -1,4 +1,10 @@
 /**
+ * @fileoverview String inflection utilities for converting between naming
+ * conventions. Primarily used to transform PascalCase class names
+ * (e.g. `UserProfile`) into kebab-case filenames (e.g. `user-profile`).
+ */
+
+/**
  * Changes a string of words separated by spaces or camel or pascal case to lowercase with dashes.
  *
  * @param {string} str - The string to dasherize

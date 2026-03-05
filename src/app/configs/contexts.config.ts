@@ -1,6 +1,13 @@
 /**
- * Context identifiers for the extension.
- * These are the short IDs without the extension ID prefix.
+ * @file Context keys and global-state keys for the NestJS File Generator extension.
+ *
+ * {@link ContextKeys} control menu/command visibility via `setContext`.
+ * {@link GlobalStateKeys} persist cross-session state in VSCode's global storage.
+ */
+
+/**
+ * VSCode context keys (without the extension ID prefix) used in
+ * `when` clauses to toggle command and menu visibility.
  */
 export enum ContextKeys {
   ActivateItemFileClass = 'activateItem.file.class',
@@ -38,6 +45,7 @@ export enum ContextKeys {
   ActivateItemTerminalStartDebug = 'activateItem.terminal.startDebug',
 }
 
+/** Keys used with {@link ExtensionContext.globalState} to persist data across sessions. */
 export enum GlobalStateKeys {
   Version = 'version',
   WorkspaceFolder = 'selectedWorkspaceFolder',

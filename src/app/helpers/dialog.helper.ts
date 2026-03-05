@@ -1,19 +1,27 @@
+/**
+ * @fileoverview Thin wrappers around the VSCode window API for user-facing
+ * dialogs. Centralizes input box and notification usage so controllers
+ * don't depend on `vscode.window` directly.
+ */
+
 import { window } from 'vscode';
 
 /**
- * Displays a message box with the provided message
+ * Shows an input box for the user to enter or confirm a file path.
+ * Pre-fills with `currentPath` and validates input on every keystroke.
  *
- * @param {string} prompt - The prompt to display
- * @param {string} placeHolder - The input placeholder
- * @param {string} currentPath - The current path
- * @param {string} validate - The validation function
+ * @param {string} prompt - The prompt to display above the input.
+ * @param {string} placeHolder - Placeholder text shown when the input is empty.
+ * @param {string} currentPath - Initial value pre-filled in the input.
+ * @param {(path: string) => string | undefined} validate - Validation function
+ *   called on each keystroke; return an error message to reject input.
  * @example
  * const path = await getPath('Enter a path', 'src/app', 'src/app', (path) => {
  *   if (path.length === 0) {
  *     return 'Path cannot be empty';
  * });
  *
- * @returns {Promise<string | undefined>} - The selected path
+ * @returns {Promise<string | undefined>} The entered path, or `undefined` if dismissed.
  */
 export const getPath = async (
   prompt: string,
@@ -31,18 +39,20 @@ export const getPath = async (
 };
 
 /**
- * Displays a message box with the provided message
+ * Shows an input box for the user to enter a name (e.g., component or module name).
+ * Validates input on every keystroke via the provided function.
  *
- * @param {string} prompt - The prompt to display
- * @param {string} placeHolder - The input placeholder
- * @param {string} validate - The validation function
+ * @param {string} prompt - The prompt to display above the input.
+ * @param {string} placeHolder - Placeholder text shown when the input is empty.
+ * @param {(name: string) => string | undefined} validate - Validation function
+ *   called on each keystroke; return an error message to reject input.
  * @example
  * const name = await getName('Enter a name', 'foo', (name) => {
  *   if (name.length === 0) {
  *     return 'Name cannot be empty';
  * });
  *
- * @returns {Promise<string | undefined>} - The selected name
+ * @returns {Promise<string | undefined>} The entered name, or `undefined` if dismissed.
  */
 export const getName = async (
   prompt: string,
@@ -58,39 +68,39 @@ export const getName = async (
 };
 
 /**
- * Displays a message box with the provided message
+ * Convenience wrapper around {@link window.showInformationMessage}.
  *
- * @param {string} message - The message to display
+ * @param {string} message - The informational message to display.
  * @example
- * showMessage('Hello, world!');
+ * showMessage('File created successfully');
  *
- * @returns {void} - No return value
+ * @returns {void}
  */
 export const showMessage = (message: string): void => {
   window.showInformationMessage(message);
 };
 
 /**
- * Displays a message box with the provided message
+ * Convenience wrapper around {@link window.showErrorMessage}.
  *
- * @param {string} message - The message to display
+ * @param {string} message - The error message to display.
  * @example
  * showError('An error occurred');
  *
- * @returns {void} - No return value
+ * @returns {void}
  */
 export const showError = (message: string): void => {
   window.showErrorMessage(message);
 };
 
 /**
- * Displays a message box with the provided message
+ * Convenience wrapper around {@link window.showWarningMessage}.
  *
- * @param {string} message - The message to display
+ * @param {string} message - The warning message to display.
  * @example
  * showWarning('This is a warning');
  *
- * @returns {void} - No return value
+ * @returns {void}
  */
 export const showWarning = (message: string): void => {
   window.showWarningMessage(message);

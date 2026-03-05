@@ -1,3 +1,15 @@
+/**
+ * @fileoverview Core file discovery engine for the extension's sidebar tree views.
+ *
+ * Provides glob-based file searching with two strategies:
+ * - **Local** (default): uses FastGlob streaming for direct filesystem access.
+ * - **Remote**: falls back to VSCode's `workspace.findFiles` API for virtual
+ *   or remote workspaces where the filesystem isn't directly accessible.
+ *
+ * Includes a shared in-memory cache with TTL-based eviction and deduplication
+ * of concurrent in-flight requests to avoid redundant filesystem scans.
+ */
+
 import FastGlob from 'fast-glob';
 import ignore, { type Ignore } from 'ignore';
 import { posix } from 'path';
@@ -18,18 +30,34 @@ const findFilesInFlight: Map<string, Promise<Uri[]>> = new Map();
 const MAX_FILES_TO_INDEX_LIMIT = 5000;
 const MAX_CACHE_SIZE = 100;
 
+/**
+ * Options for configuring file discovery behavior.
+ */
 export interface FindFilesOptions {
+  /** Absolute path to the directory to search within. */
   baseDirectoryPath: string;
+  /** Glob patterns for files to include (e.g. `["**\/*.controller.ts"]`). */
   includeFilePatterns: string[];
+  /** Glob patterns for files/directories to exclude. */
   excludedPatterns?: string[];
+  /** When `true`, only match files directly inside `baseDirectoryPath` (no subdirectories). */
   disableRecursive?: boolean;
+  /** Maximum folder depth to recurse into (0 = unlimited). */
   maxRecursionDepth?: number;
+  /** When `true`, include files and directories starting with a dot. */
   includeDotfiles?: boolean;
+  /** When `true`, read the workspace `.gitignore` and apply its rules as exclude filters. */
   enableGitignoreDetection?: boolean;
 }
 
+/** Normalizes a file path to POSIX separators for cross-platform glob matching. */
 const toPosix = (filePath: string) => filePath.replace(/\\/g, '/');
 
+/**
+ * Builds an ignore matcher that combines explicit exclude patterns with
+ * optional `.gitignore` rules from the workspace root. The resulting matcher
+ * is used to filter out unwanted files after glob discovery.
+ */
 const getIgnoreMatcher = async (options: {
   baseDirectoryPath: string;
   excludedPatterns: string[];
@@ -61,6 +89,12 @@ const getIgnoreMatcher = async (options: {
   return ignoreMatcher;
 };
 
+/**
+ * File discovery strategy for remote/virtual workspaces (e.g. SSH, WSL, Codespaces)
+ * where FastGlob cannot access the filesystem directly. Delegates to VSCode's
+ * built-in `workspace.findFiles` API and applies post-filters for depth,
+ * dotfiles, and ignore rules.
+ */
 const findFilesRemote = async (
   options: FindFilesOptions,
   workspaceFolder: WorkspaceFolder,
@@ -144,6 +178,11 @@ const findFilesRemote = async (
     .slice(0, MAX_FILES_TO_INDEX_LIMIT);
 };
 
+/**
+ * Default file discovery strategy for local workspaces. Uses FastGlob streaming
+ * to incrementally match files without loading the entire result set into memory.
+ * Applies depth, dotfile, and ignore filters inline during streaming.
+ */
 const findFilesLocal = async (
   options: FindFilesOptions,
   ignoreMatcher?: Ignore,
@@ -249,6 +288,11 @@ const findFilesLocal = async (
     .slice(0, MAX_FILES_TO_INDEX_LIMIT);
 };
 
+/**
+ * Stores search results in the shared cache. Performs TTL-based eviction of
+ * expired entries and LRU-style eviction of the oldest entries when the cache
+ * exceeds `MAX_CACHE_SIZE`.
+ */
 const updateCache = (cacheKey: string, files: Uri[]) => {
   const now = Date.now();
   // Evict old entries

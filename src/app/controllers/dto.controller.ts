@@ -1,3 +1,19 @@
+/**
+ * @file Provides class-validator annotation regex patterns used by
+ * {@link ListDTOsProvider} to identify DTO files in the workspace.
+ *
+ * @module controllers/dto
+ */
+
+/**
+ * Holds the list of `class-validator` decorator names and builds a regex
+ * pattern that {@link ListDTOsProvider} uses to scan workspace files for
+ * DTO annotations.
+ *
+ * @class
+ * @export
+ * @public
+ */
 export class DTOController {
   // -----------------------------------------------------------------
   // Properties
@@ -139,15 +155,13 @@ export class DTOController {
 
   // Public methods
   /**
-   * Returns the import regex.
+   * Builds a regex that matches class-validator decorators at the start of a line.
    *
    * @function getAnnotationsRegex
-   * @private
-   * @memberof ListEntitiesProvider
-   * @example
-   * const importRegex = provider.getAnnotationsRegex();
+   * @public
+   * @memberof DTOController
    *
-   * @returns {RegExp | undefined} - The import regex
+   * @returns {RegExp | undefined} A regex matching class-validator decorators.
    */
   getAnnotationsRegex(): RegExp | undefined {
     // Escape special characters in annotations for regex

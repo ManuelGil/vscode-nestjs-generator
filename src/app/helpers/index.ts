@@ -5,3 +5,4 @@ export * from './inflector.helper';
 export * from './relative-path.helper';
 export * from './save-file.helper';
 export * from './validation.helpers';
+export * from './workspace-root.helper';

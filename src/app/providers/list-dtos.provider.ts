@@ -1,3 +1,8 @@
+/**
+ * @file Tree data provider that discovers *.dto.ts files containing
+ * class-validator decorators and lists their annotation lines as navigable
+ * child nodes in the sidebar.
+ */
 import { PromisePool } from '@supercharge/promise-pool';
 import {
   Event,
@@ -15,19 +20,12 @@ import { DTOController, ListFilesController } from '../controllers';
 import { NodeModel } from '../models';
 
 /**
- * The ListDTOsProvider class
+ * Discovers *.dto.ts files containing class-validator decorators and shows
+ * matching annotation lines as child nodes. Uses {@link DTOController} to
+ * obtain the regex that identifies DTO annotations.
  *
  * @class
- * @classdesc The class that represents the list of files provider.
- * @export
- * @public
  * @implements {TreeDataProvider<NodeModel>}
- * @property {EventEmitter<NodeModel | undefined | null | void>} _onDidChangeTreeData - The onDidChangeTreeData event emitter
- * @property {Event<NodeModel | undefined | null | void>} onDidChangeTreeData - The onDidChangeTreeData event
- * @property {ListFilesController} controller - The list of files controller
- * @example
- * const provider = new ListDTOsProvider();
- *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
  */
 export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
@@ -37,62 +35,27 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
 
   // Public properties
   /**
-   * The onDidChangeTreeData event.
-   * @type {Event<NodeModel | undefined | null | void>}
-   * @public
-   * @memberof ListDTOsProvider
-   * @example
-   * readonly onDidChangeTreeData: Event<Node | undefined | null | void>;
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Event fired when the tree data changes, consumed by VSCode to refresh the view.
    * @see https://code.visualstudio.com/api/references/vscode-api#Event
    */
   readonly onDidChangeTreeData: Event<NodeModel | undefined | null | void>;
 
   // Private properties
   /**
-   * The onDidChangeTreeData event emitter.
-   * @type {EventEmitter<NodeModel | undefined | null | void>}
-   * @private
-   * @memberof ListDTOsProvider
-   * @example
-   * this._onDidChangeTreeData = new EventEmitter<Node | undefined | null | void>();
-   * this.onDidChangeTreeData = this._onDidChangeTreeData.event;
-   *
+   * Backing emitter for {@link onDidChangeTreeData}.
    * @see https://code.visualstudio.com/api/references/vscode-api#EventEmitter
    */
   private _onDidChangeTreeData: EventEmitter<
     NodeModel | undefined | null | void
   >;
 
-  /**
-   * Indicates whether the provider has been disposed.
-   * @type {boolean}
-   * @private
-   * @memberof ListDTOsProvider
-   * @example
-   * this._isDisposed = false;
-   */
+  /** Indicates whether the provider has been disposed. */
   private _isDisposed = false;
 
-  /**
-   * The cached nodes.
-   * @type {NodeModel[] | undefined}
-   * @private
-   * @memberof ListRoutesProvider
-   * @example
-   * this._cachedNodes = undefined;
-   */
+  /** Cached top-level nodes returned by the last successful fetch. */
   private _cachedNodes: NodeModel[] | undefined = undefined;
 
-  /**
-   * The cache promise.
-   * @type {Promise<NodeModel[] | undefined> | undefined}
-   * @private
-   * @memberof ListRoutesProvider
-   * @example
-   * this._cachePromise = undefined;
-   */
+  /** In-flight fetch promise used to deduplicate concurrent getChildren calls. */
   private _cachePromise: Promise<NodeModel[] | undefined> | undefined =
     undefined;
 
@@ -101,11 +64,10 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
   // -----------------------------------------------------------------
 
   /**
-   * Constructor for the ListDTOsProvider class
+   * Constructor for the ListDTOsProvider class.
    *
    * @constructor
-   * @public
-   * @memberof ListDTOsProvider
+   * @param controller - DTO controller providing annotation regex.
    */
   constructor(readonly controller: DTOController) {
     this._onDidChangeTreeData = new EventEmitter<
@@ -122,15 +84,8 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
   /**
    * Returns the tree item for the supplied element.
    *
-   * @function getTreeItem
-   * @param {NodeModel} element - The element
-   * @public
-   * @memberof ListDTOsProvider
-   * @example
-   * const treeItem = provider.getTreeItem(element);
-   *
-   * @returns {TreeItem | Thenable<TreeItem>} - The tree item
-   *
+   * @param element - The node to convert to a TreeItem.
+   * @returns The tree item representation.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getTreeItem(element: NodeModel): TreeItem | Thenable<TreeItem> {
@@ -138,17 +93,11 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
   }
 
   /**
-   * Returns the children for the supplied element.
+   * Returns the children for the supplied element, or the top-level DTO
+   * nodes when no element is provided. Uses a cache to avoid redundant fetches.
    *
-   * @function getChildren
-   * @param {NodeModel} [element] - The element
-   * @public
-   * @memberof ListDTOsProvider
-   * @example
-   * const children = provider.getChildren(element);
-   *
-   * @returns {ProviderResult<NodeModel[]>} - The children
-   *
+   * @param element - Parent node, or undefined for root.
+   * @returns The child nodes.
    * @see https://code.visualstudio.com/api/references/vscode-api#TreeDataProvider
    */
   getChildren(element?: NodeModel): ProviderResult<NodeModel[]> {
@@ -173,34 +122,14 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
     return this._cachePromise;
   }
 
-  /**
-   * Refreshes the tree data by firing the event.
-   *
-   * @function refresh
-   * @public
-   * @memberof ListDTOsProvider
-   * @example
-   * provider.refresh();
-   *
-   * @returns {void} - No return value
-   */
+  /** Invalidates the cache and signals VSCode to re-fetch tree data. */
   refresh(): void {
     this._cachedNodes = undefined;
     this._cachePromise = undefined;
     this._onDidChangeTreeData.fire();
   }
 
-  /**
-   * Disposes the provider.
-   *
-   * @function dispose
-   * @public
-   * @memberof ListDTOsProvider
-   * @example
-   * provider.dispose();
-   *
-   * @returns {void} - No return value
-   */
+  /** Releases resources held by this provider. */
   dispose(): void {
     this._onDidChangeTreeData.dispose();
     if (this._isDisposed) {
@@ -216,15 +145,11 @@ export class ListDTOsProvider implements TreeDataProvider<NodeModel> {
 
   // Private methods
   /**
-   * Returns the list of files.
+   * Filters workspace files for *.dto.ts, then scans each for class-validator
+   * annotations using the regex from {@link DTOController.getAnnotationsRegex}.
+   * Files with matches are returned with annotation lines as clickable children.
    *
-   * @function getListDtos
-   * @private
-   * @memberof ListDTOsProvider
-   * @example
-   * const files = provider.getListDtos();
-   *
-   * @returns {Promise<NodeModel[] | undefined>} - The list of files
+   * @returns DTO file nodes with their annotation lines as children.
    */
   private async getListDtos(): Promise<NodeModel[] | undefined> {
     const files = await ListFilesController.getFiles();

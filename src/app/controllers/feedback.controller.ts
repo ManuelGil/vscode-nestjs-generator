@@ -1,3 +1,9 @@
+/**
+ * @file Handles user engagement actions: opening the VS Marketplace page,
+ * filing issues on GitHub, rating the extension, and sponsorship links.
+ *
+ * @module controllers/feedback
+ */
 import { env, l10n, MessageItem, Uri, window } from 'vscode';
 
 import {
@@ -9,14 +15,12 @@ import {
 } from '../configs';
 
 /**
- * The FeedbackController class.
+ * Opens external URLs for marketplace, issue reporting, rating, and
+ * sponsorship actions.
  *
  * @class
- * @classdesc The class that represents the feedback controller.
  * @export
  * @public
- * @example
- * const controller = new FeedbackController();
  */
 export class FeedbackController {
   // -----------------------------------------------------------------

@@ -1,3 +1,6 @@
+/**
+ * @file Hierarchical tree item model used by all sidebar tree data providers.
+ */
 import {
   Command,
   ThemeIcon,
@@ -8,25 +11,12 @@ import {
 } from 'vscode';
 
 /**
- * The Node class
+ * Extended TreeItem that supports hierarchical trees with child nodes.
+ * The collapsibleState is automatically set to Expanded when children are
+ * provided, or None otherwise.
  *
  * @class
- * @classdesc The class that represents a node in the tree view.
- * @export
- * @public
  * @extends {TreeItem}
- * @property {string | TreeItemLabel} label - The label
- * @property {string | Uri | { light: string | Uri; dark: string | Uri } | ThemeIcon} [iconPath] - The icon path
- * @property {Command} [command] - The command
- * @property {Uri} [resourceUri] - The resource URI
- * @property {string} [contextValue] - The context value
- * @property {Node[]} [children] - The children
- * @example
- * const node = new Node('About Us', TreeItemCollapsibleState.None, 'about', {
- *   title: 'About Us',
- *   command: 'nestjs.feedback.aboutUs',
- * });
- *
  * @see https://code.visualstudio.com/api/references/vscode-api#TreeItem
  */
 export class NodeModel extends TreeItem {
@@ -35,14 +25,7 @@ export class NodeModel extends TreeItem {
   // -----------------------------------------------------------------
 
   // Public properties
-  /**
-   * The children.
-   * @type {NodeModel[]}
-   * @public
-   * @memberof NodeModel
-   * @example
-   * node.children = [];
-   */
+  /** Child nodes for hierarchical tree views. */
   children?: NodeModel[];
 
   // -----------------------------------------------------------------
@@ -50,20 +33,15 @@ export class NodeModel extends TreeItem {
   // -----------------------------------------------------------------
 
   /**
-   * The constructor
+   * Creates a new NodeModel.
    *
    * @constructor
-   * @param {string | TreeItemLabel} label - The label
-   * @param {string | Uri | { light: Uri; dark: Uri } | ThemeIcon} [iconPath] - The icon path
-   * @param {Command} [command] - The command
-   * @param {Uri} [resourceUri] - The resource URI
-   * @param {string} [contextValue] - The context value
-   * @param {NodeModel[]} [children] - The children
-   * @example
-   * const node = new Node('About Us', new ThemeIcon('info'), {
-   *   title: 'About Us',
-   *   command: 'nestjs.feedback.aboutUs',
-   * });
+   * @param label - Display label for the tree item.
+   * @param iconPath - Icon shown next to the label.
+   * @param command - Command executed when the item is clicked.
+   * @param resourceUri - Associated file URI (enables file-based decorations).
+   * @param contextValue - Context key for when-clause filtering in package.json.
+   * @param children - Child nodes; when provided, the item is auto-expanded.
    */
   constructor(
     readonly label: string | TreeItemLabel,
@@ -92,16 +70,10 @@ export class NodeModel extends TreeItem {
 
   // Public methods
   /**
-   * The setChildren method
+   * Replaces the children and switches collapsibleState to Expanded so the
+   * node can be opened in the tree view.
    *
-   * @function setChildren
-   * @param {NodeModel[]} children - The children
-   * @public
-   * @memberof NodeModel
-   * @example
-   * node.setChildren([]);
-   *
-   * @returns {void} The result
+   * @param children - The new child nodes.
    */
   setChildren(children: NodeModel[]): void {
     this.collapsibleState = TreeItemCollapsibleState.Expanded;
@@ -109,15 +81,9 @@ export class NodeModel extends TreeItem {
   }
 
   /**
-   * The hasChildren method
+   * Returns whether this node has any children.
    *
-   * @function hasChildren
-   * @public
-   * @memberof NodeModel
-   * @example
-   * const hasChildren = node.hasChildren();
-   *
-   * @returns {boolean} The result
+   * @returns True if at least one child exists.
    */
   hasChildren(): boolean {
     return !!(this.children && this.children.length);

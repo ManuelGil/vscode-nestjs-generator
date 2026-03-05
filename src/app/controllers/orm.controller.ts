@@ -1,7 +1,24 @@
+/**
+ * @file Provides ORM-specific decorator/annotation regex patterns used by
+ * {@link ListEntitiesProvider} to identify entity files in the workspace.
+ *
+ * Supports TypeORM, Sequelize, MikroORM, and Mongoose.
+ *
+ * @module controllers/orm
+ */
 import { l10n } from 'vscode';
 import { Config } from '../configs';
 import { showError } from '../helpers';
 
+/**
+ * Holds ORM-specific decorator lists and builds a regex pattern that
+ * {@link ListEntitiesProvider} uses to scan workspace files for entity
+ * annotations. The active ORM is determined by the user's configuration.
+ *
+ * @class
+ * @export
+ * @public
+ */
 export class ORMController {
   // -----------------------------------------------------------------
   // Properties
@@ -163,18 +180,14 @@ export class ORMController {
    * Returns the import regex.
    *
    * @function getAnnotationsRegex
-   * @private
-   * @memberof ListEntitiesProvider
-   * @example
-   * const importRegex = provider.getAnnotationsRegex();
+   * @public
+   * @memberof ORMController
    *
-   * @returns {RegExp | undefined} - The import regex
+   * @returns {RegExp | undefined} A regex matching ORM decorators, or undefined if the configured ORM is unknown.
    */
   getAnnotationsRegex(): RegExp | undefined {
-    // Get the ORM annotations based on the configuration
     const annotations = this.orms[this.config.orm];
 
-    // Return undefined if no annotations are found
     if (!annotations) {
       const message = l10n.t(
         'ORM annotations not found for {0}',

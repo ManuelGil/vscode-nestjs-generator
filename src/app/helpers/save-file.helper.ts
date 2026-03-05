@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Safely writes generated file content to disk within the workspace.
+ * Handles directory creation, path validation against directory-traversal attacks,
+ * duplicate detection, progress/cancellation UI, and post-creation cache invalidation.
+ */
+
 import { isAbsolute, normalize } from 'path';
 import {
   FileSystemError,
@@ -8,8 +14,9 @@ import {
   workspace,
 } from 'vscode';
 
-import { EXTENSION_DISPLAY_NAME } from '../configs';
+import { Config, EXTENSION_DISPLAY_NAME } from '../configs';
 import { clearCache } from './find-files.helper';
+import { getWorkspaceRoot } from './workspace-root.helper';
 
 /**
  * Writes data to the file specified in the path. If the file does not exist then the function will create it.
@@ -26,9 +33,11 @@ export const saveFile = async (
   directoryPath: string,
   filename: string,
   fileContent: string,
+  config: Config,
 ): Promise<void> => {
-  // Ensure there is an open workspace
-  if (!workspace.workspaceFolders || workspace.workspaceFolders.length === 0) {
+  const workspaceRoot = getWorkspaceRoot(config);
+
+  if (!workspaceRoot) {
     const message = l10n.t(
       '{0}: No workspace folders are open. Please open a workspace folder to use this extension',
       EXTENSION_DISPLAY_NAME,
@@ -37,7 +46,10 @@ export const saveFile = async (
     return;
   }
 
-  // Validate and normalize the provided directory path to avoid escaping the workspace root
+  // Path validation: prevent directory-traversal attacks that could write files
+  // outside the workspace. Absolute paths (e.g. "/etc/passwd") and ".." segments
+  // (e.g. "../../outside") are both rejected to ensure all writes stay within
+  // the workspace root boundary.
   const normalizedRelativeDirectoryPath = normalize(directoryPath || '.');
   if (
     isAbsolute(normalizedRelativeDirectoryPath) ||
@@ -47,28 +59,18 @@ export const saveFile = async (
     return;
   }
 
-  // Split into path segments in a cross-platform way and remove empty/'./' segments
   const relativePathSegments = normalizedRelativeDirectoryPath
     .split(/[\\/]+/)
     .filter((s) => s !== '' && s !== '.');
 
-  // Disallow parent-directory traversals
+  // Second traversal check after segment splitting — guards against edge cases
+  // where normalize() may leave ".." intact on certain platforms.
   if (relativePathSegments.includes('..')) {
     await window.showErrorMessage(l10n.t('Invalid directory path'));
     return;
   }
 
-  // Determine base folder (first workspace folder)
-  const workspaceRootUri = workspace.workspaceFolders?.[0]?.uri;
-  if (!workspaceRootUri) {
-    await window.showErrorMessage(
-      l10n.t(
-        '{0}: No workspace folders are open. Please open a workspace folder to use this extension',
-        EXTENSION_DISPLAY_NAME,
-      ),
-    );
-    return;
-  }
+  const workspaceRootUri = Uri.file(workspaceRoot);
 
   // Build directory and file URIs using segments to ensure proper joining on all platforms
   const targetDirectoryUri =

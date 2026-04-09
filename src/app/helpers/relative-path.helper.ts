@@ -20,38 +20,42 @@ import { getWorkspaceRoot } from './workspace-root.helper';
  *
  * Supports two resolution modes controlled by `isRootContext`:
  * - **Root context** (`true`): computes a POSIX-style relative path from
- *   `config.workspaceRoot` using Node's `path.relative`. Used when the
+ *   `config.workspaceSelection` using Node's `path.relative`. Used when the
  *   extension needs paths relative to the user-selected workspace root
  *   (e.g., for file generation commands).
- * - **Standard** (`false`): delegates to VSCode's `workspace.asRelativePath`,
+ * - **Standard** (`false`): delegates to VS Code's `workspace.asRelativePath`,
  *   which resolves relative to the nearest workspace folder. Used for
  *   display purposes and multi-root workspace scenarios.
  *
- * @param {Uri} [path] - The URI to convert. When `undefined`, returns an empty string.
- * @param {boolean} isRootContext - Selects the resolution mode (see above).
- * @param {Config} config - The extension configuration instance.
- * @returns {string} The workspace-relative directory path, or empty string
- *   when no path is provided.
+ * @param targetUri - The URI to convert. When `undefined`, returns an empty string.
+ * @param isRootContext - Selects the resolution mode (see above).
+ * @param config - The extension configuration instance.
+ * @returns The workspace-relative directory path, or an empty string when no path is provided.
  */
 export const relativePath = (
-  path: Uri | undefined,
+  targetUri: Uri | undefined,
   isRootContext: boolean,
   config: Config,
 ): string => {
-  if (path && statSync(path.fsPath).isFile()) {
-    path = Uri.file(resolve(path.fsPath, '..'));
+  let resolvedUri = targetUri;
+
+  // Resolve to parent directory if the URI points to a file
+  if (resolvedUri && statSync(resolvedUri.fsPath).isFile()) {
+    resolvedUri = Uri.file(resolve(resolvedUri.fsPath, '..'));
   }
 
-  let folderPath: string = '';
+  let resultingFolderPath = '';
 
   if (isRootContext) {
-    const workspaceRoot = getWorkspaceRoot(config);
-    if (workspaceRoot && path) {
-      folderPath = relative(workspaceRoot, path.fsPath);
+    const activeWorkspaceRoot = getWorkspaceRoot(config);
+    if (activeWorkspaceRoot && resolvedUri) {
+      resultingFolderPath = relative(activeWorkspaceRoot, resolvedUri.fsPath);
     }
   } else {
-    folderPath = path ? workspace.asRelativePath(path.fsPath, false) : '';
+    resultingFolderPath = resolvedUri
+      ? workspace.asRelativePath(resolvedUri.fsPath, false)
+      : '';
   }
 
-  return folderPath;
+  return resultingFolderPath;
 };

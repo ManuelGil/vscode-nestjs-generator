@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [2.14.0] - 2026-04-08
+
+### Added
+
+- Introduced `workspaceRoot` property in Config class for improved workspace management.
+- Added `toPosixPath` helper for consistent cross-platform path formatting.
+- Implemented `readFileContent` helper to read files efficiently without opening the editor.
+- Added file system watchers to invalidate cache on file changes.
+
+### Changed
+
+- Refactored relative path resolution to support both root and standard contexts.
+- Enhanced file discovery logic with improved caching and filtering mechanisms.
+- Updated `saveFile` helper to ensure secure path validation and prevent directory traversal attacks.
+- Improved error handling and user notifications across file operations.
+
 ## [2.13.0] - 2026-03-04
 
 ### Added
@@ -289,7 +305,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.13.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.14.0...HEAD
+[2.14.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.13.0...v2.14.0
 [2.13.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.1...v2.13.0
 [2.12.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...v2.12.1
 [2.12.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.11.0...v2.12.0

@@ -34,6 +34,7 @@ import {
   titleize,
   validateFolderName,
 } from '../helpers';
+import { toPosixPath } from '../helpers/path-format.helper';
 import { relativePath } from '../helpers/relative-path.helper';
 
 /**
@@ -2018,9 +2019,7 @@ describe('${className}Controller', () => {
       // Normalize separators and remove the .ts extension for a valid TS import.
       let relativeImportPath = path.relative(moduleDirectory, sourceFilePath);
 
-      relativeImportPath = relativeImportPath
-        .replace(/\.ts$/, '')
-        .replace(/\\/g, '/');
+      relativeImportPath = toPosixPath(relativeImportPath).replace(/\.ts$/, '');
 
       if (!relativeImportPath.startsWith('.')) {
         relativeImportPath = './' + relativeImportPath;

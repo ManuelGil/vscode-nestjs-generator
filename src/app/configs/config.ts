@@ -53,15 +53,12 @@ export class Config {
   autoImport!: boolean;
   /** Whether to resolve relative paths from the workspace root. */
   useRootWorkspace!: boolean;
+  /** Resolved workspace root path (set externally from selected workspace folder) */
+  workspaceRoot!: string | undefined;
   /** Whether to skip the folder selection confirmation dialog. */
   skipFolderConfirmation!: boolean;
   /** ORM used for entity/DTO generation (e.g. 'typeorm', 'sequelize'). */
   orm!: string;
-  /**
-   * Resolved workspace root path.
-   * Set externally from the selected workspace folder stored in global state.
-   */
-  workspaceRoot?: string;
 
   // -----------------------------------------------------------------
   // Constructor
@@ -116,6 +113,10 @@ export class Config {
     this.useRootWorkspace = config.get<boolean>(
       'fileGenerator.useRootWorkspace',
       IS_ROOT_CONTEXT,
+    );
+    this.workspaceRoot = config.get<string | undefined>(
+      'fileGenerator.workspaceRoot',
+      workspace.workspaceFolders?.[0]?.uri.fsPath,
     );
     this.skipFolderConfirmation = config.get<boolean>(
       'files.skipFolderConfirmation',

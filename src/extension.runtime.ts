@@ -38,6 +38,7 @@ import {
   TerminalController,
   TransformController,
 } from './app/controllers';
+import { clearCache } from './app/helpers';
 import {
   FeedbackProvider,
   ListDTOsProvider,
@@ -58,6 +59,7 @@ import {
 export class ExtensionRuntime {
   private warningShown = false;
   private config!: Config;
+  private readonly providers: Array<{ refresh: () => void }> = [];
 
   constructor(private readonly context: ExtensionContext) {}
 
@@ -231,6 +233,7 @@ export class ExtensionRuntime {
   private async selectWorkspaceFolder(): Promise<WorkspaceFolder | undefined> {
     const workspaceFolders = workspace.workspaceFolders;
 
+    // Check if there are workspace folders
     if (!workspaceFolders || workspaceFolders.length === 0) {
       const message = l10n.t(
         '{0}: No workspace folders are open. Please open a workspace folder to use this extension',
@@ -241,22 +244,28 @@ export class ExtensionRuntime {
       return undefined;
     }
 
+    // Try to load previously selected workspace folder from global state
     const previousFolderUri = this.context.globalState.get<string>(
       GlobalStateKeys.WorkspaceFolder,
     );
     let previousFolder: WorkspaceFolder | undefined;
 
+    // Find the workspace folder by URI
     if (previousFolderUri) {
       previousFolder = workspaceFolders.find(
         (folder) => folder.uri.toString() === previousFolderUri,
       );
     }
 
+    // Determine the workspace folder to use
+    // Only one workspace folder available
     if (workspaceFolders.length === 1) {
       return workspaceFolders[0];
     }
 
+    // Use previously selected workspace folder if available
     if (previousFolder) {
+      // Notify the user which workspace is being used
       window.showInformationMessage(
         l10n.t('Using workspace folder: {0}', previousFolder.name),
       );
@@ -264,6 +273,7 @@ export class ExtensionRuntime {
       return previousFolder;
     }
 
+    // Multiple workspace folders and no previous selection
     const placeHolder = l10n.t(
       '{0}: Select a workspace folder to use. This folder will be used to load workspace-specific configuration for the extension',
       EXTENSION_DISPLAY_NAME,
@@ -272,6 +282,7 @@ export class ExtensionRuntime {
       placeHolder,
     });
 
+    // Remember the selection for future use
     if (selectedFolder) {
       this.context.globalState.update(
         GlobalStateKeys.WorkspaceFolder,
@@ -829,6 +840,14 @@ export class ExtensionRuntime {
       () => listMethodsProvider.refresh(),
     );
 
+    this.providers.push(
+      listFilesProvider,
+      listModulesProvider,
+      listEntitiesProvider,
+      listDTOsProvider,
+      listMethodsProvider,
+    );
+
     this.context.subscriptions.push(
       listFilesProvider,
       disposableListFilesTreeView,
@@ -850,23 +869,58 @@ export class ExtensionRuntime {
 
   /** Watches for file creation and save events to auto-refresh all tree-view providers. */
   private registerFileWatchers(): void {
-    const allProviders = [
-      new ListFilesProvider(),
-      new ListModulesProvider(),
-      new ListEntitiesProvider(new ORMController(this.config)),
-      new ListDTOsProvider(new DTOController()),
-      new ListMethodsProvider(),
-    ];
+    /**
+     * Debounced refresh to avoid excessive UI updates when multiple events fire.
+     */
+    let refreshTimeout: NodeJS.Timeout | undefined;
 
-    const refreshProviders = () => {
-      allProviders.forEach((provider) => provider.refresh());
+    const scheduleRefresh = () => {
+      if (refreshTimeout) {
+        clearTimeout(refreshTimeout);
+      }
+
+      refreshTimeout = setTimeout(() => {
+        this.providers.forEach((provider) => provider.refresh());
+      }, 150);
     };
 
-    const disposableFileCreate = workspace.onDidCreateFiles(refreshProviders);
-    const disposableFileSave =
-      workspace.onDidSaveTextDocument(refreshProviders);
+    /**
+     * Refresh UI only when relevant files (.ts) are saved
+     */
+    const disposableSave = workspace.onDidSaveTextDocument((document) => {
+      if (document.fileName.endsWith('.ts')) {
+        scheduleRefresh();
+      }
+    });
 
-    this.context.subscriptions.push(disposableFileCreate, disposableFileSave);
+    /**
+     * Optional: refresh on file creation (useful for generators)
+     */
+    const disposableCreate = workspace.onDidCreateFiles(() => {
+      scheduleRefresh();
+    });
+
+    /**
+     * File system watcher for cache invalidation (precise and immediate)
+     */
+    const watcher = workspace.createFileSystemWatcher('**/*.ts');
+
+    watcher.onDidCreate(() => {
+      clearCache();
+    });
+
+    watcher.onDidDelete(() => {
+      clearCache();
+    });
+
+    watcher.onDidChange(() => {
+      clearCache();
+    });
+
+    /**
+     * Register disposables for cleanup
+     */
+    this.context.subscriptions.push(watcher, disposableSave, disposableCreate);
   }
 
   /** Registers the feedback tree view and its action commands (about, report, rate, support). */

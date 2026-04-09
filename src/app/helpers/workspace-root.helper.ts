@@ -23,8 +23,5 @@ import { Config } from '../configs';
  *   or `undefined` if no workspace is available.
  */
 export const getWorkspaceRoot = (config: Config): string | undefined => {
-  return (
-    config.workspaceRoot ??
-    workspace.workspaceFolders?.[0]?.uri.fsPath
-  );
+  return config.workspaceRoot ?? workspace.workspaceFolders?.[0]?.uri.fsPath;
 };

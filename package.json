@@ -8,7 +8,8 @@
   "publisher": "imgildev",
   "author": {
     "name": "Manuel Gil",
-    "url": "https://github.com/ManuelGil"
+    "email": "support@imgil.dev",
+    "url": "https://imgil.dev/"
   },
   "sponsor": {
     "url": "https://github.com/sponsors/manuelgil"
@@ -1071,12 +1072,12 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.10",
+    "@biomejs/biome": "2.4.14",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.19.17",
-    "@types/vscode": "^1.110.0",
+    "@types/vscode": "^1.102.0",
     "@vscode/l10n-dev": "^0.0.35",
     "@vscode/test-cli": "^0.0.12",
     "@vscode/test-electron": "^2.5.2",
@@ -1095,12 +1096,12 @@
     "ignore": "^7.0.5",
     "json-to-ts": "^2.1.0",
     "json5": "^2.2.3",
-    "vscode-marketplace-client": "^1.1.1"
+    "vscode-marketplace-client": "^1.2.1"
   },
   "pnpm": {
     "overrides": {
-      "axios": "^1.13.5",
-      "serialize-javascript": "^7.0.3",
+      "serialize-javascript": "^7.0.5",
+      "follow-redirects": "^1.16.0",
       "diff": "^8.0.3"
     },
     "onlyBuiltDependencies": [

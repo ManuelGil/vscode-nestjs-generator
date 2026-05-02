@@ -25,6 +25,7 @@ import {
   EXTENSION_DISPLAY_NAME,
   EXTENSION_ID,
   EXTENSION_NAME,
+  EXTENSION_REPOSITORY_URL,
   GlobalStateKeys,
   USER_PUBLISHER,
   ViewIds,
@@ -166,11 +167,8 @@ export class ExtensionRuntime {
 
       // Open the changelog in the marketplace if requested
       if (option?.title === actions[0].title) {
-        env.openExternal(
-          Uri.parse(
-            `https://marketplace.visualstudio.com/items/${USER_PUBLISHER}.${EXTENSION_NAME}/changelog`,
-          ),
-        );
+        const changelogUrl = `${EXTENSION_REPOSITORY_URL}/blob/main/CHANGELOG.md`;
+        env.openExternal(Uri.parse(changelogUrl));
       }
 
       // Persist the new version locally

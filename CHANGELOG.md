@@ -11,17 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Introduced `workspaceRoot` property in Config class for improved workspace management.
-- Added `toPosixPath` helper for consistent cross-platform path formatting.
-- Implemented `readFileContent` helper to read files efficiently without opening the editor.
-- Added file system watchers to invalidate cache on file changes.
+- Introduce `workspaceRoot` property in Config class for improved workspace management.
+- Add `toPosixPath` helper for consistent cross-platform path formatting.
+- Implement `readFileContent` helper to read files efficiently without opening the editor.
+- Add file system watchers to invalidate cache on file changes.
 
 ### Changed
 
-- Refactored relative path resolution to support both root and standard contexts.
-- Enhanced file discovery logic with improved caching and filtering mechanisms.
-- Updated `saveFile` helper to ensure secure path validation and prevent directory traversal attacks.
-- Improved error handling and user notifications across file operations.
+- Refactor relative path resolution to support both root and standard contexts.
+- Enhance file discovery logic with improved caching and filtering mechanisms.
+- Update `saveFile` helper to ensure secure path validation and prevent directory traversal attacks.
+- Improve error handling and user notifications across file operations.
 
 ## [2.13.0] - 2026-03-04
 

@@ -108,7 +108,7 @@ export const runCommand = async (
         { type: 'shell' },
         taskScope,
         name,
-        'Angular CLI',
+        'NestJS CLI',
         shellExec,
       );
 

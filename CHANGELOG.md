@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.15.0] - 2026-05-02
+
+### Added
+
+- Detect NestJS projects using `nest-cli.json`, and `project.json`
+- Support monorepos and nested NestJS projects
+- Show contextual hint for folder-based commands
+
+### Changed
+
+- Allow extension activation in any workspace
+- Improve Nx detection by scanning all targets
+- Use filesystem APIs for JSON parsing instead of VS Code document APIs
+- Centralize command validation logic
+- Replace unsafe config access with safe guards
+
+### Fixed
+
+- Fix detection issues in Nx-based NestJS workspaces
+- Prevent runtime errors from undefined configuration
+- Avoid repeated workspace scans by caching detection results
+
 ### [2.14.0] - 2026-04-08
 
 ### Added
@@ -305,7 +327,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
-[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.14.0...HEAD
+[unreleased]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.15.0...HEAD
+[2.15.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.14.0...v2.15.0
 [2.14.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.13.0...v2.14.0
 [2.13.0]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.1...v2.13.0
 [2.12.1]: https://github.com/ManuelGil/vscode-nestjs-generator/compare/v2.12.0...v2.12.1

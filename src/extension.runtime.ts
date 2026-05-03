@@ -5,6 +5,7 @@
  * and registration of all commands, tree-view providers, and file watchers.
  * Instantiated by the {@link activate} function in `extension.ts`.
  */
+import { readFile } from 'fs/promises';
 import {
   commands,
   ExtensionContext,
@@ -59,8 +60,10 @@ import {
  */
 export class ExtensionRuntime {
   private warningShown = false;
-  private config!: Config;
+  private folderHintShown = false;
+  private config?: Config;
   private readonly providers: Array<{ refresh: () => void }> = [];
+  private nestWorkspaceDetected?: boolean;
 
   constructor(private readonly context: ExtensionContext) {}
 
@@ -82,6 +85,9 @@ export class ExtensionRuntime {
       return false;
     }
 
+    // Defer workspace detection to command execution.
+    // This allows the extension to activate in any workspace type
+    // and validate framework support only when needed.
     this.startVersionChecks();
 
     return true;
@@ -316,7 +322,7 @@ export class ExtensionRuntime {
         ) {
           const isEnabled = workspaceConfig.get<boolean>('enable');
 
-          this.config.update(workspaceConfig);
+          this.config?.update(workspaceConfig);
 
           if (isEnabled) {
             const message = l10n.t(
@@ -334,7 +340,7 @@ export class ExtensionRuntime {
         }
 
         if (event.affectsConfiguration(EXTENSION_ID, workspaceFolder.uri)) {
-          this.config.update(workspaceConfig);
+          this.config?.update(workspaceConfig);
         }
       },
     );
@@ -349,7 +355,7 @@ export class ExtensionRuntime {
    * @returns true if the extension is enabled, false otherwise
    */
   private isExtensionEnabled(): boolean {
-    const isEnabled = this.config.enable;
+    const isEnabled = this.config?.enable;
 
     if (isEnabled) {
       this.warningShown = false;
@@ -374,6 +380,10 @@ export class ExtensionRuntime {
    * These keys control menu item visibility in package.json.
    */
   private setContextKeys(): void {
+    if (!this.config) {
+      return;
+    }
+
     const contextMappings: Array<[string, boolean]> = [
       [ContextKeys.ActivateItemFileClass, this.config.activateItem.file.class],
       [
@@ -503,20 +513,189 @@ export class ExtensionRuntime {
    * Registers a VSCode command that is gated by the extension's enabled state.
    * If the extension is disabled when the command is invoked, the handler is skipped.
    */
-  private registerCommand(
+  private registerCommand<TArgs extends unknown[]>(
     id: string,
-    handler: (...args: any[]) => void | Promise<any>,
+    handler: (...args: TArgs) => void | Promise<unknown>,
   ) {
-    return commands.registerCommand(id, (...args: any[]) => {
-      if (!this.isExtensionEnabled()) {
+    return commands.registerCommand(id, async (...args: TArgs) => {
+      if (!(await this.canExecuteNestCommand())) {
         return;
+      }
+
+      if (this.requiresFolderContext(id) && !this.hasValidUriArgument(args)) {
+        this.showFolderHint();
       }
 
       return handler(...args);
     });
   }
 
-  /** Registers the command that lets users switch the active workspace folder. */
+  /**
+   * Show context hint only for commands that generate or manipulate files.
+   * Commands operating on document selections or the editor don't require
+   * explicit folder selection through the explorer.
+   */
+  private requiresFolderContext(id: string): boolean {
+    return (
+      id.startsWith(`${EXTENSION_ID}.file.`) ||
+      id.startsWith(`${EXTENSION_ID}.terminal.`)
+    );
+  }
+
+  /**
+   * Checks if the command has a valid URI argument.
+   */
+  private hasValidUriArgument(args: unknown[]): boolean {
+    return args.some((arg) => arg instanceof Uri);
+  }
+
+  /**
+   * Show a hint to the user about selecting a folder for certain commands.
+   */
+  private showFolderHint(): void {
+    // Show the hint only once per session. This prevents notification fatigue
+    // while still providing guidance to users unfamiliar with the right-click workflow.
+    if (this.folderHintShown) {
+      return;
+    }
+
+    this.folderHintShown = true;
+    window.showInformationMessage(
+      l10n.t(
+        'Right-click a folder → NestJS → Generate files or run CLI commands',
+      ),
+    );
+  }
+
+  /**
+   * Checks if the command can be executed.
+   */
+  private async canExecuteNestCommand(): Promise<boolean> {
+    if (!this.config) {
+      window.showErrorMessage(
+        l10n.t('The extension is not ready yet. Please try again'),
+      );
+      return false;
+    }
+
+    if (!this.isExtensionEnabled()) {
+      return false;
+    }
+
+    // Validate NestJS workspace presence before executing framework commands.
+    // This gate ensures commands only run in appropriate project contexts.
+    if (!(await this.hasNestWorkspace())) {
+      window.showErrorMessage(
+        l10n.t('No supported NestJS workspace was detected'),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Workspace detection result is cached to avoid repeated filesystem scans.
+   * The cache is keyed by the first successful detection (nest-cli, project.json,
+   * or package.json), allowing fast re-checks during the same session.
+   * This also preserves the abstraction boundary for potential future workspace
+   * type support without code duplication.
+   */
+  private async hasNestWorkspace(): Promise<boolean> {
+    // Return cached result if already detected during this session.
+    if (this.nestWorkspaceDetected !== undefined) {
+      return this.nestWorkspaceDetected;
+    }
+
+    // Fast path: nest-cli.json indicates a dedicated NestJS project.
+    // Limit 5 keeps the search efficient while covering typical workspace layouts.
+    const nestCliFiles = await workspace.findFiles(
+      '**/nest-cli.json',
+      '**/node_modules/**',
+      5,
+    );
+
+    if (nestCliFiles.length > 0) {
+      this.nestWorkspaceDetected = true;
+      return true;
+    }
+
+    // Nx monorepo support: scan project.json files (limit 20).
+    // In Nx, projects can use any target name (not just 'build').
+    // NestJS projects are identified by @nestjs/* executors in any target.
+    const projectFiles = await workspace.findFiles(
+      '**/project.json',
+      '**/node_modules/**',
+      20,
+    );
+
+    for (const file of projectFiles) {
+      try {
+        const raw = await readFile(file.fsPath, 'utf-8');
+        const content = JSON.parse(raw) as {
+          targets?: Record<string, { executor?: unknown; builder?: unknown }>;
+        };
+
+        // Iterate all targets to find NestJS executors.
+        // This handles configurations like @nestjs/cli, @nx/nest, and custom setups.
+        const targets = content.targets ?? {};
+        for (const target of Object.values(targets)) {
+          const executor =
+            typeof target?.executor === 'string' ? target.executor : '';
+          const builder =
+            typeof target?.builder === 'string' ? target.builder : '';
+
+          if (
+            executor.startsWith('@nestjs/') ||
+            builder.startsWith('@nestjs/')
+          ) {
+            this.nestWorkspaceDetected = true;
+            return true;
+          }
+        }
+      } catch {
+        // Ignore malformed project.json files.
+      }
+    }
+
+    // Fallback: scan package.json for @nestjs/core (limit 10).
+    // fs/promises is used instead of VS Code document APIs to avoid
+    // loading files into the editor unnecessarily during detection.
+    const packageFiles = await workspace.findFiles(
+      '**/package.json',
+      '**/node_modules/**',
+      10,
+    );
+
+    for (const file of packageFiles) {
+      try {
+        const raw = await readFile(file.fsPath, 'utf-8');
+        const content = JSON.parse(raw) as {
+          dependencies?: Record<string, unknown>;
+          devDependencies?: Record<string, unknown>;
+          peerDependencies?: Record<string, unknown>;
+        };
+
+        if (
+          content.dependencies?.['@nestjs/core'] ||
+          content.devDependencies?.['@nestjs/core'] ||
+          content.peerDependencies?.['@nestjs/core']
+        ) {
+          this.nestWorkspaceDetected = true;
+          return true;
+        }
+      } catch {
+        // Ignore malformed package.json files.
+      }
+    }
+
+    this.nestWorkspaceDetected = false;
+    return false;
+  }
+
+  /**
+   * Registers the command that lets users switch the active workspace folder.
+   */
   private registerWorkspaceCommands(): void {
     const disposableChangeWorkspace = commands.registerCommand(
       `${EXTENSION_ID}.${CommandIds.ChangeWorkspace}`,
@@ -536,8 +715,12 @@ export class ExtensionRuntime {
             EXTENSION_ID,
             selectedFolder.uri,
           );
-          this.config.update(workspaceConfig);
-          this.config.workspaceRoot = selectedFolder.uri.fsPath;
+
+          this.config?.update(workspaceConfig);
+
+          if (this.config) {
+            this.config.workspaceRoot = selectedFolder.uri.fsPath;
+          }
 
           window.showInformationMessage(
             l10n.t('Switched to workspace folder: {0}', selectedFolder.name),
@@ -549,8 +732,14 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(disposableChangeWorkspace);
   }
 
-  /** Registers all file-generation commands (class, controller, service, etc.). */
+  /**
+   * Registers all file-generation commands (class, controller, service, etc.).
+   */
   private registerFileCommands(): void {
+    if (!this.config) {
+      return;
+    }
+
     const fileController = new FileController(this.config);
 
     const fileCommands: Array<{
@@ -654,8 +843,14 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(...fileDisposables);
   }
 
-  /** Registers all NestJS CLI terminal commands (generate, start, etc.). */
+  /**
+   * Registers all NestJS CLI terminal commands (generate, start, etc.).
+   */
   private registerTerminalCommands(): void {
+    if (!this.config) {
+      return;
+    }
+
     const terminalController = new TerminalController(this.config);
 
     const terminalCommands: Array<{
@@ -727,7 +922,9 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(...terminalDisposables);
   }
 
-  /** Registers data-transformation commands (e.g. JSON to TypeScript). */
+  /**
+   * Registers data-transformation commands (e.g. JSON to TypeScript).
+   */
   private registerTransformCommands(): void {
     const transformController = new TransformController();
 
@@ -739,18 +936,24 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(disposableTransformJson2Ts);
   }
 
-  /** Registers commands for opening files and navigating to lines from tree views. */
+  /**
+   * Registers commands for opening files and navigating to lines from tree views.
+   */
   private registerListCommands(): void {
+    if (!this.config) {
+      return;
+    }
+
     const listFilesController = new ListFilesController(this.config);
 
     const disposableListOpenFile = this.registerCommand(
       `${EXTENSION_ID}.${CommandIds.ListOpenFile}`,
-      (uri) => listFilesController.openFile(uri),
+      (uri: Uri) => listFilesController.openFile(uri),
     );
 
     const disposableListGotoLine = this.registerCommand(
       `${EXTENSION_ID}.${CommandIds.ListGotoLine}`,
-      (uri, line) => listFilesController.gotoLine(uri, line),
+      (uri: Uri, line: number) => listFilesController.gotoLine(uri, line),
     );
 
     this.context.subscriptions.push(
@@ -759,8 +962,14 @@ export class ExtensionRuntime {
     );
   }
 
-  /** Creates sidebar tree views (files, modules, entities, DTOs, methods) and their refresh commands. */
+  /**
+   * Creates sidebar tree views (files, modules, entities, DTOs, methods) and their refresh commands.
+   */
   private registerTreeViews(): void {
+    if (!this.config) {
+      return;
+    }
+
     const listFilesProvider = new ListFilesProvider();
 
     const disposableListFilesTreeView = window.createTreeView(
@@ -865,7 +1074,9 @@ export class ExtensionRuntime {
     );
   }
 
-  /** Watches for file creation and save events to auto-refresh all tree-view providers. */
+  /**
+   * Watches for file creation and save events to auto-refresh all tree-view providers.
+   */
   private registerFileWatchers(): void {
     /**
      * Debounced refresh to avoid excessive UI updates when multiple events fire.
@@ -921,7 +1132,9 @@ export class ExtensionRuntime {
     this.context.subscriptions.push(watcher, disposableSave, disposableCreate);
   }
 
-  /** Registers the feedback tree view and its action commands (about, report, rate, support). */
+  /**
+   * Registers the feedback tree view and its action commands (about, report, rate, support).
+   */
   private registerFeedbackCommands(): void {
     const feedbackProvider = new FeedbackProvider(new FeedbackController());
 

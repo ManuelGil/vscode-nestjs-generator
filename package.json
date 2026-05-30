@@ -2,7 +2,7 @@
   "name": "vscode-nestjs-generator",
   "displayName": "NestJS File Generator - NestJS Tools Collection",
   "description": "One-click NestJS scaffolding from Explorer/Command Palette. Auto-import into modules, tree views (Methods/Entities/DTOs/Modules), and an integrated Nest CLI terminal. Supports TypeORM/MikroORM/Mongoose/Sequelize.",
-  "version": "2.15.0",
+  "version": "2.15.1",
   "icon": "icon.png",
   "license": "MIT",
   "publisher": "imgildev",
@@ -1059,7 +1059,7 @@
   },
   "scripts": {
     "vscode:prepublish": "pnpm compile",
-    "compile": "rimraf out && esbuild src/extension.ts --bundle --platform=node --target=node22 --format=cjs --external:vscode --outfile=out/extension.js --minify",
+    "compile": "rimraf out && tsc --noEmit && esbuild src/extension.ts --bundle --platform=node --target=node22 --format=cjs --external:vscode --outfile=out/extension.js && cpy \"src/assets/**/*\" out/assets",
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm compile && pnpm lint",
     "format": "biome format --write .",

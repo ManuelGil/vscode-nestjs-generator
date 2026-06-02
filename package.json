@@ -1073,7 +1073,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.15",
+    "@biomejs/biome": "2.4.16",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/mocha": "^10.0.10",

@@ -1077,7 +1077,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.19.21",
+    "@types/node": "^22.20.0",
     "@types/vscode": "^1.102.0",
     "@vscode/l10n-dev": "^0.0.35",
     "@vscode/test-cli": "^0.0.12",
@@ -1097,7 +1097,7 @@
     "ignore": "^7.0.5",
     "json-to-ts": "^2.1.0",
     "json5": "^2.2.3",
-    "vscode-marketplace-client": "^1.2.3"
+    "vscode-marketplace-client": "^1.2.4"
   },
   "pnpm": {
     "overrides": {

@@ -1073,14 +1073,14 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.0",
+    "@biomejs/biome": "2.5.1",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.20.0",
     "@types/vscode": "^1.102.0",
     "@vscode/l10n-dev": "^0.0.35",
-    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^2.5.2",
     "cpy-cli": "^6.0.0",
     "esbuild": "^0.28.1",

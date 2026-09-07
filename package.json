@@ -1073,7 +1073,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.11",
+    "@biomejs/biome": "2.5.12",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/mocha": "^10.0.10",
@@ -1094,7 +1094,7 @@
   "dependencies": {
     "@supercharge/promise-pool": "^3.3.0",
     "fast-glob": "^3.3.3",
-    "ignore": "^7.0.6",
+    "ignore": "^7.0.8",
     "json-to-ts": "^2.1.0",
     "json5": "^2.2.3",
     "vscode-marketplace-client": "^1.2.5"
